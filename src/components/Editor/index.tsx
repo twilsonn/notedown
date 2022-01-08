@@ -1,14 +1,19 @@
 import React from 'react'
+
 import { useEditor, EditorContent } from '@tiptap/react'
+
+import Typography from '@tiptap/extension-typography'
+import Placeholder from '@tiptap/extension-placeholder'
+import StarterKit from '@tiptap/starter-kit'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Code from '@tiptap/extension-code'
-import Typography from '@tiptap/extension-typography'
-import Placeholder from '@tiptap/extension-placeholder'
-import StarterKit from '@tiptap/starter-kit'
+
 import { ColorHighlighter } from './ColorHighligher'
 import { SmilieReplacer } from './SmileReplacer'
+import Menu from './Menu'
+
 import './styles.css'
 
 const CustomDocument = Document.extend({
@@ -64,16 +69,7 @@ export default () => {
 
   return (
     <div>
-      <div className="w-full rounded-lg bg-gray-100 p-4 flex space-x-2 mb-8">
-        <div className="h-8 flex items-center rounded-md bg-gray-300 px-2">
-          Times Roman
-        </div>
-        <button className="w-8 h-8 bg-gray-300 rounded-md hover:bg-gray-400">
-          B
-        </button>
-        <button className="w-8 h-8 bg-gray-300 rounded-md italic">I</button>
-        <button className="w-8 h-8 bg-gray-300 rounded-md">U</button>
-      </div>
+      <Menu />
       <EditorContent editor={editor} />
     </div>
   )
