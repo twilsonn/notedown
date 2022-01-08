@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="m-auto">
       <div className="flex">
-        <div className="min-h-screen max-w-sm  w-full bg-gray-100">
+        <div className="min-h-screen max-w-sm w-full bg-gray-100">
           <ul className="space-y-4 p-4">
             <li>
               <div className="prose px-3 py-2 bg-gray-200 rounded-lg">
@@ -34,7 +34,7 @@ function App() {
             </li>
           </ul>
         </div>
-        <div className="w-full min-h-screen utline-none focus:outline-none py-12 flex justify-center">
+        <div className="w-full min-h-screen utline-none focus:outline-none py-4 flex justify-center">
           <Tiptap />
         </div>
       </div>
