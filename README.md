@@ -2,10 +2,10 @@
 
 <br />
 <div align="center">
-  <h2 align="center">Fancy Todo App</h2>
+  <h2 align="center">Notedown</h2>
 
   <p align="center">
-    Todo list project with some spice!
+    Make notes!
     <br />
     <a href=""><strong>View App</strong></a>
     <br />
@@ -42,9 +42,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
-This project was initally made with the intention to enhance my portfolio of applications however i've added some interesting features such as filters, drag and drop agrangement and searching.
+I wanted to make a simple notepad app.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -96,9 +96,9 @@ Usage Here
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Add filtering by tags
+<!-- - [ ] Add filtering by tags
 - [ ] Add rich text editing
-- [ ] Add drag and drop rearrangement
+- [ ] Add drag and drop rearrangement -->
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -114,7 +114,7 @@ Distributed under the GNU GPLv3 License. See `LICENSE.txt` for more information.
 
 <!-- Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com -->
 
-Project Link: [https://github.com/twilsonn/fancy-todo-app](https://github.com/twilsonn/fancy-todo-app)
+Project Link: [https://github.com/twilsonn/notedown](https://github.com/twilsonn/notedown)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -128,6 +128,5 @@ Use this space to list resources you find helpful and would like to give credit 
 * [Choose an Open Source License](https://choosealicense.com)
 * [GitHub Pages](https://pages.github.com)
 * [Hero Icons](https://react-icons.github.io/react-icons/search)
-* [react-input-autosize](https://www.npmjs.com/package/react-input-autosize)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
