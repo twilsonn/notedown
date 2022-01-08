@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 html {
-    @apply bg-slate-100;
+    @apply bg-white;
 }
