@@ -1,0 +1,30 @@
+.ProseMirror {
+    @apply prose md:prose-lg lg:prose-xl xl:prose-2xl px-12 lg:max-w-7xl w-full outline-none focus:outline-none
+}
+
+.ProseMirror > * + * {
+    margin-top: 0.75em;
+}
+.ProseMirror h1, .ProseMirror h2, .ProseMirror h3, .ProseMirror h4, .ProseMirror h5, .ProseMirror h6 {
+    line-height: 1.1;
+}
+.ProseMirror code {
+    background-color: rgba(97, 97, 97, 0.1);
+    color: #616161;
+}
+/* Color swatches */
+.color {
+    white-space: nowrap;
+}
+.color::before {
+    background-color: var(--color);
+    border: 1px solid rgba(128, 128, 128, 0.3);
+    border-radius: 2px;
+    content: " ";
+    display: inline-block;
+    height: 1em;
+    margin-bottom: 0.15em;
+    margin-right: 0.1em;
+    vertical-align: middle;
+    width: 1em;
+}
