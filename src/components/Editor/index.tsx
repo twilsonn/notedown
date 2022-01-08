@@ -15,6 +15,8 @@ import { SmilieReplacer } from './SmileReplacer'
 import Menu from './Menu'
 
 import './styles.css'
+import Underline from '@tiptap/extension-underline'
+import TextAlign from '@tiptap/extension-text-align'
 
 const CustomDocument = Document.extend({
   content: 'heading block*'
@@ -30,6 +32,10 @@ export default () => {
       Typography,
       ColorHighlighter,
       SmilieReplacer,
+      Underline,
+      TextAlign.configure({
+        types: ['heading', 'paragraph']
+      }),
       StarterKit.configure({
         document: false
       }),
@@ -69,7 +75,7 @@ export default () => {
 
   return (
     <div>
-      <Menu />
+      {editor && <Menu editor={editor} />}
       <EditorContent editor={editor} />
     </div>
   )
