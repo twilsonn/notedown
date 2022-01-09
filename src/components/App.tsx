@@ -5,7 +5,7 @@ import Tiptap from './Editor'
 function App() {
   return (
     <div className="m-auto">
-      <div className="flex">
+      <div className="flex relative">
         <div className="min-h-screen max-w-sm w-full bg-gray-100">
           <ul className="space-y-4 p-4">
             <li>
@@ -34,7 +34,7 @@ function App() {
             </li>
           </ul>
         </div>
-        <div className="w-full min-h-screen utline-none focus:outline-none py-4 flex justify-center">
+        <div className="w-full min-h-screen focus:outline-none px-12 flex flex-col relative">
           <Tiptap />
         </div>
       </div>
