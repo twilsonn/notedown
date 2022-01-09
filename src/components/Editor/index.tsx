@@ -42,7 +42,7 @@ export default () => {
       Placeholder.configure({
         placeholder: ({ node }) => {
           if (node.type.name === 'heading') {
-            return 'What’s the title?'
+            return "What's the title?"
           }
 
           return 'Can you add some further context?'
@@ -51,13 +51,13 @@ export default () => {
     ],
     content: `
       <h1>
-        It’ll always have a heading …
+        It'll always have a heading …
       </h1>
       <p>
-        … if you pass a custom document. That’s the beauty of having full control over the schema.
+        … if you pass a custom document. That's the beauty of having full control over the schema.
       </p>
       <p>
-        → With the Typography extension, tiptap understands »what you mean« and adds correct characters to your text — it’s like a “typography nerd” on your side.
+        → With the Typography extension, tiptap understands »what you mean« and adds correct characters to your text — it's like a “typography nerd” on your side.
       </p>
       <p>
         Try it out and type <code>(c)</code>, <code>-></code>, <code>>></code>, <code>1/2</code>, <code>!=</code>, <code>--</code> or <code>1x1</code> here:
@@ -74,9 +74,9 @@ export default () => {
   })
 
   return (
-    <div>
+    <>
       {editor && <Menu editor={editor} />}
       <EditorContent editor={editor} />
-    </div>
+    </>
   )
 }
