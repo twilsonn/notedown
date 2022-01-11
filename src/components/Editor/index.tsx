@@ -17,6 +17,8 @@ import Menu from './Menu'
 import './styles.css'
 import Underline from '@tiptap/extension-underline'
 import TextAlign from '@tiptap/extension-text-align'
+import FontFamily from '@tiptap/extension-font-family'
+import TextStyle from '@tiptap/extension-text-style'
 
 const CustomDocument = Document.extend({
   content: 'heading block*'
@@ -25,8 +27,15 @@ const CustomDocument = Document.extend({
 export default () => {
   let editor = useEditor({
     extensions: [
+      StarterKit.configure({
+        document: false
+      }),
       CustomDocument,
       Paragraph,
+      TextStyle,
+      FontFamily.configure({
+        types: ['textStyle']
+      }),
       Text,
       Code,
       Typography,
@@ -36,17 +45,9 @@ export default () => {
       TextAlign.configure({
         types: ['heading', 'paragraph']
       }),
-      StarterKit.configure({
-        document: false
-      }),
       Placeholder.configure({
-        placeholder: ({ node }) => {
-          if (node.type.name === 'heading') {
-            return "What's the title?"
-          }
-
-          return 'Can you add some further context?'
-        }
+        emptyEditorClass: 'is-editor-empty font',
+        placeholder: 'Write something …'
       })
     ],
     content: `
