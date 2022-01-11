@@ -1,12 +1,7 @@
 import { Editor as CoreEditor } from '@tiptap/core'
 import { EditorContentProps, EditorContentState } from '@tiptap/react'
 
-import React, {
-  ButtonHTMLAttributes,
-  Children,
-  DetailedHTMLProps,
-  MouseEventHandler
-} from 'react'
+import React, { DetailedHTMLProps } from 'react'
 import SelectFont from './SelectFont'
 declare class Editor extends CoreEditor {
   contentComponent: React.Component<
@@ -24,9 +19,10 @@ const MenuButton: React.FC<
   const { children, active } = props
   return (
     <button
-      className={`w-8 h-8   hover:text-gray-800 flex items-center justify-center rounded-md hover:bg-gray-300 hover:ring-2 hover:ring-blue-400 ${
-        active ? 'bg-gray-300 text-gray-600' : 'bg-gray-200 text-gray-600'
-      }`}
+      className={`w-8 h-8 border flex items-center justify-center rounded-md 
+        hover:ring-1 hover:border-blue-400 hover:ring-blue-400 hover:bg-gray-300 hover:text-gray-800
+        focus:ring-1 focus:border-blue-400 focus:ring-blue-400 focus:outline-none
+        ${active ? 'bg-gray-300 text-gray-600' : 'bg-gray-200 text-gray-600'}`}
       {...props}
     >
       {children}
@@ -35,10 +31,14 @@ const MenuButton: React.FC<
 }
 
 const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
+  const changeFont = (family: string) => {
+    editor.commands.setFontFamily(family)
+  }
+
   return (
     <div className="w-full sticky top-0 left-0 px-12 pt-4 z-10">
       <div className="rounded-lg bg-gray-100 p-4 flex space-x-2 mb-8 bg-opacity-[99%]">
-        <SelectFont />
+        <SelectFont changeFont={changeFont} />
         {/* BOLD */}
         <MenuButton
           onClick={() => editor.chain().focus().toggleBold().run()}
