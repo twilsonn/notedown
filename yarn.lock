@@ -1018,13 +1018,6 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@flyyer/use-googlefonts@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.npmjs.org/@flyyer/use-googlefonts/-/use-googlefonts-0.4.2.tgz"
-  integrity sha512-T8TOhUUudJwQC96Xv44STL3nLE5ThtUoZuEWTTVlkFPFkiT4RLXUnPxOKG+lWOEMcAS1XWmfA6mLXY9ehtn6iQ==
-  dependencies:
-    fontfaceobserver "^2.1.0"
-
 "@headlessui/react@^1.4.2":
   version "1.4.2"
   resolved "https://registry.npmjs.org/@headlessui/react/-/react-1.4.2.tgz"
@@ -1414,6 +1407,11 @@
     prosemirror-view "^1.23.5"
     tippy.js "^6.3.7"
 
+"@tiptap/extension-font-family@^2.0.0-beta.21":
+  version "2.0.0-beta.21"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-font-family/-/extension-font-family-2.0.0-beta.21.tgz#9e2e863a36a7c9ef881f6a3f984d25dcfc2a2c2e"
+  integrity sha512-5KVCtuEBf1QyZxs/IOL0CPDtB5X3rk8QdDB8fB+UlASa6c/Dq59Uo2aObGOgAWNDdY0Vd9MmuDTvnJKP2LI2Ng==
+
 "@tiptap/extension-gapcursor@^2.0.0-beta.34":
   version "2.0.0-beta.34"
   resolved "https://registry.npmjs.org/@tiptap/extension-gapcursor/-/extension-gapcursor-2.0.0-beta.34.tgz"
@@ -1485,6 +1483,11 @@
   version "2.0.0-beta.29"
   resolved "https://registry.npmjs.org/@tiptap/extension-text-align/-/extension-text-align-2.0.0-beta.29.tgz"
   integrity sha512-FNGpl0tVtgG7AK9kVWF/+CGYHta05NpoME4/j6+vhNlZLBNXRA+AKg7W5T8UxmtaC9yGoJsBs2X8M9eCxWVaEQ==
+
+"@tiptap/extension-text-style@^2.0.0-beta.23":
+  version "2.0.0-beta.23"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-text-style/-/extension-text-style-2.0.0-beta.23.tgz#7f6ef918c6c21c3dd01b7a8d0f4f04be9960c080"
+  integrity sha512-h/7o//RB4WRrLKWV7E5eFk7tZnfjH0Wt9klixOmvTmus6dm00a7r6wTuaT1GNjfPOgClP3K185lTA5rrdgrxRA==
 
 "@tiptap/extension-text@^2.0.0-beta.15":
   version "2.0.0-beta.15"
@@ -3102,11 +3105,6 @@ flatted@^3.1.0:
   version "3.2.4"
   resolved "https://registry.npmjs.org/flatted/-/flatted-3.2.4.tgz"
   integrity sha512-8/sOawo8tJ4QOBX8YlQBMxL8+RLZfxMQOif9o0KUKTNTjMYElWPE0r/m5VNFxTRd0NSw8qSy8dajrwX4RYI1Hw==
-
-fontfaceobserver@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/fontfaceobserver/-/fontfaceobserver-2.1.0.tgz"
-  integrity sha512-ReOsO2F66jUa0jmv2nlM/s1MiutJx/srhAe2+TE8dJCMi02ZZOcCTxTCQFr3Yet+uODUtnr4Mewg+tNQ+4V1Ng==
 
 form-data@^3.0.0:
   version "3.0.1"
