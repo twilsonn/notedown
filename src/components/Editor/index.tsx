@@ -1,14 +1,13 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import debounce from 'lodash.debounce'
+import humanizeDuration from 'humanize-duration'
 
-import { useEditor, EditorContent, generateHTML } from '@tiptap/react'
+import { useEditor, EditorContent, Editor } from '@tiptap/react'
 
 import Typography from '@tiptap/extension-typography'
 import Placeholder from '@tiptap/extension-placeholder'
 import StarterKit from '@tiptap/starter-kit'
 import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import Code from '@tiptap/extension-code'
 
 import { ColorHighlighter } from './ColorHighligher'
 import { SmilieReplacer } from './SmileReplacer'
@@ -19,7 +18,9 @@ import Underline from '@tiptap/extension-underline'
 import TextAlign from '@tiptap/extension-text-align'
 import FontFamily from '@tiptap/extension-font-family'
 import TextStyle from '@tiptap/extension-text-style'
-import { useAppSelector } from 'hooks'
+import { useAppDispatch, useAppSelector } from 'hooks'
+import { updateNote } from 'store/reducers/notesSlicer'
+import LastSaved from './LastSaved'
 
 const CustomDocument = Document.extend({
   content: 'heading block*'
@@ -27,6 +28,22 @@ const CustomDocument = Document.extend({
 
 const TipTapEditor = () => {
   const openedNote = useAppSelector((state) => state.present.openedNote)
+  const dispatch = useAppDispatch()
+  const [ls, setLastSaved] = useState<Date | null>(null)
+
+  const updateOpenedNote = (e: Editor) => {
+    console.log('updated')
+    const content = e.getJSON()
+    dispatch(updateNote({ id: openedNote.id, content }))
+
+    const newLastSaved = new Date(Date.now())
+    setLastSaved(newLastSaved)
+  }
+
+  const debouncedUpdateOpenedNote = useMemo(
+    () => debounce((editor) => updateOpenedNote(editor), 1000),
+    []
+  )
 
   let editor = useEditor({
     extensions: [
@@ -34,13 +51,10 @@ const TipTapEditor = () => {
         document: false
       }),
       CustomDocument,
-      // Paragraph,
       TextStyle,
       FontFamily.configure({
         types: ['textStyle']
       }),
-      // Text,
-      // Code,
       Typography,
       ColorHighlighter,
       SmilieReplacer,
@@ -53,13 +67,13 @@ const TipTapEditor = () => {
         placeholder: 'Write something …'
       })
     ],
-    content: '',
     onCreate: ({ editor }) => {
       editor.commands.setContent(openedNote.note.content)
     },
     onUpdate: ({ editor }) => {
-      const json = editor.getJSON()
-      console.log(json)
+      console.log('updating')
+      debouncedUpdateOpenedNote(editor)
+      setLastSaved(null)
     }
   })
 
@@ -67,6 +81,7 @@ const TipTapEditor = () => {
     <>
       {editor && <Menu editor={editor} />}
       <EditorContent editor={editor} />
+      {ls && <LastSaved lastSaved={ls} />}
     </>
   )
 }
