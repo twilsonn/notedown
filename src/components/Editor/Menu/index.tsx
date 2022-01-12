@@ -14,7 +14,7 @@ const MenuButton: React.FC<
   DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
-  > & { active?: boolean }
+  > & { active: boolean }
 > = (props) => {
   const { children, active } = props
   return (
@@ -23,7 +23,7 @@ const MenuButton: React.FC<
         hover:ring-1 hover:border-blue-400 hover:ring-blue-400 hover:bg-gray-300 hover:text-gray-800
         focus:ring-1 focus:border-blue-400 focus:ring-blue-400 focus:outline-none
         ${active ? 'bg-gray-300 text-gray-600' : 'bg-gray-200 text-gray-600'}`}
-      {...props}
+      onClick={props.onClick}
     >
       {children}
     </button>
@@ -102,7 +102,7 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
           </svg>
         </MenuButton>
         {/* TEXT TYPE */}
-        <MenuButton>
+        <MenuButton active={false}>
           <svg
             className="w-4 h-4"
             xmlns="http://www.w3.org/2000/svg"
