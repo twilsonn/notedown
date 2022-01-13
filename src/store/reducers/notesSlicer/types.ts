@@ -1,10 +1,11 @@
 import { v4 as uuid } from 'uuid'
-import { Content } from '@tiptap/core'
+import { Content, JSONContent } from '@tiptap/core'
 import { defaultNote } from './defaultNote'
 
 type Note = {
   id: string
-  content: Content
+  title: string
+  content: JSONContent
 }
 
 interface NotesStateInterface {
@@ -15,7 +16,9 @@ interface NotesStateInterface {
   }
 }
 
-const notes: Note[] = [{ content: defaultNote, id: uuid() }]
+const notes: Note[] = [
+  { id: uuid(), title: 'Your First Note', content: defaultNote }
+]
 
 const initialState: NotesStateInterface = {
   notes,
