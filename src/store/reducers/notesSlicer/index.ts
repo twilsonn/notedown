@@ -1,5 +1,4 @@
 import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Content } from '@tiptap/core'
 
 import type { RootState } from '../../index'
 import initialState, { NotesState, Note } from './types'
