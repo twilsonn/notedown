@@ -39,9 +39,7 @@ const TipTapEditor = () => {
   let editor = useEditor(
     {
       extensions,
-      onCreate: ({ editor }) => {
-        editor.commands.setContent(openedNote.note.content)
-      },
+      content: openedNote.note.content,
       onUpdate: ({ editor }) => {
         console.log('updating')
         debouncedUpdateOpenedNote(editor)
