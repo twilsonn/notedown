@@ -36,7 +36,7 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
   }
 
   return (
-    <div className="w-full sticky top-0 left-0 px-12 pt-4 z-10">
+    <div className="w-full sticky top-0 left-0 px-4 md:px-12 pt-4 z-10">
       <div className="rounded-lg bg-gray-100 p-4 flex space-x-2 mb-8 bg-opacity-[99%]">
         <SelectFont changeFont={changeFont} />
         {/* BOLD */}
