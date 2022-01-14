@@ -24,14 +24,14 @@ const LastSaved: React.FC<{ lastSaved: Date }> = ({ lastSaved }) => {
   useEffect(() => {
     let myInterval = setInterval(() => {
       setMil(lastSaved.getTime() - Date.now())
-    }, 500)
+    }, 5000)
     return () => {
       clearInterval(myInterval)
     }
   })
 
   return (
-    <div>
+    <div className="fixed bottom-0 right-0 w-full bg-gray-300 px-4 py-2">
       Last Updated: {mil && shortEnglishHumanizer(mil, { round: true })}
     </div>
   )
