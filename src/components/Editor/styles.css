@@ -1,5 +1,5 @@
 .ProseMirror {
-  @apply prose md:prose-lg lg:prose-xl xl:prose-2xl px-4 md:px-12 w-full outline-none focus:outline-none selection:bg-blue-200;
+  @apply prose md:prose-lg lg:prose-xl xl:prose-2xl px-4 md:px-12 min-w-full outline-none focus:outline-none selection:bg-blue-200;
 }
 
 .ProseMirror > * + * {
@@ -33,6 +33,7 @@
 .color {
   white-space: nowrap;
 }
+
 .color::before {
   background-color: var(--color);
   border: 1px solid rgba(128, 128, 128, 0.3);
