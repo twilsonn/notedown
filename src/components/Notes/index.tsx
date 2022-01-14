@@ -1,22 +1,25 @@
 import React from 'react'
-import { generateHTML } from '@tiptap/react'
+import { useAppDispatch, useAppSelector } from 'hooks'
+import { generateHTML, generateText } from '@tiptap/react'
 import extensions from 'components/Editor/extensions'
 
-import { useAppDispatch, useAppSelector } from 'hooks'
 import Logo from 'assets/Logo'
-import NewNote from './NewNote'
 import { PlusIcon } from '@heroicons/react/solid'
-import { newNote } from 'store/reducers/notesSlicer'
+import { newNote, openNote } from 'store/reducers/notesSlicer'
 
-const Note: React.FC<{ title: string; content: string }> = ({
-  title,
-  content
-}) => {
-  const descrpition = content.replace(/<[^>]*>?/gm, '')
-  const descrpitionLength = 120
+const Note: React.FC<
+  React.HTMLAttributes<HTMLDivElement> & { title: string; content: string }
+> = (props) => {
+  const contentLength = 120
   const titleLength = 20
+
+  const { title, content } = props
+
   return (
-    <div className="prose px-3 py-2 bg-gray-200 rounded-lg">
+    <div
+      className="prose px-3 py-2 bg-gray-200 rounded-lg cursor-pointer select-none"
+      {...props}
+    >
       <div className="flex justify-between items-center">
         <h4 className="m-0 capitalize">
           {title.length > titleLength
@@ -26,9 +29,9 @@ const Note: React.FC<{ title: string; content: string }> = ({
         <p className="text-xs m-0">updated at 16:45</p>
       </div>
       <p className="text-sm leading-tight wrap break-all">
-        {descrpition.length > descrpitionLength
-          ? descrpition.substring(0, descrpitionLength - 3) + '...'
-          : descrpition}
+        {content.length > contentLength
+          ? content.substring(0, contentLength - 3) + '...'
+          : content}
       </p>
     </div>
   )
@@ -36,8 +39,6 @@ const Note: React.FC<{ title: string; content: string }> = ({
 
 const Notes: React.FC = () => {
   const notes = useAppSelector((state) => state.present.notes)
-  const openedNote = useAppSelector((state) => state.present.openedNote)
-
   const dispatch = useAppDispatch()
 
   return (
@@ -64,10 +65,11 @@ const Notes: React.FC = () => {
 
         <ul className="space-y-4 px-4">
           {notes.map((note) => (
-            <li>
+            <li key={note.id}>
               <Note
+                onClick={() => dispatch(openNote(note))}
                 title={note.title}
-                content={generateHTML(note.content, extensions)}
+                content={generateText(note.content, extensions)}
               />
             </li>
           ))}
