@@ -33,20 +33,23 @@ const TipTapEditor = () => {
 
   const debouncedUpdateOpenedNote = useMemo(
     () => debounce((editor) => updateOpenedNote(editor), 1000),
-    []
+    [openedNote]
   )
 
-  let editor = useEditor({
-    extensions,
-    onCreate: ({ editor }) => {
-      editor.commands.setContent(openedNote.note.content)
+  let editor = useEditor(
+    {
+      extensions,
+      onCreate: ({ editor }) => {
+        editor.commands.setContent(openedNote.note.content)
+      },
+      onUpdate: ({ editor }) => {
+        console.log('updating')
+        debouncedUpdateOpenedNote(editor)
+        setLastSaved(null)
+      }
     },
-    onUpdate: ({ editor }) => {
-      console.log('updating')
-      debouncedUpdateOpenedNote(editor)
-      setLastSaved(null)
-    }
-  })
+    [openedNote]
+  )
 
   return (
     <>
