@@ -1,15 +1,16 @@
-import React, { useMemo, useState } from 'react'
+import React, { KeyboardEvent, useMemo, useState } from 'react'
 import debounce from 'lodash.debounce'
 
-import { useEditor, EditorContent, Editor } from '@tiptap/react'
-
-import Menu from './Menu'
-
-import './styles.css'
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { updateNote } from 'store/reducers/notesSlicer'
-import LastSaved from './LastSaved'
+
+import { useEditor, EditorContent, Editor } from '@tiptap/react'
 import extensions from './extensions'
+
+import Menu from './Menu'
+import LastSaved from './LastSaved'
+
+import './styles.css'
 
 const TipTapEditor = () => {
   const openedNote = useAppSelector((state) => state.present.openedNote)
@@ -17,12 +18,10 @@ const TipTapEditor = () => {
   const [ls, setLastSaved] = useState<Date | null>(null)
 
   const updateOpenedNote = (e: Editor) => {
-    console.log('updated')
-    const content = e.getJSON()
     dispatch(
       updateNote({
         id: openedNote.id,
-        content,
+        content: e.getJSON(),
         title: e.getText().split('\n')[0]
       })
     )
@@ -32,7 +31,7 @@ const TipTapEditor = () => {
   }
 
   const debouncedUpdateOpenedNote = useMemo(
-    () => debounce((editor) => updateOpenedNote(editor), 1000),
+    () => debounce((editor) => updateOpenedNote(editor), 500),
     [openedNote]
   )
 
@@ -41,19 +40,18 @@ const TipTapEditor = () => {
       extensions,
       content: openedNote.note.content,
       onUpdate: ({ editor }) => {
-        console.log('updating')
         debouncedUpdateOpenedNote(editor)
         setLastSaved(null)
       }
     },
-    [openedNote]
+    [openedNote.id]
   )
 
   return (
     <>
       {editor && <Menu editor={editor} />}
-      <EditorContent editor={editor} />
-      {ls && <LastSaved lastSaved={ls} />}
+      <EditorContent autoFocus editor={editor} />
+      {/* {ls && <LastSaved lastSaved={ls} />} */}
     </>
   )
 }
