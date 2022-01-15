@@ -22,7 +22,10 @@ const TipTapEditor = () => {
       updateNote({
         id: openedNote.id,
         content: e.getJSON(),
-        title: e.getText().split('\n')[0]
+        title: e.getText().split('\n')[0],
+        updatedAt: new Date(Date.now()),
+        createdAt: openedNote.note.createdAt,
+        saved: true
       })
     )
 
@@ -40,6 +43,13 @@ const TipTapEditor = () => {
       extensions,
       content: openedNote.note.content,
       onUpdate: ({ editor }) => {
+        dispatch(
+          updateNote({
+            ...openedNote.note,
+            saved: false
+          })
+        )
+
         debouncedUpdateOpenedNote(editor)
         setLastSaved(undefined)
       }
@@ -51,7 +61,7 @@ const TipTapEditor = () => {
     <>
       {editor && <Menu editor={editor} />}
       <EditorContent autoFocus editor={editor} />
-      <LastSaved lastSaved={ls} />
+      <LastSaved />
     </>
   )
 }
