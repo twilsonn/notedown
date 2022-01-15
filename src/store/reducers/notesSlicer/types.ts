@@ -6,6 +6,9 @@ type Note = {
   id: string
   title: string
   content: JSONContent
+  updatedAt: Date
+  createdAt: Date
+  saved: boolean
 }
 
 interface NotesStateInterface {
@@ -16,8 +19,17 @@ interface NotesStateInterface {
   }
 }
 
+const d = new Date(Date.now())
+
 const notes: Note[] = [
-  { id: uuid(), title: 'Your First Note', content: defaultNote }
+  {
+    id: uuid(),
+    title: 'Your First Note',
+    content: defaultNote,
+    updatedAt: d,
+    createdAt: d,
+    saved: true
+  }
 ]
 
 const initialState: NotesStateInterface = {
