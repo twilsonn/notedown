@@ -22,7 +22,11 @@ const MenuButton: React.FC<
       className={`w-8 h-8 border flex items-center justify-center rounded-md 
         hover:ring-1 hover:border-blue-400 hover:ring-blue-400 hover:bg-gray-300 hover:text-gray-800
         focus:ring-1 focus:border-blue-400 focus:ring-blue-400 focus:outline-none
-        ${active ? 'bg-gray-300 text-gray-600' : 'bg-gray-200 text-gray-600'}`}
+        ${
+          active
+            ? 'bg-gray-300 text-gray-600 ring-1 border-blue-300 ring-blue-300'
+            : 'bg-gray-200 text-gray-600'
+        }`}
       onClick={props.onClick}
     >
       {children}
