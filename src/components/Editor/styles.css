@@ -1,5 +1,5 @@
 .ProseMirror {
-  @apply prose md:prose-lg lg:prose-xl xl:prose-2xl px-4 md:px-12 min-w-full outline-none focus:outline-none selection:bg-blue-200;
+  @apply prose md:prose-lg lg:prose-xl xl:prose-2xl px-4 md:px-12 min-w-full outline-none focus:outline-none pb-12 selection:bg-blue-200;
 }
 
 .ProseMirror > * + * {
