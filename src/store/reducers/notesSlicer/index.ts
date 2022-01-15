@@ -5,6 +5,7 @@ import type { RootState } from '../../index'
 import initialState, { NotesState, Note } from './types'
 
 const newNoteAction: CaseReducer<NotesState> = (state) => {
+  const d = new Date(Date.now())
   const newNotes: Note[] = [
     ...state.notes,
     {
@@ -21,7 +22,10 @@ const newNoteAction: CaseReducer<NotesState> = (state) => {
           }
         ]
       },
-      title: ''
+      title: '',
+      createdAt: d,
+      updatedAt: d,
+      saved: true
     }
   ]
 
