@@ -8,37 +8,58 @@ import { PlusIcon } from '@heroicons/react/solid'
 import { newNote, openNote } from 'store/reducers/notesSlicer'
 
 const Note: React.FC<
-  React.HTMLAttributes<HTMLDivElement> & { title: string; content: string }
+  React.HTMLAttributes<HTMLButtonElement> & {
+    title: string
+    content: string
+    active: boolean
+  }
 > = (props) => {
   const contentLength = 120
   const titleLength = 20
 
-  const { title, content } = props
+  const { title, content, active } = props
 
   return (
-    <div
-      className="prose px-3 py-2 bg-gray-200 rounded-lg cursor-pointer select-none"
+    <button
+      className={`w-full text-left prose px-3 py-2 rounded-lg cursor-pointer select-none group
+        hover:bg-gray-300 
+        focus:outline-none  focus:ring-2 focus:ring-blue-400  ${
+          active ? 'bg-gray-300' : 'bg-gray-200'
+        }`}
       {...props}
     >
       <div className="flex justify-between items-center">
-        <h4 className="m-0 capitalize">
-          {title.length > titleLength
+        <h4
+          className={`m-0 capitalize group-hover:text-black ${
+            active ? 'text-black' : 'text-gray-800'
+          }`}
+        >
+          {!title
+            ? 'Untitled Note'
+            : title.length > titleLength
             ? title.substring(0, titleLength - 3) + '...'
             : title}
         </h4>
         <p className="text-xs m-0">updated at 16:45</p>
       </div>
-      <p className="text-sm leading-tight wrap break-all">
-        {content.length > contentLength
+      <p
+        className={`text-sm leading-tight wrap break-all group-hover:text-black ${
+          active ? 'text-black' : 'text-gray-700'
+        }`}
+      >
+        {!content
+          ? '...'
+          : content.length > contentLength
           ? content.substring(0, contentLength - 3) + '...'
           : content}
       </p>
-    </div>
+    </button>
   )
 }
 
 const Notes: React.FC = () => {
   const notes = useAppSelector((state) => state.present.notes)
+  const openedNote = useAppSelector((state) => state.present.openedNote)
   const dispatch = useAppDispatch()
 
   return (
@@ -70,6 +91,7 @@ const Notes: React.FC = () => {
                 onClick={() => dispatch(openNote(note))}
                 title={note.title}
                 content={generateText(note.content, extensions)}
+                active={note.id === openedNote.id}
               />
             </li>
           ))}
