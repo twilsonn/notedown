@@ -27,7 +27,9 @@ const CustomDocument = Document.extend({
 
 const extensions: Extensions = [
   CustomDocument,
-  History,
+  History.configure({
+    newGroupDelay: 250
+  }),
 
   Text,
   Heading,
