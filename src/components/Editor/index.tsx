@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import debounce from 'lodash.debounce'
 
 import { useAppDispatch, useAppSelector } from 'hooks'
@@ -15,7 +15,7 @@ import './styles.css'
 const TipTapEditor = () => {
   const openedNote = useAppSelector((state) => state.present.openedNote)
   const dispatch = useAppDispatch()
-  const [ls, setLastSaved] = useState<Date | null>(null)
+  const [ls, setLastSaved] = useState<Date | undefined>(undefined)
 
   const updateOpenedNote = (e: Editor) => {
     dispatch(
@@ -41,7 +41,7 @@ const TipTapEditor = () => {
       content: openedNote.note.content,
       onUpdate: ({ editor }) => {
         debouncedUpdateOpenedNote(editor)
-        setLastSaved(null)
+        setLastSaved(undefined)
       }
     },
     [openedNote.id]
@@ -51,7 +51,7 @@ const TipTapEditor = () => {
     <>
       {editor && <Menu editor={editor} />}
       <EditorContent autoFocus editor={editor} />
-      {/* {ls && <LastSaved lastSaved={ls} />} */}
+      <LastSaved lastSaved={ls} />
     </>
   )
 }
