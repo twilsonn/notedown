@@ -13,10 +13,12 @@ type Note = {
 
 interface NotesStateInterface {
   notes: Note[]
-  openedNote: {
-    id: string
-    note: Note
-  }
+  openedNote:
+    | {
+        id: string
+        note: Note
+      }
+    | undefined
 }
 
 const d = new Date(Date.now())
