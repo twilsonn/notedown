@@ -50,22 +50,34 @@ const updateNoteAction: CaseReducer<NotesState, PayloadAction<Note>> = (
     ),
     openedNote: {
       ...state.openedNote,
+      id: action.payload.id,
       note: action.payload
     }
   }
 }
 
-const openNoteAction: CaseReducer<NotesState, PayloadAction<Note>> = (
+const openNoteAction: CaseReducer<NotesState, PayloadAction<string>> = (
   state,
   action
 ) => {
   return {
     ...state,
     openedNote: {
-      ...state.openedNote,
-      id: action.payload.id,
-      note: action.payload
+      id: action.payload,
+      note: state.notes.filter((n) => n.id === action.payload)[0]
     }
+  }
+}
+
+const removeNoteAction: CaseReducer<NotesState, PayloadAction<string>> = (
+  state,
+  action
+) => {
+  return {
+    ...state,
+    notes: state.notes.filter((n) => n.id !== action.payload),
+    openedNote:
+      state.openedNote?.id === action.payload ? undefined : state.openedNote
   }
 }
 
@@ -75,11 +87,12 @@ export const NotesSlice = createSlice({
   reducers: {
     newNote: newNoteAction,
     updateNote: updateNoteAction,
-    openNote: openNoteAction
+    openNote: openNoteAction,
+    removeNote: removeNoteAction
   }
 })
 
-export const { newNote, updateNote, openNote } = NotesSlice.actions
+export const { newNote, updateNote, openNote, removeNote } = NotesSlice.actions
 
 export const selectNote = (state: RootState) => state.present.notes
 
