@@ -25,6 +25,8 @@ const NoteCard: React.FC<
 
   return (
     <button
+      data-note
+      data-id={note.id}
       className={`w-full text-left prose px-3 py-2 rounded-lg cursor-pointer select-none group
         hover:bg-gray-300 
         focus:outline-none  focus:ring-2 focus:ring-blue-400  ${
@@ -32,7 +34,7 @@ const NoteCard: React.FC<
         }`}
       {...props}
     >
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center pointer-events-none">
         <h4
           className={`m-0 capitalize group-hover:text-black ${
             active ? 'text-black' : 'text-gray-800'
@@ -49,7 +51,7 @@ const NoteCard: React.FC<
         </p>
       </div>
       <p
-        className={`text-sm leading-tight wrap break-all group-hover:text-black ${
+        className={`pointer-events-none text-sm leading-tight wrap break-all group-hover:text-black ${
           active ? 'text-black' : 'text-gray-700'
         }`}
       >

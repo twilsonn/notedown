@@ -37,9 +37,9 @@ const Notes: React.FC = () => {
           {notes.map((note) => (
             <li key={note.id}>
               <NoteCard
-                onClick={() => dispatch(openNote(note))}
+                onClick={() => dispatch(openNote(note.id))}
                 note={note}
-                active={note.id === openedNote.id}
+                active={note.id === openedNote?.id}
               />
             </li>
           ))}
