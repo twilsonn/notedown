@@ -69,6 +69,21 @@ const openNoteAction: CaseReducer<NotesState, PayloadAction<string>> = (
   }
 }
 
+const toggleNoteSavedAction: CaseReducer<NotesState> = (state) => {
+  return state.openedNote
+    ? {
+        ...state,
+        openedNote: {
+          ...state.openedNote,
+          note: {
+            ...state.openedNote?.note,
+            saved: false
+          }
+        }
+      }
+    : state
+}
+
 const removeNoteAction: CaseReducer<NotesState, PayloadAction<string>> = (
   state,
   action
@@ -88,11 +103,13 @@ export const NotesSlice = createSlice({
     newNote: newNoteAction,
     updateNote: updateNoteAction,
     openNote: openNoteAction,
-    removeNote: removeNoteAction
+    removeNote: removeNoteAction,
+    toggleNoteSaved: toggleNoteSavedAction
   }
 })
 
-export const { newNote, updateNote, openNote, removeNote } = NotesSlice.actions
+export const { newNote, updateNote, openNote, removeNote, toggleNoteSaved } =
+  NotesSlice.actions
 
 export const selectNote = (state: RootState) => state.present.notes
 
