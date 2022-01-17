@@ -3,6 +3,7 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import NewStore from './store'
 
+import ContextMenuWrapper from 'components/ContextMenuWrapper'
 import './assets/index.css'
 
 import App from 'components/App'
@@ -15,7 +16,9 @@ const Main = () => {
     <StrictMode>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <App />
+          <ContextMenuWrapper>
+            <App />
+          </ContextMenuWrapper>
         </PersistGate>
       </Provider>
     </StrictMode>
