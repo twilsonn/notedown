@@ -23,6 +23,11 @@ const NoteCard: React.FC<
 
   const content = generateText(note.content, extensions)
 
+  const noteTitle =
+    title.length > titleLength
+      ? title.substring(0, titleLength - 3) + '...'
+      : title
+
   return (
     <button
       data-note
@@ -40,14 +45,10 @@ const NoteCard: React.FC<
             active ? 'text-black' : 'text-gray-800'
           }`}
         >
-          {!title
-            ? 'Untitled Note'
-            : title.length > titleLength
-            ? title.substring(0, titleLength - 3) + '...'
-            : title}
+          {!title ? 'Untitled Note' : noteTitle}
         </h4>
         <p className="text-xs m-0">
-          <ReactTimeAgo date={updatedAt} locale="en-US" timeStyle="twitter" />
+          <ReactTimeAgo date={updatedAt} timeStyle="twitter" />
         </p>
       </div>
       <p
