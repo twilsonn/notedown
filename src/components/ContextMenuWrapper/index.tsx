@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { ControlledMenu, MenuItem, useMenuState } from '@szhsin/react-menu'
 
 import { useAppDispatch, useAppSelector } from 'hooks'
-import { openNote, removeNote } from 'store/reducers/notesSlicer'
+import { newNote, openNote, removeNote } from 'store/reducers/notesSlicer'
 
 const ContextMenuWrapper: React.FC = ({ children }) => {
   const { toggleMenu, ...menuProps } = useMenuState()
@@ -51,7 +51,7 @@ const ContextMenuWrapper: React.FC = ({ children }) => {
               </MenuItem>
             </>
           )}
-          <MenuItem>Add Note</MenuItem>
+          <MenuItem onClick={() => dispatch(newNote())}>Add Note</MenuItem>
         </ControlledMenu>
 
         {children}
