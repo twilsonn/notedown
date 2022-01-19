@@ -41,6 +41,17 @@ const ContextMenuWrapper: React.FC = ({ children }) => {
             setNoteID('')
           }}
         >
+          {window.getSelection()?.toString() !== '' && (
+            <MenuItem
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  window.getSelection()?.toString()!
+                )
+              }
+            >
+              Copy
+            </MenuItem>
+          )}
           {isNote && (
             <>
               <MenuItem onClick={() => dispatch(openNote(noteID))}>
