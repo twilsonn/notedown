@@ -8,22 +8,12 @@ import './assets/index.css'
 
 import App from 'components/App'
 import { PersistGate } from 'redux-persist/integration/react'
-import { useColorScheme } from 'hooks'
+import useDarkMode from 'use-dark-mode'
 
 const { store, persistor } = NewStore()
 
 const Main = () => {
-  const { isDark, setIsDark } = useColorScheme()
-
-  if (
-    localStorage.theme === 'dark' ||
-    (!('theme' in localStorage) &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches)
-  ) {
-    document.documentElement.classList.add('dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-  }
+  const darkMode = useDarkMode()
 
   return (
     <StrictMode>
