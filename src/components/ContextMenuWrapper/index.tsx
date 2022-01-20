@@ -11,7 +11,7 @@ const ContextMenuWrapper: React.FC = ({ children }) => {
   const [isNote, setIsNote] = useState(false)
   const [noteID, setNoteID] = useState('')
 
-  const notes = useAppSelector((state) => state.present.notes)
+  const notes = useAppSelector((state) => state.notes.present.notes)
 
   const dispatch = useAppDispatch()
 
