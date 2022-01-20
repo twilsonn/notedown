@@ -17,11 +17,11 @@ const TimeNow: React.FC<React.HTMLAttributes<HTMLSpanElement>> = (props) => {
 }
 
 const LastSaved: React.FC = () => {
-  const openedNote = useAppSelector((state) => state.present.openedNote)
+  const openedNote = useAppSelector((state) => state.notes.present.openedNote)
 
   return (
-    <div className="fixed bottom-0 right-0 w-full bg-gray-300 px-4 h-8">
-      <div className="h-full w-full flex justify-end items-center text-xs text-gray-700 divide-x-2 divide-gray-400">
+    <div className="fixed bottom-0 right-0 w-full px-4 h-8 border-t bg-gray-300 border-gray-300 dark:bg-stone-900 dark:border-stone-800">
+      <div className="h-full w-full flex justify-end items-center text-xs divide-x-2  text-gray-700 divide-gray-400 dark:text-stone-300 dark:divide-stone-700">
         {openedNote ? (
           <>
             {openedNote.note.saved ? (

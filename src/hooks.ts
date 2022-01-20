@@ -6,43 +6,39 @@ export const useAppDispatch = () => useDispatch<AppDispatch>()
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
-// import { RefObject, useEffect, useRef } from 'react'
+import { useEffect, useMemo } from 'react'
+import { useMediaQuery } from 'react-responsive'
 
-// function useEventListener<T extends HTMLElement = HTMLDivElement>(
-//   eventName: keyof WindowEventMap | string, // string to allow custom event
-//   handler: (event: Event) => void,
-//   element?: RefObject<T>
-// ) {
-//   // Create a ref that stores handler
-//   const savedHandler = useRef<(event: Event) => void>()
+import createPersistedState from 'use-persisted-state'
 
-//   useEffect(() => {
-//     // Define the listening target
-//     const targetElement: T | Window = element?.current || window
-//     if (!(targetElement && targetElement.addEventListener)) {
-//       return
-//     }
+const useColorSchemeState = createPersistedState('theme')
 
-//     // Update saved handler if necessary
-//     if (savedHandler.current !== handler) {
-//       savedHandler.current = handler
-//     }
+export function useColorScheme(): {
+  isDark: boolean
+  setIsDark: (value: boolean) => void
+} {
+  const systemPrefersDark = useMediaQuery(
+    {
+      query: '(prefers-color-scheme: dark)'
+    },
+    undefined
+  )
+  const [isDark, setIsDark] = useColorSchemeState<boolean>()
 
-//     // Create event listener that calls handler function stored in ref
-//     const eventListener = (event: Event) => {
-//       // eslint-disable-next-line no-extra-boolean-cast
-//       if (!!savedHandler?.current) {
-//         savedHandler.current(event)
-//       }
-//     }
+  const value = useMemo(
+    () => (isDark === undefined ? !!systemPrefersDark : isDark),
+    [isDark, systemPrefersDark]
+  )
+  useEffect(() => {
+    if (value) {
+      document.body.classList.add('dark')
+    } else {
+      document.body.classList.remove('dark')
+    }
+  }, [value])
 
-//     targetElement.addEventListener(eventName, eventListener)
-
-//     // Remove event listener on cleanup
-//     return () => {
-//       targetElement.removeEventListener(eventName, eventListener)
-//     }
-//   }, [eventName, element, handler])
-// }
-
-// export { useEventListener }
+  return {
+    isDark: value,
+    setIsDark
+  }
+}

@@ -18,7 +18,7 @@ import LastSaved from './LastSaved'
 import './styles.css'
 
 const TipTapEditor = () => {
-  const openedNote = useAppSelector((state) => state.present.openedNote)
+  const openedNote = useAppSelector((state) => state.notes.present.openedNote)
   const dispatch = useAppDispatch()
 
   const updateOpenedNote = (e: Editor) => {
