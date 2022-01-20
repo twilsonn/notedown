@@ -32,18 +32,18 @@ const NoteCard: React.FC<
     <button
       data-note
       data-id={note.id}
-      className={`w-full text-left prose px-3 py-2 rounded-lg cursor-pointer select-none group
-        hover:bg-gray-300 
+      className={`w-full text-left prose prose-invert px-3 py-2 rounded-lg cursor-pointer select-none group
+        hover:bg-gray-300 dark:hover:bg-stone-700
         focus:outline-none  focus:ring-2 focus:ring-blue-400  ${
-          active ? 'bg-gray-300' : 'bg-gray-200'
+          active
+            ? 'bg-gray-300 dark:bg-stone-700 text-black dark:text-stone-100'
+            : 'bg-gray-200 dark:bg-stone-800 dark:text-stone-200'
         }`}
       {...props}
     >
       <div className="flex justify-between items-center pointer-events-none">
         <h4
-          className={`m-0 capitalize group-hover:text-black ${
-            active ? 'text-black' : 'text-gray-800'
-          }`}
+          className={`m-0 capitalize group-hover:text-black dark:group-hover:text-stone-50`}
         >
           {!title ? 'Untitled Note' : noteTitle}
         </h4>
@@ -52,9 +52,7 @@ const NoteCard: React.FC<
         </p>
       </div>
       <p
-        className={`pointer-events-none text-sm leading-tight wrap break-all group-hover:text-black ${
-          active ? 'text-black' : 'text-gray-700'
-        }`}
+        className={`pointer-events-none text-sm leading-tight wrap break-all group-hover:text-black dark:group-hover:text-stone-50`}
       >
         {!content
           ? '...'
