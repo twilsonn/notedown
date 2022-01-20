@@ -111,6 +111,6 @@ export const NotesSlice = createSlice({
 export const { newNote, updateNote, openNote, removeNote, toggleNoteSaved } =
   NotesSlice.actions
 
-export const selectNote = (state: RootState) => state.present.notes
+export const selectNote = (state: RootState) => state.notes.present.notes
 
 export default NotesSlice.reducer

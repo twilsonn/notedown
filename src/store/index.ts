@@ -1,17 +1,32 @@
-import { compose, createStore } from '@reduxjs/toolkit'
+import { combineReducers, compose, createStore } from '@reduxjs/toolkit'
 
+import AppReducer from './reducers/appSlicer'
 import notesReducer from './reducers/notesSlicer'
 import undoable from 'redux-undo'
 
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
-const persistConfig = {
-  key: 'notes',
-  storage
-}
+const persistedNoteReducer = persistReducer(
+  {
+    key: 'notes',
+    storage
+  },
+  undoable(notesReducer)
+)
 
-const persistedReducer = persistReducer(persistConfig, undoable(notesReducer))
+const persistedAppReducer = persistReducer(
+  {
+    key: 'app',
+    storage
+  },
+  AppReducer
+)
+
+const reducers = combineReducers({
+  notes: persistedNoteReducer,
+  app: persistedAppReducer
+})
 
 declare global {
   interface Window {
@@ -21,7 +36,7 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-const store = createStore(persistedReducer, composeEnhancers())
+const store = createStore(reducers, composeEnhancers())
 
 const persistor = persistStore(store)
 
