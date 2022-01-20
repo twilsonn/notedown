@@ -20,12 +20,14 @@ const MenuButton: React.FC<
   return (
     <button
       className={`w-8 h-8 border flex items-center justify-center rounded-md 
-        hover:ring-1 hover:border-blue-400 hover:ring-blue-400 hover:bg-gray-300 hover:text-gray-800
+        hover:bg-gray-300 hover:text-gray-800 dark:hover:bg-stone-800 dark:hover:text-stone-200
+        dark:border-stone-800
+        hover:ring-1 hover:border-blue-400 hover:ring-blue-400 dark:hover:border-blue-600 dark:hover:ring-blue-600
         focus:ring-1 focus:border-blue-400 focus:ring-blue-400 focus:outline-none
         ${
           active
-            ? 'bg-gray-300 text-gray-600 ring-1 border-blue-300 ring-blue-300'
-            : 'bg-gray-200 text-gray-600'
+            ? 'bg-gray-300 dark:bg-stone-800 text-gray-600 dark:text-stone-200 ring-1 border-blue-300 ring-blue-300 dark:border-blue-700 dark:ring-blue-700'
+            : 'bg-gray-200 dark:bg-stone-800 text-gray-600 dark:text-stone-300 '
         }`}
       onClick={props.onClick}
     >
@@ -41,7 +43,7 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
 
   return (
     <div className="w-full sticky top-0 left-0 px-4 md:px-12 pt-4 z-10">
-      <div className="rounded-lg bg-gray-100 p-4 flex space-x-2 mb-8 bg-opacity-[99%]">
+      <div className="rounded-lg p-4 flex space-x-2 mb-8 bg-gray-100 dark:bg-stone-900 bg-opacity-[99%]">
         <SelectFont changeFont={changeFont} />
         {/* BOLD */}
         <MenuButton
