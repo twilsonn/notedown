@@ -12,19 +12,23 @@ html {
   --thumbBG: rgb(209 213 219);
 }
 
-html::-webkit-scrollbar {
+.scrollbar::-webkit-scrollbar {
   @apply w-4;
 }
 
-html::-webkit-scrollbar-track {
-  @apply mb-8 bg-gray-200 dark:bg-stone-600;
+.scrollbar::-webkit-scrollbar-track {
+  @apply bg-gray-200 dark:bg-stone-600;
 }
 
-html::-webkit-scrollbar-thumb {
+html::-webkit-scrollbar-track {
+  @apply mb-8;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
   @apply border-4 border-solid rounded-full border-gray-200 bg-gray-400 dark:border-stone-600 dark:bg-stone-800;
 }
 
-html::-webkit-scrollbar-thumb:hover {
+.scrollbar::-webkit-scrollbar-thumb:hover {
   @apply bg-gray-500 dark:bg-stone-900;
 }
 
