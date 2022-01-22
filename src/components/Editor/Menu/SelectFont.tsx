@@ -20,7 +20,7 @@ const SelectFont: React.FC<{ changeFont: (family: string) => void }> = ({
         <>
           <div className="relative">
             <Listbox.Button
-              className="relative bg-gray-200 dark:bg-stone-800 dark:text-stone-200 dark:border-stone-800 w-48 h-8 rounded-md shadow-sm border pl-3 pr-10 py-1.5 text-left cursor-default sm:text-sm
+              className="relative w-48 h-8 rounded-md shadow-sm border pl-3 pr-10 py-1.5 text-left cursor-default sm:text-sm bg-gray-200 dark:bg-stone-800 dark:text-stone-200 dark:border-stone-800 transition-colors 
             focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400 dark:focus:ring-blue-700 dark:focus:border-blue-700"
             >
               <span className="block truncate">{selected}</span>
