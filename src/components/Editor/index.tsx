@@ -60,7 +60,6 @@ const TipTapEditor = () => {
     <>
       {openedNote && editor && <Menu editor={editor} />}
       {openedNote && <EditorContent editor={editor} />}
-      <LastSaved />
     </>
   )
 }
