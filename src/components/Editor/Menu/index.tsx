@@ -19,7 +19,7 @@ const MenuButton: React.FC<
   const { children, active } = props
   return (
     <button
-      className={`w-8 h-8 border flex items-center justify-center rounded-md 
+      className={`w-8 h-8 border flex items-center justify-center rounded-md transition-colors
         hover:bg-gray-300 hover:text-gray-800 dark:hover:bg-stone-800 dark:hover:text-stone-200
         dark:border-stone-800
         hover:ring-1 hover:border-blue-400 hover:ring-blue-400 dark:hover:border-blue-600 dark:hover:ring-blue-600
@@ -43,7 +43,7 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
 
   return (
     <div className="w-full sticky top-0 left-0 px-4 md:px-12 pt-4 z-10">
-      <div className="rounded-lg p-4 flex space-x-2 mb-8 bg-gray-100 dark:bg-stone-900 bg-opacity-[99%]">
+      <div className="rounded-lg p-4 flex space-x-2 mb-8 bg-gray-100 dark:bg-stone-900 bg-opacity-[99%] transition-colors">
         <SelectFont changeFont={changeFont} />
         {/* BOLD */}
         <MenuButton
