@@ -4,7 +4,7 @@
 
 html {
   overflow-y: overlay;
-  @apply bg-white dark:bg-stone-800;
+  @apply bg-white dark:bg-stone-800 transition-colors;
 }
 
 html {
