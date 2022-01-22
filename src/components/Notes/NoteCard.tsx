@@ -32,9 +32,9 @@ const NoteCard: React.FC<
     <button
       data-note
       data-id={note.id}
-      className={`w-full text-left prose prose-invert px-3 py-2 rounded-lg cursor-pointer select-none group
+      className={`w-full text-left prose dark:prose-invert px-3 py-2 rounded-lg cursor-pointer select-none group
         hover:bg-gray-300 dark:hover:bg-stone-700
-        focus:outline-none  focus:ring-2 focus:ring-blue-400  ${
+        focus:outline-none  focus:ring-2 focus:ring-blue-400 transition-colors ${
           active
             ? 'bg-gray-300 dark:bg-stone-700 text-black dark:text-stone-100'
             : 'bg-gray-200 dark:bg-stone-800 dark:text-stone-200'
