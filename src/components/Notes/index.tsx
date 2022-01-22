@@ -19,13 +19,13 @@ const Notes: React.FC = () => {
           Notedown
         </h1>
       </header>
-      <div className="border-t dark:border-stone-800">
-        <div className="px-4 py-4 mb-1 flex justify-between items-center">
+      <div className="border-t dark:border-stone-800 transition-colors">
+        <div className="px-4 py-4 flex justify-between items-center">
           <h2 className="font-semibold text-lg dark:text-stone-200">Notes</h2>
           <button
             onClick={() => dispatch(newNote())}
             className={`px-2 py-1 border flex items-center justify-center rounded-md group text-sm 
-              bg-white text-gray-600 dark:bg-stone-700 dark:text-stone-300
+              bg-white text-gray-600 dark:bg-stone-700 dark:text-stone-300 transition-colors
               border-white dark:border-stone-700
               hover:bg-gray-50 hover:text-gray-800 dark:hover:bg-stone-800 dark:hover:text-stone-200
               hover:ring-1 hover:border-blue-400 hover:ring-blue-400 
@@ -33,12 +33,12 @@ const Notes: React.FC = () => {
           >
             New Note{' '}
             <span className="ml-1">
-              <PlusIcon className="w-4 h-4 text-gray-600 group-hover:text-gray-800 dark:text-stone-300 dark:group-hover:text-gray-200" />
+              <PlusIcon className="w-4 h-4 text-gray-600 group-hover:text-gray-800 dark:text-stone-300 dark:group-hover:text-gray-200 transition-colors" />
             </span>
           </button>
         </div>
       </div>
-      <ul className="space-y-4 px-4 overflow-y-auto pb-4 scrollbar">
+      <ul className="space-y-4 px-4 overflow-y-auto py-4 scrollbar">
         {notes.map((note) => (
           <li key={note.id}>
             <NoteCard
