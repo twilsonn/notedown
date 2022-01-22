@@ -1,7 +1,7 @@
 .ProseMirror {
   @apply prose md:prose-lg lg:prose-xl xl:prose-2xl dark:prose-invert 
   px-4 md:px-12 min-w-full min-h-full 
-  outline-none focus:outline-none pb-12 selection:bg-blue-200 dark:selection:bg-stone-600;
+  outline-none focus:outline-none pb-12 selection:bg-blue-200 dark:selection:bg-stone-600 transition-colors;
 }
 
 .ProseMirror > * + * {
@@ -17,7 +17,7 @@
 }
 
 .ProseMirror code {
-  @apply px-1 rounded-md py-0.5 bg-gray-800 bg-opacity-10 text-gray-500 dark:bg-stone-700 dark:text-stone-200;
+  @apply px-1 rounded-md py-0.5 bg-gray-800 bg-opacity-10 text-gray-500 dark:bg-stone-700 dark:text-stone-200 transition-colors;
 }
 
 .ProseMirror .is-editor-empty:first-child::before {
@@ -27,7 +27,7 @@
   pointer-events: none;
   font-family: attr(data-current-font);
 
-  @apply text-gray-300 dark:text-stone-700;
+  @apply text-gray-300 dark:text-stone-700 transition-colors;
 }
 
 /* Color swatches */
