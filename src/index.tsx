@@ -13,7 +13,10 @@ import useDarkMode from 'use-dark-mode'
 const { store, persistor } = NewStore()
 
 const Main = () => {
-  const darkMode = useDarkMode()
+  const darkMode = useDarkMode(true, {
+    classNameDark: 'dark',
+    classNameLight: 'light'
+  })
 
   return (
     <StrictMode>
