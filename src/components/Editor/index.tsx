@@ -1,19 +1,13 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useMemo } from 'react'
 import debounce from 'lodash.debounce'
 
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { toggleNoteSaved, updateNote } from 'store/reducers/notesSlicer'
 
-import {
-  useEditor,
-  EditorContent,
-  Editor,
-  PureEditorContent
-} from '@tiptap/react'
+import { useEditor, EditorContent, Editor } from '@tiptap/react'
 import extensions from './extensions'
 
 import Menu from './Menu'
-import LastSaved from './LastSaved'
 
 import './styles.css'
 
