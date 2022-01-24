@@ -1,11 +1,21 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 import ContextMenuWrapper from './ContextMenuWrapper'
 import ControlBar from './ControlBar'
 
 import Tiptap from './Editor'
 import Notes from './Notes'
 
+function useQuery() {
+  const { search } = useLocation()
+
+  return React.useMemo(() => new URLSearchParams(search), [search])
+}
+
 function App() {
+  let query = useQuery()
+  console.log(query.get('test'))
+
   return (
     <div className="m-auto flex">
       <ContextMenuWrapper>
