@@ -91,7 +91,7 @@ I wanted to make a simple notepad app.
 - [x] Multiple notes
 - [ ] Save with google drive
 - [ ] Share notes snapshot
-- [ ] Dark mode
+- [x] Dark mode
 - [ ] Moblie Compatibility
 - [ ] Accessibility
 - [ ] PWA perfect score 😯
