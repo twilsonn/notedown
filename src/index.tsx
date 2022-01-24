@@ -8,6 +8,7 @@ import './assets/index.css'
 import App from 'components/App'
 import { PersistGate } from 'redux-persist/integration/react'
 import useDarkMode from 'use-dark-mode'
+import { Routes, Route, BrowserRouter as Router } from 'react-router-dom'
 
 const { store, persistor } = NewStore()
 
@@ -21,7 +22,11 @@ const Main = () => {
     <StrictMode>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <App />
+          <Router>
+            <Routes>
+              <Route path="/" element={<App />} />
+            </Routes>
+          </Router>
         </PersistGate>
       </Provider>
     </StrictMode>
