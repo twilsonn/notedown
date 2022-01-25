@@ -20,6 +20,8 @@ import Heading from '@tiptap/extension-heading'
 import Blockquote from '@tiptap/extension-blockquote'
 import Dropcursor from '@tiptap/extension-dropcursor'
 import Code from '@tiptap/extension-code'
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { lowlight } from 'lowlight/lib/common.js'
 
 const CustomDocument = Document.extend({
   content: 'heading block*'
@@ -41,6 +43,12 @@ const extensions: Extensions = [
   Bold,
   Strike,
   Code,
+  CodeBlockLowlight.configure({
+    lowlight,
+    HTMLAttributes: {
+      class: 'base16/github'
+    }
+  }),
 
   Gapcursor,
   Dropcursor,
@@ -51,8 +59,9 @@ const extensions: Extensions = [
   FontFamily.configure({
     types: ['textStyle']
   }),
-  SmilieReplacer,
-  ColorHighlighter,
+
+  // SmilieReplacer,
+  // ColorHighlighter,
   TextAlign.configure({
     types: ['heading', 'paragraph']
   }),
