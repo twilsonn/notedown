@@ -64,7 +64,7 @@ const withHooksHOC = (Component: any) => {
           <meta name="theme-color" content="#ffffff" />
           <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
         </Head>
-        <Script src="noflash.js" />
+        <Script src="noflash.js" strategy="beforeInteractive" />
         <Component {...props} />
       </>
     )
