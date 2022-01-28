@@ -1,4 +1,5 @@
 import React from 'react'
+import App from '../components/App'
 import { useAppDispatch, useAppSelector } from '../store'
 
 const Counter: React.FC = () => {
@@ -7,7 +8,7 @@ const Counter: React.FC = () => {
 
   return (
     <>
-      <div>{notes[0].id}</div>
+      <App />
     </>
   )
 }
