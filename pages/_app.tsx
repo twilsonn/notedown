@@ -62,6 +62,7 @@ const withHooksHOC = (Component: any) => {
           <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#3393f0" />
           <meta name="msapplication-TileColor" content="#2d89ef" />
           <meta name="theme-color" content="#ffffff" />
+          <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
         </Head>
         <Script src="noflash.js" />
         <Component {...props} />
