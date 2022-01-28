@@ -1,12 +1,14 @@
 import App, { AppProps } from 'next/app'
-import { AppState, AppStore, wrapper } from '../store'
+import { wrapper } from '../store'
 import { ReactReduxContext } from 'react-redux'
-import { Persistor } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react'
 import useDarkMode from 'use-dark-mode'
 import React from 'react'
 import Script from 'next/script'
 import Head from 'next/head'
+
+import '../styles/globals.css'
+import '../styles/styles.css'
 
 class MyApp extends App {
   render() {
