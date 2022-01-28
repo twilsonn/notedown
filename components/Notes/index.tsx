@@ -3,7 +3,7 @@ import React from 'react'
 import NoteCard from './NoteCard'
 import { PlusIcon } from '@heroicons/react/solid'
 import { useAppDispatch, useAppSelector } from '../../store'
-import Logo from '../../assets/Logo'
+import Logo from '../Logo'
 import { newNote, openNote } from '../../store/reducers/notesSlicer'
 
 const Notes: React.FC = () => {
