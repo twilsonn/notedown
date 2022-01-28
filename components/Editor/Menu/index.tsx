@@ -1,0 +1,194 @@
+import { Editor as CoreEditor } from '@tiptap/core'
+import { EditorContentProps, EditorContentState } from '@tiptap/react'
+
+import React, { DetailedHTMLProps } from 'react'
+import SelectFont from './SelectFont'
+declare class Editor extends CoreEditor {
+  contentComponent: React.Component<
+    EditorContentProps,
+    EditorContentState
+  > | null
+}
+
+const MenuButton: React.FC<
+  DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > & { active: boolean }
+> = (props) => {
+  const { children, active } = props
+  return (
+    <button
+      className={`w-8 h-8 border flex items-center justify-center rounded-md transition-colors
+        hover:bg-gray-300 hover:text-gray-800 dark:hover:bg-stone-800 dark:hover:text-stone-200
+        dark:border-stone-800
+        hover:ring-1 hover:border-blue-400 hover:ring-blue-400 dark:hover:border-blue-600 dark:hover:ring-blue-600
+        focus:ring-1 focus:border-blue-400 focus:ring-blue-400 focus:outline-none
+        ${
+          active
+            ? 'bg-gray-300 dark:bg-stone-800 text-gray-600 dark:text-stone-200 ring-1 border-blue-300 ring-blue-300 dark:border-blue-700 dark:ring-blue-700'
+            : 'bg-gray-200 dark:bg-stone-800 text-gray-600 dark:text-stone-300 '
+        }`}
+      onClick={props.onClick}
+    >
+      {children}
+    </button>
+  )
+}
+
+const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
+  const changeFont = (family: string) => {
+    editor.commands.setFontFamily(family)
+  }
+
+  return (
+    <div className="w-full sticky top-0 left-0 px-4 md:px-12 pt-4 z-10">
+      <div className="rounded-lg p-4 flex space-x-2 mb-8 bg-gray-100 dark:bg-stone-900 bg-opacity-[99%] transition-colors">
+        <SelectFont changeFont={changeFont} />
+        {/* BOLD */}
+        <MenuButton
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          active={editor.isActive('bold')}
+        >
+          <svg
+            className="w-4 h-4"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
+            <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
+          </svg>
+        </MenuButton>
+        {/* UNDERLINE */}
+        <MenuButton
+          onClick={() => editor.chain().focus().toggleUnderline().run()}
+          active={editor.isActive('underline')}
+        >
+          <svg
+            className="w-4 h-4"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"></path>
+            <line x1="4" y1="21" x2="20" y2="21"></line>
+          </svg>
+        </MenuButton>
+        {/* ITALICS */}
+        <MenuButton
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          active={editor.isActive('italic')}
+        >
+          <svg
+            className="w-4 h-4"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M19 4h-9M14 20H5M14.7 4.7L9.2 19.4" />
+          </svg>
+        </MenuButton>
+        {/* TEXT TYPE */}
+        <MenuButton active={false}>
+          <svg
+            className="w-4 h-4"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="4 7 4 4 20 4 20 7"></polyline>
+            <line x1="9" y1="20" x2="15" y2="20"></line>
+            <line x1="12" y1="4" x2="12" y2="20"></line>
+          </svg>
+        </MenuButton>
+        {/* LEFT ALIGN */}
+        <MenuButton
+          onClick={() => editor.chain().focus().setTextAlign('left').run()}
+          active={editor.isActive({ textAlign: 'left' })}
+        >
+          <svg
+            className="w-4 h-4"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M17 9.5H3M21 4.5H3M21 14.5H3M17 19.5H3" />
+          </svg>
+        </MenuButton>
+        {/* CENTER ALIGN */}
+        <MenuButton
+          onClick={() => editor.chain().focus().setTextAlign('center').run()}
+          active={editor.isActive({ textAlign: 'center' })}
+        >
+          <svg
+            className="w-4 h-4"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M19 9.5H5M21 4.5H3M21 14.5H3M19 19.5H5" />
+          </svg>
+        </MenuButton>
+        {/* RIGHT ALIGN */}
+        <MenuButton
+          onClick={() => editor.chain().focus().setTextAlign('right').run()}
+          active={editor.isActive({ textAlign: 'right' })}
+        >
+          <svg
+            className="w-4 h-4"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M21 9.5H7M21 4.5H3M21 14.5H3M21 19.5H7" />
+          </svg>
+        </MenuButton>
+      </div>
+    </div>
+  )
+}
+
+export default Menu
