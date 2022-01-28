@@ -1,13 +1,6 @@
 import { createWrapper } from 'next-redux-wrapper'
 import { configureStore, EnhancedStore, ThunkAction } from '@reduxjs/toolkit'
-import {
-  Action,
-  AnyAction,
-  applyMiddleware,
-  combineReducers,
-  EmptyObject,
-  Middleware
-} from 'redux'
+import { Action, AnyAction, combineReducers, EmptyObject } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import { persistStore, persistReducer, Persistor } from 'redux-persist'
 import undoable, { StateWithHistory } from 'redux-undo'
@@ -18,15 +11,6 @@ import storage from './sync_storage'
 
 import notesReducer from './reducers/notesSlicer'
 import { NotesStateInterface } from './reducers/notesSlicer/types'
-
-// BINDING MIDDLEWARE
-const bindMiddleware = (middleware: Middleware<any>[]) => {
-  if (process.env.NODE_ENV !== 'production') {
-    const { composeWithDevTools } = require('redux-devtools-extension')
-    return composeWithDevTools(applyMiddleware(...middleware))
-  }
-  return applyMiddleware(...middleware)
-}
 
 const makeStore = () => {
   const persistConfig = {
@@ -57,7 +41,11 @@ const makeStore = () => {
     any
   > & { __persistor?: Persistor } = configureStore({
     reducer: persistedReducer,
-    middleware: bindMiddleware([thunkMiddleware])
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().prepend(
+        // correctly typed middlewares can just be used
+        thunkMiddleware
+      )
   })
 
   store.__persistor = persistStore(store)
