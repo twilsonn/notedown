@@ -1,13 +1,9 @@
 import React from 'react'
 import { generateText } from '@tiptap/react'
 
-import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en.json'
-TimeAgo.addDefaultLocale(en)
-
-import ReactTimeAgo from 'react-time-ago'
 import { Note } from '../../store/reducers/notesSlicer/types'
 import extensions from '../Editor/extensions'
+import TimeAgo from '../TimeAgo'
 
 const NoteCard: React.FC<
   React.HTMLAttributes<HTMLButtonElement> & {
@@ -48,7 +44,7 @@ const NoteCard: React.FC<
           {!title ? 'Untitled Note' : noteTitle}
         </h4>
         <p className="text-xs m-0">
-          <ReactTimeAgo date={updatedAt} timeStyle="twitter" />
+          <TimeAgo date={updatedAt} />
         </p>
       </div>
       <p

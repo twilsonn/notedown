@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
 
-import ReactTimeAgo from 'react-time-ago'
 import { useAppSelector } from '../../store'
+import TimeAgo from '../TimeAgo'
 
 const TimeNow: React.FC<React.HTMLAttributes<HTMLSpanElement>> = (props) => {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleString())
@@ -26,10 +26,7 @@ const LastSaved: React.FC = () => {
         <>
           Last Updated:{' '}
           <span className="pr-2 pl-1 text-right">
-            <ReactTimeAgo
-              date={openedNote.note.updatedAt}
-              timeStyle="twitter"
-            />
+            <TimeAgo date={openedNote.note.updatedAt} />
           </span>
         </>
       ) : null}
