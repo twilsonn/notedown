@@ -44,6 +44,6 @@ const initialState: NotesStateInterface = {
 
 export type NotesState = typeof initialState
 
-export type { Note }
+export type { Note, NotesStateInterface }
 
 export default initialState
