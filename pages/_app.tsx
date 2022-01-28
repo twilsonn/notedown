@@ -8,7 +8,8 @@ import Script from 'next/script'
 import Head from 'next/head'
 
 import '../styles/globals.css'
-import '../styles/styles.css'
+import '../styles/Editor.css'
+import '../styles/ContextMenu.css'
 
 class MyApp extends App {
   render() {
