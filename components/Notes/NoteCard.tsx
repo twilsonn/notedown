@@ -44,7 +44,7 @@ const NoteCard: React.FC<
           {!title ? 'Untitled Note' : noteTitle}
         </h4>
         <p className="text-xs m-0">
-          <TimeAgo date={updatedAt} />
+          <TimeAgo date={new Date(updatedAt)} />
         </p>
       </div>
       <p
