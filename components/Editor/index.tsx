@@ -4,10 +4,11 @@ import debounce from 'lodash.debounce'
 import { useEditor, EditorContent } from '@tiptap/react'
 import extensions from './extensions'
 
-import Menu from './Menu'
 import { useAppDispatch, useAppSelector } from '../../store'
 import { toggleNoteSaved, updateNote } from '../../store/reducers/notesSlicer'
 import { Editor } from '@tiptap/core'
+import Menu from './Menu'
+import { motion } from 'framer-motion'
 
 const TipTapEditor = () => {
   const openedNote = useAppSelector((state) => state.notes.present.openedNote)
@@ -21,7 +22,7 @@ const TipTapEditor = () => {
             id: openedNote.id,
             content: e.getJSON(),
             title: e.getText().split('\n')[0],
-            updatedAt: new Date(Date.now()),
+            updatedAt: new Date(Date.now()).getMilliseconds(),
             createdAt: openedNote.note.createdAt,
             saved: true
           })
@@ -51,10 +52,10 @@ const TipTapEditor = () => {
   )
 
   return (
-    <>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       {openedNote && editor && <Menu editor={editor} />}
       {openedNote && <EditorContent editor={editor} />}
-    </>
+    </motion.div>
   )
 }
 
