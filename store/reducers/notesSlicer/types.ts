@@ -6,8 +6,8 @@ type Note = {
   id: string
   title: string
   content: JSONContent
-  updatedAt: Date
-  createdAt: Date
+  updatedAt: number
+  createdAt: number
   saved: boolean
 }
 
@@ -21,7 +21,7 @@ interface NotesStateInterface {
     | undefined
 }
 
-const d = new Date(Date.now())
+const d = new Date(Date.now()).getMilliseconds()
 
 const notes: Note[] = [
   {
