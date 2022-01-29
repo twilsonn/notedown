@@ -28,7 +28,7 @@ const LastSaved: React.FC = () => {
             <>
               Last Updated:{' '}
               <span className="pr-2 pl-1 text-right">
-                <TimeAgo date={openedNote.note.updatedAt} />
+                <TimeAgo date={new Date(openedNote.note.updatedAt)} />
               </span>
             </>
           ) : null}
