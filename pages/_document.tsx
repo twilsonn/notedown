@@ -26,7 +26,11 @@ class MyDocument extends Document {
           <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#3393f0" />
           <meta name="msapplication-TileColor" content="#2d89ef" />
           <meta name="theme-color" content="#ffffff" />
-          <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `</script><link rel='preload' href='https://rsms.me/inter/inter.css' as='style' onload="this.onload=null;this.rel='stylesheet'"/><script>`
+            }}
+          />
         </Head>
         <body>
           <Main />
