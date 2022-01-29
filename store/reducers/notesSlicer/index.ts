@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 import initialState, { NotesState, Note } from './types'
 
 const newNoteAction: CaseReducer<NotesState> = (state) => {
-  const d = new Date(Date.now())
+  const d = new Date(Date.now()).getMilliseconds()
   const newNotes: Note[] = [
     ...state.notes,
     {
