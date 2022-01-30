@@ -21,7 +21,7 @@ interface NotesStateInterface {
     | undefined
 }
 
-const d = new Date(Date.now()).getMilliseconds()
+const d = new Date(Date.now()).getTime()
 
 const notes: Note[] = [
   {
