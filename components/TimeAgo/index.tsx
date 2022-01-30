@@ -20,10 +20,10 @@ const formatter: Formatter = (
       return value === 1 ? (
         <>Yesterday</>
       ) : (
-        <>{dateFormat(new Date(epochMilliseconds), 'd mmm')}</>
+        <>{dateFormat(new Date(epochMilliseconds), 'mmm. d')}</>
       )
     default:
-      return <>{dateFormat(new Date(epochMilliseconds), 'd mmm')}</>
+      return <>{dateFormat(new Date(epochMilliseconds), 'mmm d, yy')}</>
   }
 }
 
