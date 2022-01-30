@@ -22,7 +22,7 @@ const TipTapEditor = () => {
             id: openedNote.id,
             content: e.getJSON(),
             title: e.getText().split('\n')[0],
-            updatedAt: new Date(Date.now()).getMilliseconds(),
+            updatedAt: new Date(Date.now()).getTime(),
             createdAt: openedNote.note.createdAt,
             saved: true
           })
