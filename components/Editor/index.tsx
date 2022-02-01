@@ -10,6 +10,8 @@ import { Editor } from '@tiptap/core'
 import Menu from './Menu'
 import { motion } from 'framer-motion'
 
+import PerfectScrollbar from 'react-perfect-scrollbar'
+
 const TipTapEditor = () => {
   const openedNote = useAppSelector((state) => state.notes.present.openedNote)
   const dispatch = useAppDispatch()
@@ -54,7 +56,9 @@ const TipTapEditor = () => {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       {openedNote && editor && <Menu editor={editor} />}
-      {openedNote && <EditorContent editor={editor} />}
+      <PerfectScrollbar>
+        {openedNote && <EditorContent editor={editor} />}
+      </PerfectScrollbar>
     </motion.div>
   )
 }
