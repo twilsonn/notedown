@@ -11,6 +11,8 @@ import Script from 'next/script'
 
 import '../styles/globals.css'
 import '../styles/Editor.css'
+import 'react-perfect-scrollbar/dist/css/styles.css'
+
 class MyApp extends App<{ session: Session }> {
   render() {
     const { Component, pageProps, session } = this.props
