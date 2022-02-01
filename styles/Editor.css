@@ -1,12 +1,15 @@
 .ProseMirror {
+  max-height: calc(100vh - 16rem);
+
   @apply prose md:prose-lg lg:prose-xl xl:prose-2xl dark:prose-invert 
-  px-4 md:px-12 min-w-full min-h-full 
+  px-4 md:px-12 min-w-full pb-2
   outline-none focus:outline-none pb-12 selection:bg-blue-200 dark:selection:bg-stone-600 transition-colors;
 }
 
 .ProseMirror > * + * {
   margin-top: 0.75em;
 }
+
 .ProseMirror h1,
 .ProseMirror h2,
 .ProseMirror h3,
@@ -20,6 +23,7 @@
   font-family: 'JetBrainsMono', monospace;
   @apply rounded-2xl px-4 py-2 bg-stone-900 text-white;
 }
+
 .ProseMirror pre code {
   background: none;
   color: inherit;
@@ -166,17 +170,4 @@
   margin-right: 0.1em;
   vertical-align: middle;
   width: 1em;
-}
-
-.inter-font:first-child::before {
-  font-family: 'Inter', serif;
-}
-.times-new-roman-font:first-child::before {
-  font-family: 'Times New Roman', Times, serif;
-}
-.courier-new-font:first-child::before {
-  font-family: 'Courier New', Courier, monospace;
-}
-.brush-script-mt-font:first-child::before {
-  font-family: 'Brush Script MT', sans-serif;
 }
