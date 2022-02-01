@@ -1,4 +1,5 @@
 import React from 'react'
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
 import NoteCard from './NoteCard'
 import { PlusIcon } from '@heroicons/react/solid'
@@ -38,17 +39,19 @@ const Notes: React.FC = () => {
           </button>
         </div>
       </div>
-      <ul className="space-y-4 px-4 overflow-y-auto py-4 scrollbar">
-        {notes.map((note) => (
-          <li key={note.id}>
-            <NoteCard
-              onClick={() => dispatch(openNote(note.id))}
-              note={note}
-              active={note.id === openedNote?.id}
-            />
-          </li>
-        ))}
-      </ul>
+      <PerfectScrollbar>
+        <ul className="space-y-4 px-4 overflow-y-auto pb-4 pt-1.5">
+          {notes.map((note) => (
+            <li key={note.id}>
+              <NoteCard
+                onClick={() => dispatch(openNote(note.id))}
+                note={note}
+                active={note.id === openedNote?.id}
+              />
+            </li>
+          ))}
+        </ul>
+      </PerfectScrollbar>
     </>
   )
 }
