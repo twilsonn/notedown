@@ -19,6 +19,9 @@ interface NotesStateInterface {
         note: Note
       }
     | undefined
+  synced: boolean
+  lastSync: string
+  syncing: boolean
 }
 
 const d = new Date(Date.now()).getTime()
@@ -39,7 +42,10 @@ const initialState: NotesStateInterface = {
   openedNote: {
     id: notes[0].id,
     note: notes[0]
-  }
+  },
+  lastSync: '',
+  synced: false,
+  syncing: false
 }
 
 export type NotesState = typeof initialState
