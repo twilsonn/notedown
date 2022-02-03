@@ -52,10 +52,10 @@ const Settings: React.FC = () => {
             leaveTo="transform opacity-0 scale-95"
           >
             <Menu.Items
-              className={`origin-bottom-left absolute left-0 bottom-0 mb-8 w-56 rounded-md shadow-lg ring-1 ring-opacity-5 divide-y  focus:outline-none ${
+              className={`origin-bottom-left absolute left-0 bottom-0 mb-8 w-56 rounded-md shadow-lg ring-1 divide-y  focus:outline-none ${
                 isDark.value
                   ? 'divide-stone-800 bg-stone-900 ring-stone-800'
-                  : 'divide-gray-100 bg-white ring-black'
+                  : 'divide-gray-100 bg-white ring-gray-200'
               }`}
             >
               {session?.user && (
@@ -101,22 +101,6 @@ const Settings: React.FC = () => {
                       } block px-4 py-2 text-sm`}
                     >
                       Github
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="https://github.com/twilsonn/notedown/blob/main/LICENCE"
-                      target="_blank"
-                      rel="noreferrer"
-                      className={`${
-                        active
-                          ? 'bg-gray-100 text-gray-900 dark:bg-stone-700 dark:text-stone-200'
-                          : 'text-gray-700 dark:text-stone-300'
-                      } block px-4 py-2 text-sm`}
-                    >
-                      License
                     </a>
                   )}
                 </Menu.Item>
