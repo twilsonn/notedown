@@ -4,7 +4,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import NoteCard from './NoteCard'
 import { PlusIcon } from '@heroicons/react/solid'
 import { useAppDispatch, useAppSelector } from '../../store'
-import Logo from '../Logo'
+import Logo from '../../assets/Logo'
 import { newNote, openNote } from '../../store/reducers/notesSlicer'
 
 const Notes: React.FC = () => {
