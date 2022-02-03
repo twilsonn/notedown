@@ -33,7 +33,7 @@ const AuthButton: React.FC<
 
 const AuthModal: React.FC = () => {
   return (
-    <div className="flex flex-col bg-white dark:bg-stone-900 shadow-2xl ring-1 ring-gray-300 dark:ring-stone-800 p-8 max-w-lg m-auto rounded-2xl">
+    <div className="flex flex-col bg-white dark:bg-stone-900 shadow-2xl ring-1 ring-gray-200 dark:ring-stone-800 p-8 max-w-lg m-auto rounded-2xl">
       <div className="text-center mb-4">
         <span className="w-full flex justify-center">
           <Logo className="h-16 w-16" />
