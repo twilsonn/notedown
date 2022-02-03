@@ -11,11 +11,16 @@ import {
 } from '@heroicons/react/solid'
 import { useSession, signOut, signIn } from 'next-auth/react'
 import useDarkMode from 'use-dark-mode'
+import AuthModal from '../../AuthModal'
 
 const Settings: React.FC = () => {
-  //   const [showModal, hideModal] = useModal(() => {
-  //     return <Modal closeModal={hideModal}>test</Modal>
-  //   })
+  const [showModal, hideModal] = useModal(() => {
+    return (
+      <Modal closeModal={hideModal}>
+        <AuthModal />
+      </Modal>
+    )
+  })
 
   const { data: session } = useSession()
   const isDark = useDarkMode()
@@ -102,7 +107,9 @@ const Settings: React.FC = () => {
                 <Menu.Item>
                   {({ active }) => (
                     <a
-                      href="#"
+                      href="https://github.com/twilsonn/notedown/blob/main/LICENCE"
+                      target="_blank"
+                      rel="noreferrer"
                       className={`${
                         active
                           ? 'bg-gray-100 text-gray-900 dark:bg-stone-700 dark:text-stone-200'
@@ -136,7 +143,7 @@ const Settings: React.FC = () => {
                     {({ active }) => (
                       <button
                         type="button"
-                        onClick={() => signIn()}
+                        onClick={showModal}
                         className={`${
                           active
                             ? 'bg-gray-100 text-gray-900 dark:bg-stone-700 dark:text-stone-200'
