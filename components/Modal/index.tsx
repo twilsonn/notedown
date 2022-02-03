@@ -32,7 +32,7 @@ const Modal: React.FC<
           initial={{ scale: 0.8 }}
           animate={{ scale: 1 }}
         >
-          <div className="shadow-slate-400">{children}</div>
+          {children}
         </motion.div>
       </motion.div>
     </>
