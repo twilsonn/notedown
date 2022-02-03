@@ -96,6 +96,13 @@ const removeNoteAction: CaseReducer<NotesState, PayloadAction<string>> = (
   }
 }
 
+const syncNotesAction: CaseReducer<NotesState> = (state) => {
+  return {
+    ...state,
+    syncing: !state.syncing
+  }
+}
+
 export const NotesSlice = createSlice({
   name: 'notes',
   initialState,
@@ -104,11 +111,18 @@ export const NotesSlice = createSlice({
     updateNote: updateNoteAction,
     openNote: openNoteAction,
     removeNote: removeNoteAction,
-    toggleNoteSaved: toggleNoteSavedAction
+    toggleNoteSaved: toggleNoteSavedAction,
+    syncNotes: syncNotesAction
   }
 })
 
-export const { newNote, updateNote, openNote, removeNote, toggleNoteSaved } =
-  NotesSlice.actions
+export const {
+  newNote,
+  updateNote,
+  openNote,
+  removeNote,
+  toggleNoteSaved,
+  syncNotes
+} = NotesSlice.actions
 
 export default NotesSlice
