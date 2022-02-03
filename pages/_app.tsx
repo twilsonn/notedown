@@ -14,6 +14,7 @@ import useDarkMode from 'use-dark-mode'
 
 import '../styles/globals.css'
 import '../styles/Editor.css'
+import '../styles/NotesLoader.css'
 import 'react-perfect-scrollbar/dist/css/styles.css'
 
 class MyApp extends App<{ session: Session }> {
