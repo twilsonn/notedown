@@ -1,31 +1,40 @@
 import React from 'react'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
-import NoteCard from './NoteCard'
-import { PlusIcon } from '@heroicons/react/solid'
 import { useAppDispatch, useAppSelector } from '../../store'
+import { newNote, openNote, syncNotes } from '../../store/reducers/notesSlicer'
+
+import NotesLoader from './NotesLoader'
+import NoteCard from './NoteCard'
+
 import Logo from '../../assets/Logo'
-import { newNote, openNote } from '../../store/reducers/notesSlicer'
+import { PlusIcon } from '@heroicons/react/solid'
 
 const Notes: React.FC = () => {
   const notes = useAppSelector((state) => state.notes.present.notes)
   const openedNote = useAppSelector((state) => state.notes.present.openedNote)
+  const isSyncing = useAppSelector((state) => state.notes.present.syncing)
   const dispatch = useAppDispatch()
 
   return (
     <>
-      <header className="p-4 h-24 flex items-center">
-        <Logo className="w-10 h-10" />
-        <h1 className="ml-2 text-3xl font-semibold text-gray-800 dark:text-stone-200">
+      <header className="p-4 h-24 flex items-center ">
+        <Logo
+          className="w-10 h-10 cursor-pointer"
+          onClick={() => dispatch(syncNotes())}
+        />
+        <h1 className="ml-2 text-3xl font-semibold text-gray-800 dark:text-stone-200 select-none">
           Notedown
         </h1>
       </header>
       <div className="border-t dark:border-stone-800 transition-colors">
         <div className="px-4 py-4 flex justify-between items-center">
-          <h2 className="font-semibold text-lg dark:text-stone-200">Notes</h2>
+          <h2 className="font-semibold text-lg dark:text-stone-200 select-none">
+            Notes
+          </h2>
           <button
             onClick={() => dispatch(newNote())}
-            className={`px-2 py-1 border flex items-center justify-center rounded-md group text-sm 
+            className={`px-2 py-1 border flex items-center justify-center rounded-md group text-sm select-none
               bg-white text-gray-600 dark:bg-stone-700 dark:text-stone-300 transition-colors
               border-white dark:border-stone-700
               hover:bg-gray-50 hover:text-gray-800 dark:hover:bg-stone-800 dark:hover:text-stone-200
@@ -39,18 +48,29 @@ const Notes: React.FC = () => {
           </button>
         </div>
       </div>
+
       <PerfectScrollbar>
-        <ul className="space-y-4 px-4 overflow-y-auto pb-4 pt-1.5">
-          {notes.map((note) => (
-            <li key={note.id}>
-              <NoteCard
-                onClick={() => dispatch(openNote(note.id))}
-                note={note}
-                active={note.id === openedNote?.id}
-              />
-            </li>
-          ))}
-        </ul>
+        {isSyncing ? (
+          <ul className="space-y-4 px-4 overflow-y-auto pb-4 pt-1.5">
+            <NotesLoader />
+            <NotesLoader />
+            <NotesLoader />
+            <NotesLoader />
+            <NotesLoader />
+          </ul>
+        ) : (
+          <ul className="space-y-4 px-4 overflow-y-auto pb-4 pt-1.5">
+            {notes.map((note) => (
+              <li key={note.id}>
+                <NoteCard
+                  onClick={() => dispatch(openNote(note.id))}
+                  note={note}
+                  active={note.id === openedNote?.id}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
       </PerfectScrollbar>
     </>
   )
