@@ -2,7 +2,7 @@ import React from 'react'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
 import { useAppDispatch, useAppSelector } from '../../store'
-import { newNote, openNote, syncNotes } from '../../store/reducers/notesSlicer'
+import { newNote, openNote } from '../../store/reducers/notesSlicer'
 
 import NotesLoader from './NotesLoader'
 import NoteCard from './NoteCard'
@@ -11,18 +11,16 @@ import Logo from '../../assets/Logo'
 import { PlusIcon } from '@heroicons/react/solid'
 
 const Notes: React.FC = () => {
-  const notes = useAppSelector((state) => state.notes.present.notes)
-  const openedNote = useAppSelector((state) => state.notes.present.openedNote)
-  const isSyncing = useAppSelector((state) => state.notes.present.syncing)
+  const noteState = useAppSelector((state) => state.notes.present)
+
+  const { openedNote, notes, syncing } = noteState
+
   const dispatch = useAppDispatch()
 
   return (
     <>
       <header className="p-4 h-24 flex items-center ">
-        <Logo
-          className="w-10 h-10 cursor-pointer"
-          onClick={() => dispatch(syncNotes())}
-        />
+        <Logo className="w-10 h-10 cursor-pointer" />
         <h1 className="ml-2 text-3xl font-semibold text-gray-800 dark:text-stone-200 select-none">
           Notedown
         </h1>
@@ -50,7 +48,7 @@ const Notes: React.FC = () => {
       </div>
 
       <PerfectScrollbar>
-        {isSyncing ? (
+        {syncing ? (
           <ul className="space-y-4 px-4 overflow-y-auto pb-4 pt-1.5">
             <NotesLoader />
             <NotesLoader />
@@ -65,7 +63,7 @@ const Notes: React.FC = () => {
                 <NoteCard
                   onClick={() => dispatch(openNote(note.id))}
                   note={note}
-                  active={note.id === openedNote?.id}
+                  isactive={`${note.id === openedNote?.id}`}
                 />
               </li>
             ))}
