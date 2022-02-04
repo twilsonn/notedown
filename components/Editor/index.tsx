@@ -5,16 +5,28 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import extensions from './extensions'
 
 import { useAppDispatch, useAppSelector } from '../../store'
-import { toggleNoteSaved, updateNote } from '../../store/reducers/notesSlicer'
+import {
+  cancelSyncNotes,
+  startSync,
+  syncNotes,
+  toggleNoteSaved,
+  updateNote
+} from '../../store/reducers/notesSlicer'
 import { Editor } from '@tiptap/core'
 import Menu from './Menu'
 import { motion } from 'framer-motion'
 
 import PerfectScrollbar from 'react-perfect-scrollbar'
+import session from 'redux-persist/lib/storage/session'
+import { useSession } from 'next-auth/react'
 
 const TipTapEditor = () => {
-  const openedNote = useAppSelector((state) => state.notes.present.openedNote)
+  const { openedNote, notes, lastSync, syncing } = useAppSelector(
+    (state) => state.notes.present
+  )
   const dispatch = useAppDispatch()
+
+  const { data: session } = useSession()
 
   const updateOpenedNote = useMemo(() => {
     return (e: Editor) => {
@@ -38,19 +50,46 @@ const TipTapEditor = () => {
     [updateOpenedNote]
   )
 
+  const sync = useMemo(() => {
+    return () => {
+      if (session?.user) {
+        dispatch(startSync())
+
+        return fetch('api/sync', {
+          method: 'post',
+          body: JSON.stringify({
+            notes: notes,
+            lastSync: new Date().getTime()
+          })
+        })
+          .then((res) => res.json())
+          .then((data: { notes: string; lastSync: number }) => {
+            dispatch(syncNotes(data))
+          })
+          .catch(() => {
+            dispatch(cancelSyncNotes())
+          })
+      }
+    }
+  }, [dispatch, notes, session?.user])
+
+  const debouncedSync = useMemo(() => debounce(() => sync(), 2000), [sync])
+
   let editor = useEditor(
     {
       extensions,
+      editable: !syncing,
       content: openedNote?.note.content,
       autofocus: 'end',
       onUpdate: ({ editor }) => {
         if (openedNote) {
           dispatch(toggleNoteSaved())
           debouncedUpdateOpenedNote(editor)
+          debouncedSync()
         }
       }
     },
-    [openedNote?.id]
+    [openedNote?.id, syncing]
   )
 
   return (
