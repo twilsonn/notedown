@@ -19,9 +19,10 @@ interface NotesStateInterface {
         note: Note
       }
     | undefined
-  synced: boolean
-  lastSync: string
   syncing: boolean
+  lastSync: number
+  version: string
+  syncedVersion: string
 }
 
 const d = new Date(Date.now()).getTime()
@@ -37,14 +38,17 @@ const notes: Note[] = [
   }
 ]
 
+const currentVersion = uuid()
+
 const initialState: NotesStateInterface = {
   notes,
   openedNote: {
     id: notes[0].id,
     note: notes[0]
   },
-  lastSync: '',
-  synced: false,
+  lastSync: 0,
+  syncedVersion: '',
+  version: currentVersion,
   syncing: false
 }
 
