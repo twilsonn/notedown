@@ -9,14 +9,17 @@
     "url": "https://github.com/twilsonn"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env NODE_ENV=development node server.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.49.0",
+    "@aws-sdk/lib-dynamodb": "^3.49.0",
     "@headlessui/react": "^1.4.3",
     "@heroicons/react": "^1.0.5",
+    "@next-auth/dynamodb-adapter": "^1.1.0",
     "@reduxjs/toolkit": "^1.7.1",
     "@szhsin/react-menu": "^2.3.3",
     "@tiptap/core": "^2.0.0-beta.170",
@@ -40,7 +43,11 @@
     "@tiptap/extension-typography": "^2.0.0-beta.19",
     "@tiptap/extension-underline": "^2.0.0-beta.22",
     "@tiptap/react": "^2.0.0-beta.107",
+    "cross-env": "^7.0.3",
     "dateformat": "^5.0.2",
+    "dayjs": "^1.10.7",
+    "express": "^4.17.2",
+    "express-rate-limit": "^6.2.0",
     "framer-motion": "^6.2.3",
     "lodash.debounce": "^4.0.8",
     "lowlight": "^2.5.0",
