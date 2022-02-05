@@ -2,11 +2,7 @@ import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../store'
-import {
-  cancelSyncNotes,
-  startSync,
-  syncNotes
-} from '../store/reducers/notesSlicer'
+import { syncNotes } from '../store/reducers/notesSlicer'
 import { Note } from '../store/reducers/notesSlicer/types'
 import ContextMenuWrapper from './ContextMenuWrapper'
 import ControlBar from './ControlBar'
@@ -21,35 +17,35 @@ function App() {
   const { lastSync, notes } = useAppSelector((state) => state.notes.present)
   const dispatch = useAppDispatch()
 
-  const { data: session } = useSession()
+  // const { data: session } = useSession()
 
-  const sync = () => {
-    if (session?.user) {
-      dispatch(startSync())
+  // const sync = () => {
+  //   if (session?.user) {
+  //     dispatch(startSync())
 
-      console.log('LAST SYNC', lastSync)
+  //     console.log('LAST SYNC', lastSync)
 
-      fetch('api/sync', {
-        method: 'post',
-        body: JSON.stringify({
-          notes: notes,
-          lastSync: lastSync
-        })
-      })
-        .then((res) => res.json())
-        .then((data: { notes: string; lastSync: number }) => {
-          console.log('synced')
-          dispatch(syncNotes(data))
-        })
-        .catch(() => {
-          dispatch(cancelSyncNotes())
-        })
-    }
-  }
+  //     fetch('api/sync', {
+  //       method: 'post',
+  //       body: JSON.stringify({
+  //         notes: notes,
+  //         lastSync: lastSync
+  //       })
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data: { notes: string; lastSync: number }) => {
+  //         console.log('synced')
+  //         dispatch(syncNotes(data))
+  //       })
+  //       .catch(() => {
+  //         dispatch(cancelSyncNotes())
+  //       })
+  //   }
+  // }
 
-  useEffect(() => {
-    sync()
-  }, [session])
+  // useEffect(() => {
+  //   sync()
+  // }, [session])
 
   return (
     <div className="m-auto flex">
