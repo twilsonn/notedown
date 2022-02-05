@@ -6,8 +6,6 @@ import extensions from './extensions'
 
 import { useAppDispatch, useAppSelector } from '../../store'
 import {
-  cancelSyncNotes,
-  startSync,
   syncNotes,
   toggleNoteSaved,
   updateNote
@@ -17,7 +15,6 @@ import Menu from './Menu'
 import { motion } from 'framer-motion'
 
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import session from 'redux-persist/lib/storage/session'
 import { useSession } from 'next-auth/react'
 
 const TipTapEditor = () => {
@@ -31,49 +28,39 @@ const TipTapEditor = () => {
   const updateOpenedNote = useMemo(() => {
     return (e: Editor) => {
       if (openedNote) {
-        dispatch(
-          updateNote({
-            id: openedNote.id,
-            content: e.getJSON(),
-            title: e.getText().split('\n')[0],
-            updatedAt: new Date(Date.now()).getTime(),
-            createdAt: openedNote.note.createdAt,
-            saved: true
-          })
-        )
+        const newTime = new Date(Date.now()).getTime()
+
+        const newOpenedNote = {
+          ...openedNote.note,
+          content: e.getJSON(),
+          title: e.getText().split('\n')[0],
+          updatedAt: newTime
+        }
+
+        console.log('Updated time', newTime)
+
+        dispatch(updateNote(newOpenedNote))
+
+        if (session?.user) {
+          dispatch<any>(
+            syncNotes(
+              notes.map((n) => {
+                if (n.id === openedNote.id) {
+                  return newOpenedNote
+                }
+                return n
+              })
+            )
+          )
+        }
       }
     }
-  }, [dispatch, openedNote])
+  }, [dispatch, notes, openedNote, session])
 
   const debouncedUpdateOpenedNote = useMemo(
     () => debounce((editor: Editor) => updateOpenedNote(editor), 500),
     [updateOpenedNote]
   )
-
-  const sync = useMemo(() => {
-    return () => {
-      if (session?.user) {
-        dispatch(startSync())
-
-        return fetch('api/sync', {
-          method: 'post',
-          body: JSON.stringify({
-            notes: notes,
-            lastSync: new Date().getTime()
-          })
-        })
-          .then((res) => res.json())
-          .then((data: { notes: string; lastSync: number }) => {
-            dispatch(syncNotes(data))
-          })
-          .catch(() => {
-            dispatch(cancelSyncNotes())
-          })
-      }
-    }
-  }, [dispatch, notes, session?.user])
-
-  const debouncedSync = useMemo(() => debounce(() => sync(), 2000), [sync])
 
   let editor = useEditor(
     {
@@ -85,11 +72,10 @@ const TipTapEditor = () => {
         if (openedNote) {
           dispatch(toggleNoteSaved())
           debouncedUpdateOpenedNote(editor)
-          debouncedSync()
         }
       }
     },
-    [openedNote?.id, syncing]
+    [openedNote?.id, session]
   )
 
   return (
