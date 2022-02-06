@@ -20,7 +20,7 @@ interface NotesStateInterface {
       }
     | undefined
   syncing: boolean
-  lastSync: number
+  synced: boolean
 }
 
 const d = new Date(Date.now()).getTime()
@@ -42,7 +42,7 @@ const initialState: NotesStateInterface = {
     id: notes[0].id,
     note: notes[0]
   },
-  lastSync: 0,
+  synced: false,
   syncing: false
 }
 
