@@ -16,6 +16,7 @@ import '../styles/globals.css'
 import '../styles/Editor.css'
 import '../styles/NotesLoader.css'
 import 'react-perfect-scrollbar/dist/css/styles.css'
+import 'tippy.js/dist/tippy.css'
 
 class MyApp extends App<{ session: Session }> {
   render() {
