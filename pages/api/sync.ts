@@ -22,6 +22,12 @@ const client = DynamoDBDocument.from(new DynamoDB(config), {
   }
 })
 
+function sleep(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -35,6 +41,8 @@ export default async function handler(
   const session = await getSession({ req })
 
   if (session && session.user) {
+    await sleep(1000)
+
     const id = session.user.id
     const get = await getNotes(req, res, { client, id })
     if (get.success) {
