@@ -1,12 +1,11 @@
 import {
-  AnyAction,
   CaseReducer,
   createAsyncThunk,
   createSlice,
-  PayloadAction,
-  ThunkAction
+  PayloadAction
 } from '@reduxjs/toolkit'
 import { v4 as uuid } from 'uuid'
+import { AppState } from '../..'
 
 import initialState, { NotesState, Note } from './types'
 
@@ -42,7 +41,8 @@ const newNoteAction: CaseReducer<NotesState> = (state) => {
       id: newNotes[newNotes.length - 1].id,
       note: newNotes[newNotes.length - 1]
     },
-    notes: newNotes
+    notes: newNotes,
+    synced: false
   }
 }
 
@@ -70,7 +70,8 @@ const updateNoteAction: CaseReducer<NotesState, PayloadAction<Note>> = (
         openedNote: {
           id: action.payload.id,
           note: newNotes[openedNoteIndex]
-        }
+        },
+        synced: false
       }
     : state
 }
@@ -111,18 +112,20 @@ const removeNoteAction: CaseReducer<NotesState, PayloadAction<string>> = (
     ...state,
     notes: state.notes.filter((n) => n.id !== action.payload),
     openedNote:
-      state.openedNote?.id === action.payload ? undefined : state.openedNote
+      state.openedNote?.id === action.payload ? undefined : state.openedNote,
+    synced: false
   }
 }
 
-export const syncNotes = createAsyncThunk<Note[], Note[]>(
+export const syncNotes = createAsyncThunk<Note[], void, { state: AppState }>(
   'notes/syncNotes',
-  async (notes, api) => {
+  async (_, api) => {
+    const state = api.getState()
     try {
       const { success, data, error } = await fetch('api/sync', {
         method: 'post',
         body: JSON.stringify({
-          notes
+          notes: state.notes.present.notes
         })
       }).then((res) => res.json())
 
@@ -131,7 +134,7 @@ export const syncNotes = createAsyncThunk<Note[], Note[]>(
         return data.notes
       } else if (success === false && error.code === 202) {
         console.log('Notes have conflicts. Please resolve them')
-        throw new Error()
+        return data.notes
       } else {
         throw new Error(data.error.message)
       }
@@ -158,6 +161,7 @@ export const NotesSlice = createSlice({
       })
       .addCase(syncNotes.fulfilled, (state, action) => {
         state.syncing = false
+        state.synced = true
         state.notes = action.payload
         if (state.openedNote) {
           state.openedNote = {
@@ -167,7 +171,7 @@ export const NotesSlice = createSlice({
         }
       })
       .addCase(syncNotes.rejected, (state) => {
-        state.syncing = true
+        state.syncing = false
       })
   }
 })
