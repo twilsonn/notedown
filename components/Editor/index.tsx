@@ -18,44 +18,34 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { useSession } from 'next-auth/react'
 
 const TipTapEditor = () => {
-  const { openedNote, notes, lastSync, syncing } = useAppSelector(
-    (state) => state.notes.present
-  )
+  const { openedNote, syncing } = useAppSelector((state) => state.notes.present)
   const dispatch = useAppDispatch()
 
   const { data: session } = useSession()
 
+  const debouncedSync = useMemo(
+    () => debounce(() => dispatch<any>(syncNotes()), 10000),
+    [dispatch]
+  )
+
   const updateOpenedNote = useMemo(() => {
     return (e: Editor) => {
       if (openedNote) {
-        const newTime = new Date(Date.now()).getTime()
-
-        const newOpenedNote = {
-          ...openedNote.note,
-          content: e.getJSON(),
-          title: e.getText().split('\n')[0],
-          updatedAt: newTime
-        }
-
-        console.log('Updated time', newTime)
-
-        dispatch(updateNote(newOpenedNote))
+        dispatch(
+          updateNote({
+            ...openedNote.note,
+            content: e.getJSON(),
+            title: e.getText().split('\n')[0],
+            updatedAt: new Date(Date.now()).getTime()
+          })
+        )
 
         if (session?.user) {
-          dispatch<any>(
-            syncNotes(
-              notes.map((n) => {
-                if (n.id === openedNote.id) {
-                  return newOpenedNote
-                }
-                return n
-              })
-            )
-          )
+          debouncedSync()
         }
       }
     }
-  }, [dispatch, notes, openedNote, session])
+  }, [debouncedSync, dispatch, openedNote, session?.user])
 
   const debouncedUpdateOpenedNote = useMemo(
     () => debounce((editor: Editor) => updateOpenedNote(editor), 500),
