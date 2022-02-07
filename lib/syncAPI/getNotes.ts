@@ -1,6 +1,5 @@
 import { DynamoDBDocument, GetCommandInput } from '@aws-sdk/lib-dynamodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Session } from 'next-auth'
 import { Note } from '../../store/reducers/notesSlicer/types'
 import { SyncResponse } from './types'
 import validateSync from './validateSync'
@@ -10,9 +9,16 @@ const getNotes = async (
   res: NextApiResponse,
   { client, id }: { client: DynamoDBDocument; id: string }
 ): Promise<SyncResponse> => {
-  const body: {
-    notes: Note[]
-  } = JSON.parse(req.body)
+  let body:
+    | {
+        notes: Note[]
+        lastSync: number
+      }
+    | undefined = undefined
+
+  try {
+    body = JSON.parse(req.body)
+  } catch (error) {}
 
   let get: GetCommandInput = {
     TableName: process.env.NOTEDOWN_DB_NAME,
@@ -23,53 +29,54 @@ const getNotes = async (
   }
 
   try {
-    const data = await client.get(get)
-    if (data.$metadata.httpStatusCode === 200 && data.Item) {
-      const checkSync = validateSync(body.notes, JSON.parse(data.Item.notes))
-      console.log(checkSync)
-      if (checkSync === 'valid') {
-        return Promise.resolve({
-          success: true,
-          data: {
-            notes: JSON.parse(data.Item.notes)
-          }
-        })
-      } else if (checkSync === 'conflicts') {
-        return Promise.resolve({
-          success: false,
-          error: {
-            message: 'sync failed. conflicts',
-            code: 202
-          },
-          data: {
-            current_notes: body.notes,
-            synced_notes: JSON.parse(data.Item.notes)
-          }
-        })
-      } else {
-        return Promise.resolve({
-          success: false,
-          data: {
-            notes: body.notes
-          }
-        })
-      }
+    const { Item } = await client.get(get)
+
+    if (!Item) {
+      return Promise.resolve({
+        success: false,
+        type: 'desynced',
+        error: {
+          code: 204,
+          message: 'getSync: service error - Notes not found'
+        }
+      })
     }
 
+    if (!body || body.lastSync === null) {
+      // * If local hasn't synced or both versions are the same => return last synced version
+      return Promise.resolve({
+        success: true,
+        type: 'synced',
+        data: {
+          notes: JSON.parse(Item.notes),
+          lastSync: Item.expires
+        }
+      })
+    } else if (body.lastSync < Item.expires) {
+      // * If local last sync is less than DB last sync => ask user which one they want
+      return Promise.resolve({
+        success: true,
+        type: 'error',
+        data: {
+          notes: JSON.parse(Item.notes),
+          lastSync: Item.expires
+        }
+      })
+    }
+
+    // * Update values in DB
     return Promise.resolve({
-      success: false,
-      error: {
-        code: 204,
-        message: 'GET: service error - Not found'
-      }
+      success: true,
+      type: 'desynced'
     })
   } catch (err) {
     console.log(err)
-    return Promise.resolve({
+    return Promise.reject({
       success: false,
+      type: 'error',
       error: {
         code: 500,
-        message: 'GET: service error - Internal Error with DB'
+        message: 'Internal Error'
       }
     })
   }
