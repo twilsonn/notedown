@@ -21,6 +21,7 @@ interface NotesStateInterface {
     | undefined
   syncing: boolean
   synced: boolean
+  lastSync: number | null
 }
 
 const d = new Date(Date.now()).getTime()
@@ -43,7 +44,8 @@ const initialState: NotesStateInterface = {
     note: notes[0]
   },
   synced: false,
-  syncing: false
+  syncing: false,
+  lastSync: null
 }
 
 export type NotesState = typeof initialState
