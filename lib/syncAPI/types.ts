@@ -1,34 +1,25 @@
 import { Note } from '../../store/reducers/notesSlicer/types'
 
-type GetNotesValid = {
+type SyncResponse = {
   success: boolean
+  type: 'synced' | 'desynced' | 'error'
   error?: {
     message: string
     code: number
   }
-  data: {
+  data?: {
     notes: Note[]
+    lastSync: number
   }
 }
 
-type GetNotesConflicted = {
+type LastSyncResponse = {
   success: boolean
   error?: {
     message: string
     code: number
   }
-  data: {
-    current_notes: Note[]
-    synced_notes: Note[]
-  }
+  lastSync?: number
 }
 
-type GetNotesError = {
-  success: boolean
-  error?: {
-    message: string
-    code: number
-  }
-}
-
-export type SyncResponse = GetNotesValid | GetNotesConflicted | GetNotesError
+export type { LastSyncResponse, SyncResponse }
