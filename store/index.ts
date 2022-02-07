@@ -16,14 +16,14 @@ import storage from './sync_storage'
 
 import notesReducer from './reducers/notesSlicer'
 import { NotesStateInterface } from './reducers/notesSlicer/types'
-import { persistMigrate } from './migrations'
+import { persistMigrate, persistVersion } from './migrations'
 
 const makeStore = () => {
   const persistConfig = {
     key: 'nextjs',
     whitelist: ['counter'],
     storage,
-    version: 1,
+    version: persistVersion,
     migrate: persistMigrate
   }
 
