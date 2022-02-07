@@ -14,6 +14,8 @@ const syncNotes = async (
     notes: Note[]
   } = JSON.parse(req.body)
 
+  const expires = dayjs(new Date()).add(60, 'day').unix()
+
   let put: PutCommandInput = {
     TableName: process.env.NOTEDOWN_DB_NAME,
     Item: {
@@ -21,12 +23,13 @@ const syncNotes = async (
       sk: `NOTES#${id}`,
       notes: JSON.stringify(body.notes),
       type: 'NOTES',
-      expires: dayjs(new Date()).add(60, 'day').unix()
+      expires: expires
     }
   }
 
   try {
     const data = await client.put(put)
+    console.log(data)
 
     if (data.$metadata.httpStatusCode !== 200) {
       throw new Error('Internal error')
@@ -34,13 +37,16 @@ const syncNotes = async (
 
     return Promise.resolve({
       success: true,
+      type: 'synced',
       data: {
-        notes: body.notes
+        notes: body.notes,
+        lastSync: expires
       }
     })
   } catch (err) {
     return Promise.resolve({
       success: false,
+      type: 'error',
       error: {
         code: 500,
         message: 'PUT: service error'
