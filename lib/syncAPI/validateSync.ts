@@ -1,28 +1,28 @@
+import dayjs from 'dayjs'
 import { Note } from '../../store/reducers/notesSlicer/types'
 
 type ValidationResponse = 'valid' | 'conflicts' | 'invalid'
 /**
  * validateSync - Checks if the current state notes matches the synced database notes
- * @param  {Note[]} currentNotes Notes saved in state
- * @param  {Note[]} newNotes Notes saved in database
+ * @param  {Note[]} newNotes Notes saved in state
+ * @param  {Note[]} syncedNotes Notes saved in database
  * @return {ValidationResponse}
  */
 const validateSync = (
-  currentNotes: Note[],
-  newNotes: Note[]
+  newNotes: Note[],
+  syncedNotes: Note[]
 ): ValidationResponse => {
   const checkIdentical =
-    JSON.stringify(currentNotes) === JSON.stringify(newNotes)
+    JSON.stringify(newNotes) === JSON.stringify(syncedNotes)
 
-  const checkForNewNotes = currentNotes.length >= newNotes.length
+  const checkForNewNotes = newNotes.length >= syncedNotes.length
 
-  console.log(checkIdentical)
-
-  const checkVersions = currentNotes.some((n1) => {
-    return newNotes.some((n2) => {
+  const checkVersions = newNotes.some((n1) => {
+    return syncedNotes.some((n2) => {
+      if (n1.id === n2.id) {
+        console.log(dayjs(n1.updatedAt).diff(n2.updatedAt))
+      }
       if (n1.id === n2.id && n1.updatedAt < n2.updatedAt) {
-        console.log(n1.updatedAt, n2.updatedAt)
-        console.log(n1.title, n2.title)
         return true
       }
     })
@@ -30,7 +30,7 @@ const validateSync = (
 
   if (checkIdentical) {
     return 'valid'
-  } else if (!checkIdentical && checkVersions) {
+  } else if (checkVersions) {
     return 'conflicts'
   } else {
     return 'invalid'
