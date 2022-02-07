@@ -5,6 +5,7 @@ import { DynamoDB, DynamoDBClientConfig } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb'
 import getNotes from '../../lib/syncAPI/getNotes'
 import syncNotes from '../../lib/syncAPI/syncNotes'
+import { Note } from '../../store/reducers/notesSlicer/types'
 
 const config: DynamoDBClientConfig = {
   credentials: {
@@ -40,23 +41,29 @@ export default async function handler(
 
   const session = await getSession({ req })
 
+  let body:
+    | {
+        notes: Note[]
+        lastSync: number
+      }
+    | undefined = undefined
+
+  try {
+    body = JSON.parse(req.body)
+  } catch (error) {}
+
   if (session && session.user) {
     await sleep(1000)
 
     const id = session.user.id
+
     const get = await getNotes(req, res, { client, id })
-    if (get.success) {
-      // success
-      console.log('success')
-      res.json(get)
-    } else if (get.error?.code === 202 || get.error?.code === 500) {
-      res.statusCode = get.error.code
-      console.log('success with errors')
-      res.json(get)
-    } else {
+
+    if (get.success && get.type === 'synced') {
+      return res.json(get)
+    } else if (get.type === 'desynced') {
       const put = await syncNotes(req, res, { client, id })
       res.statusCode = put.error?.code! | 200
-      console.log(put)
       return res.json(put)
     }
   }
