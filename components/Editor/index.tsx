@@ -18,13 +18,15 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { useSession } from 'next-auth/react'
 
 const TipTapEditor = () => {
-  const { openedNote, syncing } = useAppSelector((state) => state.notes.present)
+  const { openedNote, syncing, lastSync } = useAppSelector(
+    (state) => state.notes.present
+  )
   const dispatch = useAppDispatch()
 
   const { data: session } = useSession()
 
   const debouncedSync = useMemo(
-    () => debounce(() => dispatch<any>(syncNotes()), 10000),
+    () => debounce(() => dispatch<any>(syncNotes()), 1000),
     [dispatch]
   )
 
@@ -65,7 +67,7 @@ const TipTapEditor = () => {
         }
       }
     },
-    [openedNote?.id, session]
+    [openedNote?.id, session, syncing, lastSync]
   )
 
   return (
