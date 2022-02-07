@@ -117,32 +117,57 @@ const removeNoteAction: CaseReducer<NotesState, PayloadAction<string>> = (
   }
 }
 
-export const syncNotes = createAsyncThunk<Note[], void, { state: AppState }>(
-  'notes/syncNotes',
-  async (_, api) => {
-    const state = api.getState()
-    try {
-      const { success, data, error } = await fetch('api/sync', {
-        method: 'post',
-        body: JSON.stringify({
-          notes: state.notes.present.notes
-        })
-      }).then((res) => res.json())
+export const syncNotes = createAsyncThunk<
+  { notes: Note[]; lastSync: number },
+  void,
+  { state: AppState }
+>('notes/syncNotes', async (_, api) => {
+  const state = api.getState()
 
-      if (success) {
-        console.log('Notes are up to date.')
-        return data.notes
-      } else if (success === false && error.code === 202) {
-        console.log('Notes have conflicts. Please resolve them')
-        return data.notes
-      } else {
-        throw new Error(data.error.message)
-      }
-    } catch (error) {
-      throw new Error()
+  try {
+    const { success, data, error } = await fetch('api/sync', {
+      method: 'post',
+      body: JSON.stringify({
+        notes: state.notes.present.notes,
+        lastSync: state.notes.present.lastSync
+      })
+    }).then((res) => res.json())
+
+    if (success) {
+      return { notes: data.notes, lastSync: data.lastSync }
+    } else if (success === false && error.code === 202) {
+      console.log('Notes have conflicts. Please resolve them')
+      return { notes: data.notes, lastSync: data.lastSync }
+    } else {
+      throw new Error(data.error.message)
     }
+  } catch (error) {
+    throw new Error()
   }
-)
+})
+
+export const detectSyncAlignment = createAsyncThunk<
+  { lastSync: number },
+  void,
+  { state: AppState }
+>('notes/detectSyncAlignment', async (_, api) => {
+  const state = api.getState()
+  try {
+    const { success, data, error } = await fetch('api/lastSync', {
+      method: 'get'
+    }).then((res) => res.json())
+
+    if (success) {
+      if (data.lastSync === state.notes.present.lastSync) {
+        return { lastSync: data.lastSync }
+      }
+    }
+
+    throw new Error()
+  } catch (error) {
+    throw new Error()
+  }
+})
 
 export const NotesSlice = createSlice({
   name: 'notes',
@@ -162,16 +187,26 @@ export const NotesSlice = createSlice({
       .addCase(syncNotes.fulfilled, (state, action) => {
         state.syncing = false
         state.synced = true
-        state.notes = action.payload
-        if (state.openedNote) {
+        state.notes = action.payload.notes
+
+        console.log('Payload Last Sync', action.payload.lastSync)
+
+        state.lastSync = action.payload.lastSync
+
+        if (state.openedNote && action.payload.notes.length > 0) {
           state.openedNote = {
             ...state.openedNote,
-            note: action.payload.filter((n) => n.id === state.openedNote?.id)[0]
+            note: action.payload.notes[0]
           }
         }
       })
       .addCase(syncNotes.rejected, (state) => {
         state.syncing = false
+        state.synced = false
+      })
+
+      .addCase(detectSyncAlignment.rejected, (state) => {
+        state.synced = false
       })
   }
 })
