@@ -13,7 +13,7 @@ import { PlusIcon } from '@heroicons/react/solid'
 const Notes: React.FC = () => {
   const noteState = useAppSelector((state) => state.notes.present)
 
-  const { openedNote, notes, syncing } = noteState
+  const { openedNote, notes, syncing, lastSync } = noteState
 
   const dispatch = useAppDispatch()
 
@@ -48,7 +48,7 @@ const Notes: React.FC = () => {
       </div>
 
       <PerfectScrollbar>
-        {false ? (
+        {lastSync === null && syncing ? (
           <ul className="space-y-4 px-4 overflow-y-auto pb-4 pt-1.5">
             <NotesLoader />
             <NotesLoader />
