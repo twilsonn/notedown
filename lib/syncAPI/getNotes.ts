@@ -13,6 +13,7 @@ const getNotes = async (
     | {
         notes: Note[]
         lastSync: number
+        lastUpdate: number
       }
     | undefined = undefined
 
@@ -42,25 +43,32 @@ const getNotes = async (
       })
     }
 
-    if (!body || body.lastSync === null) {
+    const data = {
+      notes: JSON.parse(Item.notes),
+      lastSync: Item.expires,
+      lastUpdate: Item.lastUpdate
+    }
+
+    if (!body || body.lastUpdate < Item.lastUpdate) {
+      // * If local hasn't synced or both versions are the same => return last synced version
+      return Promise.resolve({
+        success: true,
+        type: 'conflicts',
+        data
+      })
+    } else if (!body || body.lastSync === null) {
       // * If local hasn't synced or both versions are the same => return last synced version
       return Promise.resolve({
         success: true,
         type: 'synced',
-        data: {
-          notes: JSON.parse(Item.notes),
-          lastSync: Item.expires
-        }
+        data
       })
     } else if (body.lastSync < Item.expires) {
       // * If local last sync is less than DB last sync => ask user which one they want
       return Promise.resolve({
         success: true,
         type: 'error',
-        data: {
-          notes: JSON.parse(Item.notes),
-          lastSync: Item.expires
-        }
+        data
       })
     }
 
