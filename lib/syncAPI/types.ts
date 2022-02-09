@@ -2,7 +2,7 @@ import { Note } from '../../store/reducers/notesSlicer/types'
 
 type SyncResponse = {
   success: boolean
-  type: 'synced' | 'desynced' | 'error'
+  type: 'synced' | 'desynced' | 'error' | 'conflicts'
   error?: {
     message: string
     code: number
