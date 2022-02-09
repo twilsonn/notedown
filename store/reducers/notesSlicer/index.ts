@@ -118,26 +118,32 @@ const removeNoteAction: CaseReducer<NotesState, PayloadAction<string>> = (
 }
 
 export const syncNotes = createAsyncThunk<
-  { notes: Note[]; lastSync: number },
+  { notes: Note[]; lastSync: number; lastUpdate?: number },
   void,
   { state: AppState }
 >('notes/syncNotes', async (_, api) => {
   const state = api.getState()
 
   try {
-    const { success, data, error } = await fetch('api/sync', {
+    const { success, type, data, error } = await fetch('api/sync', {
       method: 'post',
       body: JSON.stringify({
         notes: state.notes.present.notes,
-        lastSync: state.notes.present.lastSync
+        lastSync: state.notes.present.lastSync,
+        lastUpdate: state.notes.present.lastUpdate
       })
     }).then((res) => res.json())
 
     if (success) {
-      return { notes: data.notes, lastSync: data.lastSync }
-    } else if (success === false && error.code === 202) {
-      console.log('Notes have conflicts. Please resolve them')
-      return { notes: data.notes, lastSync: data.lastSync }
+      if (type === 'synced') {
+        return { notes: data.notes, lastSync: data.lastSync }
+      } else {
+        return {
+          notes: data.notes,
+          lastSync: data.lastSync,
+          lastUpdate: data.lastUpdate
+        }
+      }
     } else {
       throw new Error(data.error.message)
     }
@@ -185,18 +191,25 @@ export const NotesSlice = createSlice({
         state.syncing = true
       })
       .addCase(syncNotes.fulfilled, (state, action) => {
-        state.syncing = false
-        state.synced = true
-        state.notes = action.payload.notes
+        if (action.payload.lastUpdate) {
+          console.log('conflicts')
 
-        console.log('Payload Last Sync', action.payload.lastSync)
+          state.syncing = false
+          state.synced = false
+        } else {
+          state.syncing = false
+          state.synced = true
+          state.notes = action.payload.notes
 
-        state.lastSync = action.payload.lastSync
+          console.log('Payload Last Sync', action.payload.lastSync)
 
-        if (state.openedNote && action.payload.notes.length > 0) {
-          state.openedNote = {
-            ...state.openedNote,
-            note: action.payload.notes[0]
+          state.lastSync = action.payload.lastSync
+
+          if (state.openedNote && action.payload.notes.length > 0) {
+            state.openedNote = {
+              ...state.openedNote,
+              note: action.payload.notes[0]
+            }
           }
         }
       })
