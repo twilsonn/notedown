@@ -41,17 +41,6 @@ export default async function handler(
 
   const session = await getSession({ req })
 
-  let body:
-    | {
-        notes: Note[]
-        lastSync: number
-      }
-    | undefined = undefined
-
-  try {
-    body = JSON.parse(req.body)
-  } catch (error) {}
-
   if (session && session.user) {
     await sleep(1000)
 
@@ -59,9 +48,9 @@ export default async function handler(
 
     const get = await getNotes(req, res, { client, id })
 
-    if (get.success && get.type === 'synced') {
+    if (get.type !== 'desynced') {
       return res.json(get)
-    } else if (get.type === 'desynced') {
+    } else {
       const put = await syncNotes(req, res, { client, id })
       res.statusCode = put.error?.code! | 200
       return res.json(put)
