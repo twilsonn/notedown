@@ -22,6 +22,12 @@ interface NotesStateInterface {
   syncing: boolean
   synced: boolean
   lastSync: number | null
+  lastUpdate: number | null
+  conflictModal: {
+    show: boolean
+    currentNotes: Note[] | null
+    syncedNotes: Note[] | null
+  }
 }
 
 const d = new Date(Date.now()).getTime()
@@ -45,7 +51,13 @@ const initialState: NotesStateInterface = {
   },
   synced: false,
   syncing: false,
-  lastSync: null
+  lastSync: null,
+  lastUpdate: d,
+  conflictModal: {
+    show: false,
+    currentNotes: null,
+    syncedNotes: null
+  }
 }
 
 export type NotesState = typeof initialState
