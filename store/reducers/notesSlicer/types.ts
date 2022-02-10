@@ -27,6 +27,7 @@ interface NotesStateInterface {
     show: boolean
     currentNotes: Note[] | null
     syncedNotes: Note[] | null
+    lastUpdate: number | null
   }
 }
 
@@ -56,7 +57,8 @@ const initialState: NotesStateInterface = {
   conflictModal: {
     show: false,
     currentNotes: null,
-    syncedNotes: null
+    syncedNotes: null,
+    lastUpdate: null
   }
 }
 
