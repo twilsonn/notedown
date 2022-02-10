@@ -29,54 +29,65 @@ function sleep(ms: number) {
   })
 }
 
+import rateLimit from '../../lib/rate-limit'
+
+const limiter = rateLimit({
+  interval: 60 * 1000, // 60 seconds
+  uniqueTokenPerInterval: 500 // Max 500 users per second
+})
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   await NextCors(req, res, {
-    methods: ['POST'],
+    methods: ['POST', 'GET'],
     origin: '*',
     optionsSuccessStatus: 200
   })
 
-  const session = await getSession({ req })
+  try {
+    await limiter.check(res, 10, 'CACHE_TOKEN')
 
-  if (session && session.user) {
-    await sleep(1000)
+    const session = await getSession({ req })
 
-    const id = session.user.id
+    if (session && session.user) {
+      const id = session.user.id
 
-    let body:
-      | {
-          notes: Note[]
-          lastSync: number
-          lastUpdate: number
-          overwrite: boolean
-        }
-      | undefined = undefined
+      let body:
+        | {
+            notes: Note[]
+            lastSync: number
+            lastUpdate: number
+            overwrite: boolean
+          }
+        | undefined = undefined
 
-    try {
-      body = JSON.parse(req.body)
-    } catch (error) {
-      console.log(error)
+      try {
+        body = JSON.parse(req.body)
+      } catch (error) {
+        console.log(error)
+      }
+
+      if (body?.overwrite) {
+        const put = await syncNotes(req, res, { client, id })
+        res.statusCode = put.error?.code! | 200
+        return res.json(put)
+      }
+
+      const get = await getNotes(req, res, { client, id })
+
+      if (get.type !== 'desynced') {
+        return res.json(get)
+      } else {
+        const put = await syncNotes(req, res, { client, id })
+        res.statusCode = put.error?.code! | 200
+        return res.json(put)
+      }
     }
 
-    if (body?.overwrite) {
-      const put = await syncNotes(req, res, { client, id })
-      res.statusCode = put.error?.code! | 200
-      return res.json(put)
-    }
-
-    const get = await getNotes(req, res, { client, id })
-
-    if (get.type !== 'desynced') {
-      return res.json(get)
-    } else {
-      const put = await syncNotes(req, res, { client, id })
-      res.statusCode = put.error?.code! | 200
-      return res.json(put)
-    }
+    return res.status(500)
+  } catch (error) {
+    res.status(429).json({ error: 'Rate limit exceeded' })
   }
-
-  return res.status(500)
 }
