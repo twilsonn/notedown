@@ -8,13 +8,13 @@ import TimeAgo from '../TimeAgo'
 const NoteCard: React.FC<
   React.HTMLAttributes<HTMLButtonElement> & {
     note: Note
-    isactive: string
+    open: boolean
   }
 > = (props) => {
   const contentLength = 120
   const titleLength = 20
 
-  const { note, isactive } = props
+  const { note, open } = props
   const { title, updatedAt } = note
 
   const content = generateText(note.content, extensions)
@@ -31,7 +31,7 @@ const NoteCard: React.FC<
       className={`w-full text-left prose dark:prose-invert px-3 py-2 rounded-lg cursor-pointer select-none group
         hover:bg-gray-300 dark:hover:bg-stone-700
         focus:outline-none  focus:ring-2 focus:ring-blue-400 transition-colors ${
-          isactive === 'true'
+          open === true
             ? 'bg-gray-300 dark:bg-stone-700 text-black dark:text-stone-100'
             : 'bg-gray-200 dark:bg-stone-800 dark:text-stone-200'
         }`}

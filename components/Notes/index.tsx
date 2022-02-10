@@ -63,7 +63,7 @@ const Notes: React.FC = () => {
                 <NoteCard
                   onClick={() => dispatch(openNote(note.id))}
                   note={note}
-                  isactive={`${note.id === openedNote?.id}`}
+                  open={openedNote && note.id === openedNote.id ? true : false}
                 />
               </li>
             ))}
