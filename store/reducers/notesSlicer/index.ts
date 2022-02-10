@@ -117,11 +117,35 @@ const removeNoteAction: CaseReducer<NotesState, PayloadAction<string>> = (
   }
 }
 
+const updateNotesAction: CaseReducer<
+  NotesState,
+  PayloadAction<{ notes: Note[]; lastUpdate: number }>
+> = (state, action) => {
+  console.log(action.payload.notes)
+  return {
+    ...state,
+    notes: action.payload.notes,
+    openedNote: {
+      id: action.payload.notes[0].id,
+      note: action.payload.notes[0]
+    },
+    conflictModal: {
+      show: false,
+      syncedNotes: null,
+      currentNotes: null,
+      lastUpdate: null
+    },
+    lastUpdate: action.payload.lastUpdate,
+    lastSync: new Date().getTime(),
+    synced: true
+  }
+}
+
 export const syncNotes = createAsyncThunk<
   { notes: Note[]; lastSync: number; lastUpdate?: number },
-  void,
+  boolean,
   { state: AppState }
->('notes/syncNotes', async (_, api) => {
+>('notes/syncNotes', async (overwrite, api) => {
   const state = api.getState()
 
   try {
@@ -130,7 +154,8 @@ export const syncNotes = createAsyncThunk<
       body: JSON.stringify({
         notes: state.notes.present.notes,
         lastSync: state.notes.present.lastSync,
-        lastUpdate: state.notes.present.lastUpdate
+        lastUpdate: state.notes.present.lastUpdate,
+        overwrite: overwrite
       })
     }).then((res) => res.json())
 
@@ -152,29 +177,6 @@ export const syncNotes = createAsyncThunk<
   }
 })
 
-export const detectSyncAlignment = createAsyncThunk<
-  { lastSync: number },
-  void,
-  { state: AppState }
->('notes/detectSyncAlignment', async (_, api) => {
-  const state = api.getState()
-  try {
-    const { success, data, error } = await fetch('api/lastSync', {
-      method: 'get'
-    }).then((res) => res.json())
-
-    if (success) {
-      if (data.lastSync === state.notes.present.lastSync) {
-        return { lastSync: data.lastSync }
-      }
-    }
-
-    throw new Error()
-  } catch (error) {
-    throw new Error()
-  }
-})
-
 export const NotesSlice = createSlice({
   name: 'notes',
   initialState,
@@ -183,7 +185,8 @@ export const NotesSlice = createSlice({
     updateNote: updateNoteAction,
     openNote: openNoteAction,
     removeNote: removeNoteAction,
-    toggleNoteSaved: toggleNoteSavedAction
+    toggleNoteSaved: toggleNoteSavedAction,
+    updateNotes: updateNotesAction
   },
   extraReducers: (builder) => {
     builder
@@ -192,23 +195,35 @@ export const NotesSlice = createSlice({
       })
       .addCase(syncNotes.fulfilled, (state, action) => {
         if (action.payload.lastUpdate) {
-          console.log('conflicts')
-
-          state.syncing = false
-          state.synced = false
+          return {
+            ...state,
+            syncing: false,
+            synced: false,
+            conflictModal: {
+              currentNotes: state.notes,
+              syncedNotes: action.payload.notes,
+              show: true,
+              lastUpdate: action.payload.lastUpdate
+            }
+          }
         } else {
-          state.syncing = false
-          state.synced = true
-          state.notes = action.payload.notes
-
-          console.log('Payload Last Sync', action.payload.lastSync)
-
-          state.lastSync = action.payload.lastSync
-
-          if (state.openedNote && action.payload.notes.length > 0) {
-            state.openedNote = {
-              ...state.openedNote,
-              note: action.payload.notes[0]
+          return {
+            ...state,
+            syncing: false,
+            synced: true,
+            notes: action.payload.notes,
+            openedNote:
+              state.openedNote && action.payload.notes.length > 0
+                ? {
+                    ...state.openedNote,
+                    note: action.payload.notes[0]
+                  }
+                : undefined,
+            conflictModal: {
+              currentNotes: null,
+              syncedNotes: null,
+              show: false,
+              lastUpdate: null
             }
           }
         }
@@ -216,15 +231,22 @@ export const NotesSlice = createSlice({
       .addCase(syncNotes.rejected, (state) => {
         state.syncing = false
         state.synced = false
-      })
-
-      .addCase(detectSyncAlignment.rejected, (state) => {
-        state.synced = false
+        return {
+          ...state,
+          synced: false,
+          syncing: false
+        }
       })
   }
 })
 
-export const { newNote, updateNote, openNote, removeNote, toggleNoteSaved } =
-  NotesSlice.actions
+export const {
+  newNote,
+  updateNote,
+  openNote,
+  removeNote,
+  toggleNoteSaved,
+  updateNotes
+} = NotesSlice.actions
 
 export default NotesSlice
