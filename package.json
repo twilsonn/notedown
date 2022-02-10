@@ -9,9 +9,9 @@
     "url": "https://github.com/twilsonn"
   },
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node server.js",
+    "dev": "next dev",
     "build": "next build",
-    "start": "cross-env NODE_ENV=production node server.js",
+    "start": "next start",
     "lint": "next lint",
     "postinstall": "patch-package"
   },
