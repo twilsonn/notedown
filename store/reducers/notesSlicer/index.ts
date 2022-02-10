@@ -199,6 +199,7 @@ export const NotesSlice = createSlice({
             ...state,
             syncing: false,
             synced: false,
+            lastSync: new Date().getTime(),
             conflictModal: {
               currentNotes: state.notes,
               syncedNotes: action.payload.notes,
@@ -212,6 +213,7 @@ export const NotesSlice = createSlice({
             syncing: false,
             synced: true,
             notes: action.payload.notes,
+            lastSync: new Date().getTime(),
             openedNote:
               state.openedNote && action.payload.notes.length > 0
                 ? {
@@ -229,8 +231,6 @@ export const NotesSlice = createSlice({
         }
       })
       .addCase(syncNotes.rejected, (state) => {
-        state.syncing = false
-        state.synced = false
         return {
           ...state,
           synced: false,
