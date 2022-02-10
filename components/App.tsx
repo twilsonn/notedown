@@ -7,6 +7,7 @@ import ContextMenuWrapper from './ContextMenuWrapper'
 import ControlBar from './ControlBar'
 
 import Notes from './Notes'
+import SyncConflict from './SyncConflict'
 
 const LazyEditor = dynamic(() => import('./Editor'), {
   ssr: false
@@ -19,7 +20,7 @@ function App() {
 
   useEffect(() => {
     if (session?.user) {
-      dispatch<any>(syncNotes())
+      dispatch<any>(syncNotes(false))
     }
   }, [dispatch, session?.user])
 
@@ -33,6 +34,7 @@ function App() {
       <div className="flex flex-col w-full min-h-screen lg:w-2/3 lg:ml-[33.333333%] xl:w-3/4 xl:ml-[25%] 2xl:w-4/5 2xl:ml-[20%] bg-white dark:bg-stone-800 transition-colors">
         {lastSync === null && syncing ? null : <LazyEditor />}
       </div>
+      <SyncConflict />
       <ControlBar />
     </div>
   )
