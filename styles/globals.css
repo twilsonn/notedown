@@ -3,33 +3,7 @@
 @tailwind utilities;
 
 html {
-  overflow-y: overlay;
   @apply bg-white dark:bg-stone-800 transition-colors;
-}
-
-html {
-  --scrollbarBG: rgb(243 244 246);
-  --thumbBG: rgb(209 213 219);
-}
-
-.scrollbar::-webkit-scrollbar {
-  @apply w-4;
-}
-
-.scrollbar::-webkit-scrollbar-track {
-  @apply bg-gray-200 dark:bg-stone-600;
-}
-
-html::-webkit-scrollbar-track {
-  @apply mb-8;
-}
-
-.scrollbar::-webkit-scrollbar-thumb {
-  @apply border-4 border-solid rounded-full border-gray-200 bg-gray-400 dark:border-stone-600 dark:bg-stone-800;
-}
-
-.scrollbar::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-500 dark:bg-stone-900;
 }
 
 .szh-menu-container {

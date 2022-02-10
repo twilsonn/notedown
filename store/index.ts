@@ -2,7 +2,12 @@ import { createWrapper } from 'next-redux-wrapper'
 import { configureStore, EnhancedStore, ThunkAction } from '@reduxjs/toolkit'
 import { Action, AnyAction, combineReducers, EmptyObject } from 'redux'
 import thunkMiddleware from 'redux-thunk'
-import { persistStore, persistReducer, Persistor } from 'redux-persist'
+import {
+  persistStore,
+  persistReducer,
+  Persistor,
+  createMigrate
+} from 'redux-persist'
 import undoable, { StateWithHistory } from 'redux-undo'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { PersistPartial } from 'redux-persist/lib/persistReducer'
@@ -11,12 +16,15 @@ import storage from './sync_storage'
 
 import notesReducer from './reducers/notesSlicer'
 import { NotesStateInterface } from './reducers/notesSlicer/types'
+import { persistMigrate, persistVersion } from './migrations'
 
 const makeStore = () => {
   const persistConfig = {
     key: 'nextjs',
     whitelist: ['counter'],
-    storage
+    storage,
+    version: persistVersion,
+    migrate: persistMigrate
   }
 
   const persistedNoteReducer = persistReducer(
@@ -42,10 +50,7 @@ const makeStore = () => {
   > & { __persistor?: Persistor } = configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().prepend(
-        // correctly typed middlewares can just be used
-        thunkMiddleware
-      )
+      getDefaultMiddleware().prepend(thunkMiddleware)
   })
 
   store.__persistor = persistStore(store)

@@ -19,6 +19,16 @@ interface NotesStateInterface {
         note: Note
       }
     | undefined
+  syncing: boolean
+  synced: boolean
+  lastSync: number | null
+  lastUpdate: number | null
+  conflictModal: {
+    show: boolean
+    currentNotes: Note[] | null
+    syncedNotes: Note[] | null
+    lastUpdate: number | null
+  }
 }
 
 const d = new Date(Date.now()).getTime()
@@ -39,6 +49,16 @@ const initialState: NotesStateInterface = {
   openedNote: {
     id: notes[0].id,
     note: notes[0]
+  },
+  synced: false,
+  syncing: false,
+  lastSync: null,
+  lastUpdate: d,
+  conflictModal: {
+    show: false,
+    currentNotes: null,
+    syncedNotes: null,
+    lastUpdate: null
   }
 }
 

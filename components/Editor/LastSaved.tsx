@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
+import {
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+  RefreshIcon
+} from '@heroicons/react/solid'
+import { motion } from 'framer-motion'
+import Tippy from '@tippyjs/react'
 
 import { useAppSelector } from '../../store'
 import TimeAgo from '../TimeAgo'
@@ -18,7 +24,9 @@ const TimeNow: React.FC<React.HTMLAttributes<HTMLSpanElement>> = (props) => {
 }
 
 const LastSaved: React.FC = () => {
-  const openedNote = useAppSelector((state) => state.notes.present.openedNote)
+  const { openedNote, synced, syncing } = useAppSelector(
+    (state) => state.notes.present
+  )
 
   return (
     <div className="flex text-xs divide-x-2 text-gray-700 divide-gray-400 dark:text-stone-300 dark:divide-stone-700">
@@ -34,11 +42,37 @@ const LastSaved: React.FC = () => {
           ) : null}
 
           <div className="pl-2">
-            {openedNote?.note.saved ? (
-              <CheckCircleIcon className="w-4 h-4 text-emerald-500" />
-            ) : (
-              <ExclamationCircleIcon className="w-4 h-4 text-amber-500" />
-            )}
+            <Tippy
+              content={
+                synced
+                  ? 'synced'
+                  : openedNote?.note.saved
+                  ? 'saved'
+                  : 'not saved'
+              }
+            >
+              <div>
+                {syncing ? (
+                  <motion.div
+                    animate={{ rotate: '-360deg' }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 1,
+                      type: 'tween',
+                      ease: 'linear'
+                    }}
+                  >
+                    <RefreshIcon className="w-4 h-4 text-blue-400" />
+                  </motion.div>
+                ) : openedNote?.note.saved && synced ? (
+                  <CheckCircleIcon className="w-4 h-4 text-blue-400" />
+                ) : openedNote?.note.saved ? (
+                  <CheckCircleIcon className="w-4 h-4 text-emerald-400" />
+                ) : (
+                  <ExclamationCircleIcon className="w-4 h-4 text-amber-400" />
+                )}
+              </div>
+            </Tippy>
           </div>
         </>
       ) : (

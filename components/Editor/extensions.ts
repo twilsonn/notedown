@@ -60,8 +60,8 @@ const extensions: Extensions = [
     types: ['textStyle']
   }),
 
-  // SmilieReplacer,
-  // ColorHighlighter,
+  SmilieReplacer,
+  ColorHighlighter,
   TextAlign.configure({
     types: ['heading', 'paragraph']
   }),
