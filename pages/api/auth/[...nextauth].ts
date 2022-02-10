@@ -50,6 +50,7 @@ export default NextAuth({
       return token
     }
   },
+  debug: true,
   session: {
     strategy: 'jwt'
   }
