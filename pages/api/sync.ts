@@ -46,6 +46,27 @@ export default async function handler(
 
     const id = session.user.id
 
+    let body:
+      | {
+          notes: Note[]
+          lastSync: number
+          lastUpdate: number
+          overwrite: boolean
+        }
+      | undefined = undefined
+
+    try {
+      body = JSON.parse(req.body)
+    } catch (error) {
+      console.log(error)
+    }
+
+    if (body?.overwrite) {
+      const put = await syncNotes(req, res, { client, id })
+      res.statusCode = put.error?.code! | 200
+      return res.json(put)
+    }
+
     const get = await getNotes(req, res, { client, id })
 
     if (get.type !== 'desynced') {
