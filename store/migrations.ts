@@ -4,8 +4,15 @@ import initialState from './reducers/notesSlicer/types'
 
 type PersistedRootStateV3 = AppState
 
+/*
+ * This is the current version and should match the latest version above (V3).
+ */
+export const persistVersion = 2
+
 const persistMigrations = {
-  1: async (state: PersistedRootStateV3): Promise<PersistedRootStateV3> => {
+  [persistVersion]: async (
+    state: PersistedRootStateV3
+  ): Promise<PersistedRootStateV3> => {
     return {
       ...state,
       notes: {
@@ -13,7 +20,7 @@ const persistMigrations = {
         present: { ...initialState },
         future: [],
         _persist: {
-          version: 1,
+          version: persistVersion,
           rehydrated: false
         }
       }
@@ -26,11 +33,4 @@ const persistMigrations = {
  */
 type MigrationState = PersistedRootStateV3
 
-export const persistMigrate = createMigrate<MigrationState>(persistMigrations, {
-  debug: true
-})
-
-/*
- * This is the current version and should match the latest version above (V3).
- */
-export const persistVersion = 1
+export const persistMigrate = createMigrate<MigrationState>(persistMigrations)
