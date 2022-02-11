@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import debounce from 'lodash.debounce'
 
 import { useEditor, EditorContent } from '@tiptap/react'
@@ -23,10 +23,12 @@ const TipTapEditor = () => {
   )
   const dispatch = useAppDispatch()
 
+  const [pos, setPos] = useState<number | null>(null)
+
   const { data: session } = useSession()
 
   const debouncedSync = useMemo(
-    () => debounce(() => dispatch<any>(syncNotes(false)), 1000),
+    () => debounce(() => dispatch<any>(syncNotes(false)), 100),
     [dispatch]
   )
 
@@ -59,12 +61,19 @@ const TipTapEditor = () => {
       extensions,
       editable: !syncing,
       content: openedNote?.note.content,
-      autofocus: 'end',
+      onCreate: ({ editor }) => {
+        pos ? editor.commands.focus(pos) : editor.commands.focus('end')
+      },
       onUpdate: ({ editor }) => {
         if (openedNote) {
           dispatch(toggleNoteSaved())
           debouncedUpdateOpenedNote(editor)
         }
+      },
+      onSelectionUpdate: ({ transaction }) => {
+        pos === transaction.selection.anchor
+          ? null
+          : setPos(transaction.selection.anchor)
       }
     },
     [openedNote?.id, session, syncing, lastSync]
