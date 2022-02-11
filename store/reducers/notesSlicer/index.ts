@@ -121,7 +121,6 @@ const updateNotesAction: CaseReducer<
   NotesState,
   PayloadAction<{ notes: Note[]; lastUpdate: number }>
 > = (state, action) => {
-  console.log(action.payload.notes)
   return {
     ...state,
     notes: action.payload.notes,
