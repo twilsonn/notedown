@@ -89,12 +89,13 @@ I wanted to make a simple notepad app.
 - [x] Rich text editor
 - [x] Auto save notes
 - [x] Multiple notes
-- [ ] Save with google drive
-- [ ] Share notes snapshot
+- [x] Save to cloud
+- [ ] Share note snapshot
 - [x] Dark mode
 - [ ] Moblie Compatibility
 - [ ] Accessibility
 - [ ] PWA perfect score 😯
+- [x] OAuth login
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
