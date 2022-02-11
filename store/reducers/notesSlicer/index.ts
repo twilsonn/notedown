@@ -195,6 +195,7 @@ export const NotesSlice = createSlice({
       })
       .addCase(syncNotes.fulfilled, (state, action) => {
         if (action.payload.lastUpdate) {
+          // conflicts detected
           return {
             ...state,
             syncing: false,
@@ -208,19 +209,21 @@ export const NotesSlice = createSlice({
             }
           }
         } else {
+          const openedNote = action.payload.notes.find(
+            (n) => n.id === state.openedNote?.id
+          )
           return {
             ...state,
             syncing: false,
             synced: true,
             notes: action.payload.notes,
             lastSync: new Date().getTime(),
-            openedNote:
-              state.openedNote && action.payload.notes.length > 0
-                ? {
-                    ...state.openedNote,
-                    note: action.payload.notes[0]
-                  }
-                : undefined,
+            openedNote: openedNote
+              ? {
+                  id: openedNote.id,
+                  note: openedNote
+                }
+              : undefined,
             conflictModal: {
               currentNotes: null,
               syncedNotes: null,
