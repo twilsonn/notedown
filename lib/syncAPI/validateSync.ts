@@ -19,9 +19,6 @@ const validateSync = (
 
   const checkVersions = newNotes.some((n1) => {
     return syncedNotes.some((n2) => {
-      if (n1.id === n2.id) {
-        console.log(dayjs(n1.updatedAt).diff(n2.updatedAt))
-      }
       if (n1.id === n2.id && n1.updatedAt < n2.updatedAt) {
         return true
       }
