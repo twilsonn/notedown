@@ -28,7 +28,7 @@ const TipTapEditor = () => {
   const { data: session } = useSession()
 
   const debouncedSync = useMemo(
-    () => debounce(() => dispatch<any>(syncNotes(false)), 100),
+    () => debounce(() => dispatch<any>(syncNotes(false)), 2500),
     [dispatch]
   )
 
