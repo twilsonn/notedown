@@ -19,10 +19,7 @@ const SelectFont: React.FC<{ changeFont: (family: string) => void }> = ({
       {({ open }) => (
         <>
           <div className="relative">
-            <Listbox.Button
-              className="relative w-48 h-8 rounded-md shadow-sm border pl-3 pr-10 py-1.5 text-left cursor-default sm:text-sm bg-gray-200 dark:bg-stone-800 dark:text-stone-200 dark:border-stone-800 transition-colors 
-            focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400 dark:focus:ring-blue-700 dark:focus:border-blue-700"
-            >
+            <Listbox.Button className="menu_select">
               <span className="block truncate">{selected}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon
@@ -39,7 +36,10 @@ const SelectFont: React.FC<{ changeFont: (family: string) => void }> = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="scrollbar absolute z-10 mt-1 w-full bg-white dark:bg-stone-900 shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+              <Listbox.Options
+                className="absolute z-10 mt-1 w-full max-h-60 shadow-md rounded-md py-1 overflow-auto focus:outline-none sm:text-sm
+              bg-white dark:bg-stone-900 ring-1 ring-black ring-opacity-5 "
+              >
                 {fonts.map((font) => (
                   <Listbox.Option
                     key={font}

@@ -1,0 +1,12 @@
+.note-card {
+  @apply button w-full text-left m-0 px-3 py-2 rounded-lg cursor-pointer select-none;
+}
+
+.note-card:hover,
+.note-card:focus {
+  @apply text-black dark:text-stone-50;
+}
+
+.note-card.active {
+  @apply bg-gray-300 dark:bg-stone-700;
+}
