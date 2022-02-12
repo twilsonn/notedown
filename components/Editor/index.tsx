@@ -14,7 +14,6 @@ import { Editor } from '@tiptap/core'
 import Menu from './Menu'
 import { motion } from 'framer-motion'
 
-import PerfectScrollbar from 'react-perfect-scrollbar'
 import { useSession } from 'next-auth/react'
 
 const TipTapEditor = () => {
@@ -79,14 +78,12 @@ const TipTapEditor = () => {
     [openedNote?.id, session, syncing, lastSync]
   )
 
-  return (
+  return editor && openedNote ? (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      {openedNote && editor && <Menu editor={editor} />}
-      <PerfectScrollbar>
-        {openedNote && <EditorContent editor={editor} />}
-      </PerfectScrollbar>
+      <Menu editor={editor} />
+      <EditorContent editor={editor} />
     </motion.div>
-  )
+  ) : null
 }
 
 export default TipTapEditor
