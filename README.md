@@ -48,11 +48,9 @@ I wanted to make a simple notepad app.
 
 ### Built With
 
+- [Next.js](https://nextjs.org)
 - [Typescript](https://www.typescriptlang.org)
-- [React.js](https://reactjs.org/)
 - [Tailwind CSS](https://tailwindcss.com)
-- [Vite](https://vitejs.dev)
-- [Jest](https://jestjs.io)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -103,7 +101,7 @@ I wanted to make a simple notepad app.
 
 ## License
 
-Distributed under the GNU GPLv3 License. See `LICENSE.txt` for more information.
+See `LICENSE` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -123,8 +121,7 @@ Project Link: [https://github.com/twilsonn/notedown](https://github.com/twilsonn
 
 Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
 
-- [Choose an Open Source License](https://choosealicense.com)
-- [GitHub Pages](https://pages.github.com)
-- [Hero Icons](https://react-icons.github.io/react-icons/search)
+- [Tip Tap](https://tiptap.dev)
+- [Hero Icons](https://heroicons.com)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
