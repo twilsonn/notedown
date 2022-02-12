@@ -119,8 +119,6 @@ Project Link: [https://github.com/twilsonn/notedown](https://github.com/twilsonn
 
 ## Acknowledgments
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
 - [Tip Tap](https://tiptap.dev)
 - [Hero Icons](https://heroicons.com)
 
