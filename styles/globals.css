@@ -1,96 +1,26 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'Editor/Editor.css';
+@import 'Notes/NoteCard.css';
+@import 'Notes/NoteCard.css';
+@import 'ContextMenu.css';
 
 html {
   @apply bg-white dark:bg-stone-800 transition-colors;
 }
 
-.szh-menu-container {
-  position: relative;
-  width: 0px;
-  height: 0px;
+.button {
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, box-shadow;
+
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+
+  @apply border rounded-md text-gray-600 dark:text-stone-300
+  bg-gray-200 dark:bg-stone-800 border-gray-200 dark:border-stone-800;
 }
 
-.szh-menu {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  box-sizing: border-box;
-  width: max-content;
-  position: absolute;
-  z-index: 100;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.szh-menu:focus {
-  outline: none;
-}
-
-.szh-menu--state-closed {
-  display: none;
-}
-
-.szh-menu__item {
-  cursor: pointer;
-}
-
-.szh-menu__item:focus {
-  outline: none;
-}
-
-.szh-menu__item--hover {
-  @apply bg-gray-100 dark:bg-stone-800;
-}
-
-.szh-menu__item--focusable {
-  cursor: default;
-  background-color: inherit;
-}
-
-.szh-menu__item--disabled {
-  cursor: default;
-  color: #aaa;
-}
-
-.szh-menu__submenu {
-  position: relative;
-}
-
-.szh-menu__group {
-  box-sizing: border-box;
-}
-
-.szh-menu__radio-group {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.szh-menu__divider {
-  height: 1px;
-  margin: 0.5rem 0;
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.szh-menu-button {
-  box-sizing: border-box;
-}
-
-.szh-menu {
-  @apply select-none py-1 border rounded-md shadow-md bg-white border-gray-200 dark:bg-stone-900 dark:border-stone-800;
-}
-
-.szh-menu__item {
-  @apply relative flex items-center px-4 py-1.5 text-sm text-gray-700 dark:text-stone-50;
-}
-
-.szh-menu-container--itemTransition .szh-menu__item {
-  transition-property: background-color, color;
-  transition-duration: 0.15s;
-  transition-timing-function: ease-in-out;
-}
-
-.szh-menu__item--active {
-  @apply text-white bg-blue-400;
+.button:hover,
+.button:focus {
+  @apply ring-1 outline-none
+  border-blue-400 ring-blue-400 
+  dark:border-blue-600 dark:ring-blue-600;
 }
