@@ -12,9 +12,9 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { ModalProvider } from 'react-modal-hook'
 import useDarkMode from 'use-dark-mode'
 
+import '../styles/tailwind.css'
 import '../styles/globals.css'
-import '../styles/Editor.css'
-import '../styles/NotesLoader.css'
+
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import 'tippy.js/dist/tippy.css'
 
