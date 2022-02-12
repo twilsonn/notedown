@@ -32,12 +32,7 @@ const Notes: React.FC = () => {
           </h2>
           <button
             onClick={() => dispatch(newNote())}
-            className={`px-2 py-1 border flex items-center justify-center rounded-md group text-sm select-none
-              bg-white text-gray-600 dark:bg-stone-700 dark:text-stone-300 transition-colors
-              border-white dark:border-stone-700
-              hover:bg-gray-50 hover:text-gray-800 dark:hover:bg-stone-800 dark:hover:text-stone-200
-              hover:ring-1 hover:border-blue-400 hover:ring-blue-400 
-              focus:ring-1 focus:border-blue-400 focus:ring-blue-400 focus:outline-none`}
+            className={`button px-2 py-1 border flex items-center justify-center rounded-md group text-sm select-none`}
           >
             New Note{' '}
             <span className="ml-1">
