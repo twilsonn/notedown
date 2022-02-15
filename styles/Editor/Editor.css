@@ -67,5 +67,5 @@
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 
-  @apply button relative w-48 h-8 rounded-md shadow-sm pl-3 pr-10 py-1.5 text-left cursor-default sm:text-sm border;
+  @apply button relative w-24 sm:w-44 md:w-48 h-8 rounded-md shadow-sm pl-3 pr-10 py-1.5 text-left cursor-default sm:text-sm border;
 }
