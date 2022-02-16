@@ -32,7 +32,7 @@ const makeStore = () => {
       key: 'notes',
       storage
     },
-    undoable(notesReducer.reducer)
+    undoable(notesReducer.reducer, { limit: 10 })
   )
 
   const combinedReducer = combineReducers({
@@ -50,7 +50,7 @@ const makeStore = () => {
   > & { __persistor?: Persistor } = configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().prepend(thunkMiddleware)
+      getDefaultMiddleware({ immutableCheck: false }).prepend(thunkMiddleware)
   })
 
   store.__persistor = persistStore(store)
