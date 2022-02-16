@@ -14,9 +14,9 @@ const NotesLoader: React.FC = () => {
         </span>
       </div>
       <p className="pointer-events-none text-sm leading-tight h-5 bg-gray-300 dark:bg-stone-700 w-2/3 rounded-md relative overflow-hidden transition-colors">
-        <div className="shimmer-wrapper">
-          <div className="shimmer" />
-        </div>
+        <span className="shimmer-wrapper">
+          <span className="shimmer" />
+        </span>
       </p>
     </div>
   )
