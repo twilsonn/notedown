@@ -26,10 +26,11 @@ const TipTapEditor = () => {
 
   const { data: session } = useSession()
 
-  const debouncedSync = useMemo(
-    () => debounce(() => dispatch<any>(syncNotes(false)), 2500),
-    [dispatch]
-  )
+  const debouncedSync = useMemo(() => {
+    return debounce(() => {
+      openedNote?.note.saved ? dispatch<any>(syncNotes(false)) : null
+    }, 5000)
+  }, [dispatch, openedNote?.note.saved])
 
   const updateOpenedNote = useMemo(() => {
     return (e: Editor) => {
@@ -51,7 +52,7 @@ const TipTapEditor = () => {
   }, [debouncedSync, dispatch, openedNote, session?.user])
 
   const debouncedUpdateOpenedNote = useMemo(
-    () => debounce((editor: Editor) => updateOpenedNote(editor), 500),
+    () => debounce((editor: Editor) => updateOpenedNote(editor), 700),
     [updateOpenedNote]
   )
 
