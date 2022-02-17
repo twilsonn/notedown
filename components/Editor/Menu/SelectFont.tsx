@@ -1,18 +1,23 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 
-const fonts = ['Brush Script MT', 'Courier New', 'Inter', 'Times New Roman']
+const fonts = ['Inter', 'Comic Sans MS', 'Courier New', 'Times New Roman']
 
-const SelectFont: React.FC<{ changeFont: (family: string) => void }> = ({
-  changeFont
-}) => {
+const SelectFont: React.FC<{
+  changeFont: (family: string) => void
+  currentFont: string
+}> = ({ changeFont, currentFont }) => {
   const [selected, setSelected] = useState(fonts[0])
 
   const onSelectChange = (f: string) => {
     setSelected(f)
     changeFont(f)
   }
+
+  useEffect(() => {
+    setSelected(currentFont || 'Inter')
+  }, [currentFont])
 
   return (
     <Listbox value={selected} onChange={onSelectChange}>
