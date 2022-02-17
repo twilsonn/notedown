@@ -35,7 +35,10 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
   return (
     <div className="w-full sticky top-0 left-0 px-4 md:px-12 pt-4 z-10">
       <div className="rounded-lg p-4 pl-2 sm:pl-4 flex justify-center sm:justify-start space-x-2 mb-8 bg-gray-100 dark:bg-stone-900 bg-opacity-[99%] transition-colors">
-        <SelectFont changeFont={changeFont} />
+        <SelectFont
+          changeFont={changeFont}
+          currentFont={editor.getAttributes('textStyle')['fontFamily']}
+        />
         {/* BOLD */}
         <MenuButton
           onClick={() => editor.chain().focus().toggleBold().run()}
