@@ -71,7 +71,7 @@
 }
 
 .menu_button.active {
-  @apply ring-1 bg-gray-300 dark:bg-stone-800 
+  @apply ring-1 bg-gray-200 dark:bg-stone-800 
     text-gray-600 dark:text-stone-200 
     border-blue-500 ring-blue-500 dark:border-blue-700 dark:ring-blue-700;
 }

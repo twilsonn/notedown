@@ -15,7 +15,7 @@ html {
   transition-duration: 150ms;
 
   @apply border rounded-md text-gray-600 dark:text-stone-300
-  bg-gray-200 dark:bg-stone-800 border-gray-200 dark:border-stone-800;
+  bg-gray-300 dark:bg-stone-800 border-gray-300 dark:border-stone-800;
 }
 
 .button:hover,
