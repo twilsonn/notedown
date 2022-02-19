@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react'
-import debounce from 'lodash.debounce'
+import React, { useState } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
 
 import { useEditor, EditorContent } from '@tiptap/react'
 import extensions from './extensions'
@@ -10,7 +10,7 @@ import {
   toggleNoteSaved,
   updateNote
 } from '../../store/reducers/notesSlicer'
-import { Editor } from '@tiptap/core'
+import { JSONContent } from '@tiptap/core'
 import Menu from './Menu'
 import { motion } from 'framer-motion'
 
@@ -26,37 +26,30 @@ const TipTapEditor = () => {
 
   const { data: session } = useSession()
 
-  const debouncedSync = useMemo(() => {
-    return debounce(() => {
-      openedNote?.note.saved ? dispatch<any>(syncNotes(false)) : null
-    }, 5000)
-  }, [dispatch, openedNote?.note.saved])
-
-  const updateOpenedNote = useMemo(() => {
-    return (e: Editor) => {
-      if (openedNote) {
-        dispatch(
-          updateNote({
-            ...openedNote.note,
-            content: e.getJSON(),
-            title: e.getText().split('\n')[0],
-            updatedAt: new Date(Date.now()).getTime()
-          })
-        )
-
-        if (session?.user) {
-          debouncedSync()
-        }
-      }
+  const updateNoteDebounced = useDebouncedCallback((e: JSONContent) => {
+    if (e.content && openedNote) {
+      dispatch(
+        updateNote({
+          ...openedNote.note,
+          content: e,
+          title: e.content[0].content?.at(0)?.text || '',
+          updatedAt: new Date(Date.now()).getTime()
+        })
+      )
     }
-  }, [debouncedSync, dispatch, openedNote, session?.user])
+  }, 700)
 
-  const debouncedUpdateOpenedNote = useMemo(
-    () => debounce((editor: Editor) => updateOpenedNote(editor), 700),
-    [updateOpenedNote]
-  )
+  const toggleSyncDebounced = useDebouncedCallback(() => {
+    if (openedNote?.note.saved) {
+      dispatch(toggleNoteSaved())
+    }
+  }, 10)
 
-  let editor = useEditor(
+  const syncNotesDebounced = useDebouncedCallback(() => {
+    dispatch<any>(syncNotes(false))
+  }, 5000)
+
+  const editor = useEditor(
     {
       extensions,
       editable: !syncing,
@@ -66,8 +59,14 @@ const TipTapEditor = () => {
       },
       onUpdate: ({ editor }) => {
         if (openedNote) {
-          dispatch(toggleNoteSaved())
-          debouncedUpdateOpenedNote(editor)
+          if (openedNote.note.saved) {
+            toggleSyncDebounced()
+          }
+          updateNoteDebounced(editor.getJSON())
+
+          if (session?.user) {
+            syncNotesDebounced()
+          }
         }
       },
       onSelectionUpdate: ({ transaction }) => {
