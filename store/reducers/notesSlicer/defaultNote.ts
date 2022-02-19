@@ -25,15 +25,9 @@ export const defaultNote = {
           marks: [
             {
               type: 'bold'
-            },
-            {
-              type: 'textStyle',
-              attrs: {
-                fontFamily: 'Inter'
-              }
             }
           ],
-          text: 'Disclaimer! Notedown is not intended to be used as a permanent note taking app. Please do not store any sensitive information as this may not be recoverable. This is a port'
+          text: 'Disclaimer! Notedown is not intended to be used as a permanent note-taking app. Please do not store any sensitive information as this may not be recoverable. This is a portfolio project 🙂'
         }
       ]
     },
@@ -146,7 +140,7 @@ export const defaultNote = {
       content: [
         {
           type: 'text',
-          text: '// Notedown allows you to write code! \nconst triggerCode = "Simply type ```js to write JavaScript! "'
+          text: '// Notedown allows you to write code! \nconst triggerCode = "Simply type ```js to write JavaScript!"'
         }
       ]
     },
@@ -158,7 +152,27 @@ export const defaultNote = {
       content: [
         {
           type: 'text',
-          text: 'a'
+          text: 'Notedown displays previews of hex color codes: #38ff2e #2efff8 #ff2e58 #e72eff'
+        }
+      ]
+    },
+    {
+      type: 'paragraph',
+      attrs: {
+        textAlign: 'left'
+      },
+      content: [
+        {
+          type: 'text',
+          marks: [
+            {
+              type: 'textStyle',
+              attrs: {
+                fontFamily: 'Comic Sans MS'
+              }
+            }
+          ],
+          text: 'Additionally, you can sign in via an OAuth method to sync notes between devices. Notedown will prompt you when there are any conflicts. All synced changes will be permanent so, you won’t be able to recover a previous version.'
         }
       ]
     }
