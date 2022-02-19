@@ -1,3 +1,4 @@
+import { ArrowLeftIcon } from '@heroicons/react/solid'
 import { Editor as CoreEditor } from '@tiptap/core'
 import { EditorContentProps, EditorContentState } from '@tiptap/react'
 
@@ -33,7 +34,10 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
   }
 
   return (
-    <div className="w-full sticky top-0 left-0 px-4 md:px-12 pt-4 z-10">
+    <div className="w-full sticky top-0 left-0 px-4 md:px-12 pt-4 z-10 flex space-x-2">
+      <div className="rounded-lg p-4 flex justify-center items-center mb-8 bg-gray-200 dark:bg-stone-900 bg-opacity-[99%] transition-colors">
+        <ArrowLeftIcon className="w-6 h-6 m-1 text-gray-700 dark:text-stone-300" />
+      </div>
       <div className="rounded-lg p-4 pl-2 sm:pl-4 flex justify-center sm:justify-start space-x-2 mb-8 bg-gray-200 dark:bg-stone-900 bg-opacity-[99%] transition-colors">
         <SelectFont
           changeFont={changeFont}
@@ -102,7 +106,7 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
           </svg>
         </MenuButton>
         {/* TEXT TYPE */}
-        <MenuButton active={false}>
+        {/* <MenuButton active={false}>
           <svg
             className="w-4 h-4"
             xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +123,7 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
             <line x1="9" y1="20" x2="15" y2="20"></line>
             <line x1="12" y1="4" x2="12" y2="20"></line>
           </svg>
-        </MenuButton>
+        </MenuButton> */}
         {/* LEFT ALIGN */}
         <MenuButton
           onClick={() => editor.chain().focus().setTextAlign('left').run()}
