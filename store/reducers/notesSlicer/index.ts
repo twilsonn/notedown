@@ -5,7 +5,7 @@ import {
   PayloadAction
 } from '@reduxjs/toolkit'
 import { v4 as uuid } from 'uuid'
-import { AppState } from '../..'
+import { RootState } from '../..'
 
 import initialState, { NotesState, Note } from './types'
 
@@ -143,7 +143,7 @@ const updateNotesAction: CaseReducer<
 export const syncNotes = createAsyncThunk<
   { notes: Note[]; lastSync: number; lastUpdate?: number },
   boolean,
-  { state: AppState }
+  { state: RootState }
 >('notes/syncNotes', async (overwrite, api) => {
   const state = api.getState()
 
