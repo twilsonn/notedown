@@ -16,7 +16,11 @@ import storage from './sync_storage'
 
 import notesReducer from './reducers/notesSlicer'
 import { NotesStateInterface } from './reducers/notesSlicer/types'
+
+import appReducer from './reducers/appReducer'
+
 import { persistMigrate, persistVersion } from './migrations'
+import { AppStateInterface } from './reducers/appReducer/types'
 
 const makeStore = () => {
   const persistConfig = {
@@ -35,8 +39,17 @@ const makeStore = () => {
     undoable(notesReducer.reducer, { limit: 10 })
   )
 
+  const persistedAppReducer = persistReducer(
+    {
+      key: 'app',
+      storage
+    },
+    appReducer.reducer
+  )
+
   const combinedReducer = combineReducers({
-    notes: persistedNoteReducer
+    notes: persistedNoteReducer,
+    app: persistedAppReducer
   })
 
   const persistedReducer = persistReducer(persistConfig, combinedReducer)
@@ -44,6 +57,7 @@ const makeStore = () => {
   const store: EnhancedStore<
     EmptyObject & {
       notes: StateWithHistory<NotesStateInterface> & PersistPartial
+      app: AppStateInterface & PersistPartial
     } & PersistPartial,
     AnyAction,
     any
