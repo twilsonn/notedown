@@ -7,7 +7,7 @@ type PersistedRootStateV3 = RootState
 /*
  * This is the current version and should match the latest version above (V3).
  */
-export const persistVersion = 3
+export const persistVersion = 1
 
 const persistMigrations = {
   [persistVersion]: async (
