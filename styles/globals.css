@@ -3,8 +3,14 @@
 @import 'Notes/NoteCard.css';
 @import 'ContextMenu.css';
 
-html {
-  @apply bg-white dark:bg-stone-800 transition-colors;
+html,
+body {
+  @apply bg-white transition-colors h-screen;
+}
+
+html.dark,
+body.dark {
+  @apply bg-stone-800;
 }
 
 .button {
