@@ -1,8 +1,10 @@
-import { ArrowLeftIcon } from '@heroicons/react/solid'
+import { ArrowLeftIcon, MenuIcon } from '@heroicons/react/solid'
 import { Editor as CoreEditor } from '@tiptap/core'
 import { EditorContentProps, EditorContentState } from '@tiptap/react'
 
 import React, { DetailedHTMLProps } from 'react'
+import { useAppDispatch, useAppSelector } from '../../../store'
+import { toggleNavBar } from '../../../store/reducers/appReducer'
 import SelectFont from './SelectFont'
 declare class Editor extends CoreEditor {
   contentComponent: React.Component<
@@ -29,14 +31,24 @@ const MenuButton: React.FC<
 }
 
 const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
+  const dispatch = useAppDispatch()
+  const open = useAppSelector((state) => state.app.navOpen)
+
   const changeFont = (family: string) => {
     editor.commands.setFontFamily(family)
   }
 
   return (
     <div className="w-full sticky top-0 left-0 px-4 md:px-12 pt-4 z-10 flex space-x-2">
-      <div className="rounded-lg p-4 flex justify-center items-center mb-8 bg-gray-200 dark:bg-stone-900 bg-opacity-[99%] transition-colors">
-        <ArrowLeftIcon className="w-6 h-6 m-1 text-gray-700 dark:text-stone-300" />
+      <div
+        onClick={() => dispatch(toggleNavBar())}
+        className="rounded-lg p-4 flex justify-center items-center mb-8 cursor-pointer bg-gray-200 dark:bg-stone-900 bg-opacity-[99%] transition-colors"
+      >
+        {open ? (
+          <ArrowLeftIcon className="w-6 h-6 m-1 text-gray-700 dark:text-stone-300" />
+        ) : (
+          <MenuIcon className="w-6 h-6 m-1 text-gray-700 dark:text-stone-300" />
+        )}
       </div>
       <div className="rounded-lg p-4 pl-2 sm:pl-4 flex justify-center sm:justify-start space-x-2 mb-8 bg-gray-200 dark:bg-stone-900 bg-opacity-[99%] transition-colors">
         <SelectFont
