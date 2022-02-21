@@ -27,14 +27,13 @@ function App() {
   const dispatch = useAppDispatch()
   const { data: session } = useSession()
   const { syncing, lastSync } = useAppSelector((state) => state.notes.present)
+  const open = useAppSelector((state) => state.app.navOpen)
 
   useEffect(() => {
     if (session?.user) {
       dispatch<any>(syncNotes(false))
     }
   }, [dispatch, session?.user])
-
-  const [open, cycleOpen] = useCycle(true, false)
 
   const isLg = useMediaQuery('(min-width: 1024px)')
   const isXl = useMediaQuery('(min-width: 1280px)')
