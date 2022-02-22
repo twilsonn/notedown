@@ -76,10 +76,17 @@ const updateNoteAction: CaseReducer<NotesState, PayloadAction<Note>> = (
     : state
 }
 
-const openNoteAction: CaseReducer<NotesState, PayloadAction<string>> = (
-  state,
-  action
-) => {
+const openNoteAction: CaseReducer<
+  NotesState,
+  PayloadAction<string | boolean>
+> = (state, action) => {
+  if (typeof action.payload === 'boolean') {
+    console.log('test')
+    return {
+      ...state,
+      openedNote: undefined
+    }
+  }
   return {
     ...state,
     openedNote: {
