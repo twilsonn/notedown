@@ -58,35 +58,54 @@ function App() {
     [isLg, isXl, is2Xl]
   )
 
-  const [sizeEditor, setSizeEditor] = useState(getSize(false))
-  const [sizeSidebar, setSizeSidebar] = useState(getSize(true))
+  const [editorVariants, setEditorVariants] = useState<Variants>({
+    open: { width: '100%', marginLeft: getSize(false) },
+    closed: { width: '100%', marginLeft: 0 }
+  })
+
+  const [sidebarVariants, setSidebarVariants] = useState<Variants>({
+    open: { translateX: 0, width: open ? getSize(true) : undefined },
+    closed: { translateX: '-100%' }
+  })
 
   useEffect(() => {
-    setSizeEditor(getSize(false))
-    setSizeSidebar(getSize(true))
-  }, [isLg, isXl, is2Xl, getSize])
-
-  const sidebarVariants: Variants = {
-    open: { width: '100%', marginLeft: sizeEditor },
-    closed: { width: '100%', marginLeft: 0 }
-  }
-
-  const editorVariants: Variants = {
-    open: { translateX: 0, width: open ? sizeSidebar : undefined },
-    closed: { translateX: '-100%' }
-  }
+    const isSmall = !isLg && !isXl && !is2Xl
+    setEditorVariants(
+      isSmall
+        ? {
+            open: { width: '100%', translateX: '100%', marginLeft: 0 },
+            closed: { width: '100%', translateX: '0%', marginLeft: 0 }
+          }
+        : {
+            open: { width: '100%', marginLeft: getSize(false) },
+            closed: { width: '100%', marginLeft: 0 }
+          }
+    )
+    setSidebarVariants(
+      isSmall
+        ? {
+            open: { width: '100%', translateX: '0%' },
+            closed: { width: '100%', translateX: '-100%' }
+          }
+        : {
+            open: { translateX: 0, width: open ? getSize(true) : undefined },
+            closed: { translateX: '-100%' }
+          }
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLg, isXl, is2Xl, getSize, open])
 
   return (
-    <div className="m-auto flex">
+    <div className="m-auto flex overflow-hidden w-screen h-screen">
       <MotionConfig transition={{ duration: 0.2 }}>
         <LayoutGroup>
           <ContextMenuWrapper key="aside">
             <motion.aside
               layout
               initial={false}
-              animate={open && (isLg || isXl || is2Xl) ? 'open' : 'closed'}
-              variants={editorVariants}
-              className="fixed lg:flex flex-col h-full max-h-screen overflow-hidden pb-8 hidden lg:w-1/3 xl:w-1/4 2xl:w-1/5 bg-gray-100 dark:bg-stone-900 transition-colors"
+              animate={open ? 'open' : 'closed'}
+              variants={sidebarVariants}
+              className="fixed lg:flex flex-col h-full max-h-screen overflow-hidden pb-8 lg:w-1/3 xl:w-1/4 2xl:w-1/5 bg-gray-100 dark:bg-stone-900 transition-colors z-50"
             >
               <Notes />
             </motion.aside>
@@ -97,7 +116,7 @@ function App() {
             layout
             initial={false}
             animate={open ? 'open' : 'closed'}
-            variants={sidebarVariants}
+            variants={editorVariants}
             className="flex flex-col w-full min-h-screen lg:w-2/3 lg:ml-[33.333333%] xl:w-3/4 xl:ml-[25%] 2xl:w-4/5 2xl:ml-[20%] bg-white dark:bg-stone-800 transition-colors"
           >
             {lastSync === null && syncing ? null : <LazyEditor />}
