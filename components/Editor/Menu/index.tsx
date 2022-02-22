@@ -1,10 +1,12 @@
 import { ArrowLeftIcon, MenuIcon } from '@heroicons/react/solid'
 import { Editor as CoreEditor } from '@tiptap/core'
 import { EditorContentProps, EditorContentState } from '@tiptap/react'
+import { useMediaQuery } from 'beautiful-react-hooks'
 
 import React, { DetailedHTMLProps } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { toggleNavBar } from '../../../store/reducers/appReducer'
+import { openNote } from '../../../store/reducers/notesSlicer'
 import SelectFont from './SelectFont'
 declare class Editor extends CoreEditor {
   contentComponent: React.Component<
@@ -34,6 +36,8 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
   const dispatch = useAppDispatch()
   const open = useAppSelector((state) => state.app.navOpen)
 
+  const isLg = useMediaQuery('(min-width: 1024px)')
+
   const changeFont = (family: string) => {
     editor.commands.setFontFamily(family)
   }
@@ -41,7 +45,12 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
   return (
     <div className="w-full sticky top-0 left-0 px-4 md:px-12 pt-4 z-10 flex space-x-2">
       <div
-        onClick={() => dispatch(toggleNavBar())}
+        onClick={() => {
+          dispatch(toggleNavBar())
+          if (!isLg) {
+            dispatch(openNote(false))
+          }
+        }}
         className="rounded-lg p-4 flex justify-center items-center mb-8 cursor-pointer bg-gray-200 dark:bg-stone-900 bg-opacity-[99%] transition-colors"
       >
         {open ? (
