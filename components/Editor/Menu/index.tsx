@@ -46,7 +46,7 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
     <div className="w-full sticky top-0 left-0 px-4 md:px-12 pt-4 z-10 flex space-x-2">
       <div
         onClick={() => {
-          dispatch(toggleNavBar())
+          dispatch(toggleNavBar(!open))
           if (!isLg) {
             dispatch(openNote(false))
           }
