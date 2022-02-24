@@ -1,11 +1,14 @@
-import { CaseReducer, createSlice } from '@reduxjs/toolkit'
+import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import initialState, { AppState as AppState } from './types'
 
-const toggleNavBarAction: CaseReducer<AppState> = (state) => {
+const toggleNavBarAction: CaseReducer<AppState, PayloadAction<boolean>> = (
+  state,
+  action
+) => {
   return {
     ...state,
-    navOpen: !state.navOpen
+    navOpen: action.payload
   }
 }
 
