@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useSession } from 'next-auth/react'
 
@@ -18,6 +18,7 @@ import ContextMenuWrapper from './ContextMenuWrapper'
 import ControlBar from './ControlBar'
 import Notes from './Notes'
 import SyncConflict from './SyncConflict'
+import { toggleNavBar } from '../store/reducers/appReducer'
 
 const LazyEditor = dynamic(() => import('./Editor'), {
   ssr: false
@@ -26,7 +27,9 @@ const LazyEditor = dynamic(() => import('./Editor'), {
 function App() {
   const dispatch = useAppDispatch()
   const { data: session } = useSession()
-  const { syncing, lastSync } = useAppSelector((state) => state.notes.present)
+  const { syncing, lastSync, openedNote } = useAppSelector(
+    (state) => state.notes.present
+  )
   const open = useAppSelector((state) => state.app.navOpen)
 
   useEffect(() => {
@@ -38,6 +41,16 @@ function App() {
   const isLg = useMediaQuery('(min-width: 1024px)')
   const isXl = useMediaQuery('(min-width: 1280px)')
   const is2Xl = useMediaQuery('(min-width: 1536px)')
+
+  useEffect(() => {
+    if (!isLg && openedNote === undefined) {
+      dispatch(toggleNavBar(true))
+    } else {
+      dispatch(toggleNavBar(false))
+    }
+  }, [dispatch, isLg, openedNote])
+
+  console.log(open)
 
   const getSize = useCallback(
     (isSidebar: boolean) => {
@@ -58,46 +71,53 @@ function App() {
     [isLg, isXl, is2Xl]
   )
 
-  const [editorVariants, setEditorVariants] = useState<Variants>({
-    open: { width: '100%', marginLeft: getSize(false) },
-    closed: { width: '100%', marginLeft: 0 }
-  })
-
-  const [sidebarVariants, setSidebarVariants] = useState<Variants>({
-    open: { translateX: 0, width: open ? getSize(true) : undefined },
-    closed: { translateX: '-100%' }
-  })
-
-  useEffect(() => {
-    const isSmall = !isLg && !isXl && !is2Xl
-    setEditorVariants(
-      isSmall
+  const EditorVariants = useMemo(
+    () =>
+      !isLg
         ? {
-            open: { width: '100%', translateX: '100%', marginLeft: 0 },
-            closed: { width: '100%', translateX: '0%', marginLeft: 0 }
+            open: { translateX: '100%', marginLeft: 0 },
+            closed: { translateX: '0%', marginLeft: 0 }
           }
         : {
-            open: { width: '100%', marginLeft: getSize(false) },
-            closed: { width: '100%', marginLeft: 0 }
-          }
-    )
-    setSidebarVariants(
-      isSmall
+            open: {
+              translateX: '0%',
+              marginLeft: getSize(false),
+              width: '100%'
+            },
+            closed: { translateX: '0%', marginLeft: 0, width: '100%' }
+          },
+    [getSize, isLg]
+  )
+
+  const SidebarVariants = useMemo(
+    () =>
+      !isLg
         ? {
-            open: { width: '100%', translateX: '0%' },
-            closed: { width: '100%', translateX: '-100%' }
-          }
-        : {
-            open: { translateX: 0, width: open ? getSize(true) : undefined },
+            open: { translateX: '0%', width: '100%' },
             closed: { translateX: '-100%' }
           }
-    )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLg, isXl, is2Xl, getSize, open])
+        : {
+            open: { translateX: 0, width: getSize(true) },
+            closed: { translateX: '-100%' }
+          },
+    [getSize, isLg]
+  )
+
+  const [editorVariants, setEditorVariants] = useState<Variants>(EditorVariants)
+
+  const [sidebarVariants, setSidebarVariants] =
+    useState<Variants>(SidebarVariants)
+
+  useEffect(() => {
+    setEditorVariants(EditorVariants)
+    setSidebarVariants(SidebarVariants)
+  }, [EditorVariants, SidebarVariants])
 
   return (
     <div className="m-auto flex overflow-hidden w-screen h-screen">
-      <MotionConfig transition={{ duration: 0.2 }}>
+      <MotionConfig
+        transition={{ duration: 0.2, ease: 'linear', type: 'tween' }}
+      >
         <LayoutGroup>
           <ContextMenuWrapper key="aside">
             <motion.aside
