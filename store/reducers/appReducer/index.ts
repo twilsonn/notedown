@@ -12,14 +12,26 @@ const toggleNavBarAction: CaseReducer<AppState, PayloadAction<boolean>> = (
   }
 }
 
+const setNavOpenedAction: CaseReducer<AppState, PayloadAction<boolean>> = (
+  state,
+  action
+) => {
+  console.log('payload:', action.payload)
+  return {
+    ...state,
+    opened: action.payload
+  }
+}
+
 export const AppSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    toggleNavBar: toggleNavBarAction
+    toggleNavBar: toggleNavBarAction,
+    setNavOpened: setNavOpenedAction
   }
 })
 
-export const { toggleNavBar } = AppSlice.actions
+export const { toggleNavBar, setNavOpened } = AppSlice.actions
 
 export default AppSlice
