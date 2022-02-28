@@ -1,0 +1,5 @@
+.note-list {
+  -webkit-overflow-scrolling: touch;
+  height: calc(100% - 10rem);
+  @apply space-y-4 p-4 overflow-y-auto pt-1.5;
+}
