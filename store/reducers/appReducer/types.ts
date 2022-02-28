@@ -1,9 +1,11 @@
 type AppStateInterface = {
   navOpen: boolean
+  opened: boolean
 }
 
 const initialState: AppStateInterface = {
-  navOpen: true
+  navOpen: true,
+  opened: true
 }
 
 export type AppState = typeof initialState
