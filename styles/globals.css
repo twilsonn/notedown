@@ -1,11 +1,12 @@
 @import 'Editor/Editor.css';
 @import 'Notes/NoteCard.css';
+@import 'Notes/Notes.css';
 @import 'Notes/NoteCard.css';
 @import 'ContextMenu.css';
 
 html,
 body {
-  @apply bg-white transition-colors h-screen;
+  @apply bg-white transition-colors h-full;
 }
 
 html.dark,
