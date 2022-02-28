@@ -15,24 +15,38 @@ import Menu from './Menu'
 import { motion } from 'framer-motion'
 
 import { useSession } from 'next-auth/react'
+import { useMediaQuery } from 'beautiful-react-hooks'
 
 const TipTapEditor = () => {
   const { openedNote, syncing, lastSync } = useAppSelector(
     (state) => state.notes.present
   )
+  const { opened } = useAppSelector((state) => state.app)
   const dispatch = useAppDispatch()
 
   const [pos, setPos] = useState<number | null>(null)
+  const isLg = useMediaQuery('(min-width: 1024px)')
 
   const { data: session } = useSession()
 
   const updateNoteDebounced = useDebouncedCallback((e: JSONContent) => {
     if (e.content && openedNote) {
+      const title = () => {
+        let content = e.content
+        if (content && content[0]) {
+          content = content[0].content
+          if (content && content[0]) {
+            return content[0].text
+          }
+        }
+        return null
+      }
+
       dispatch(
         updateNote({
           ...openedNote.note,
           content: e,
-          title: e.content[0].content?.at(0)?.text || '',
+          title: title() || '',
           updatedAt: new Date(Date.now()).getTime()
         })
       )
@@ -55,7 +69,9 @@ const TipTapEditor = () => {
       editable: !syncing,
       content: openedNote?.note.content,
       onCreate: ({ editor }) => {
-        pos ? editor.commands.focus(pos) : editor.commands.focus('end')
+        if (isLg) {
+          pos ? editor.commands.focus(pos) : editor.commands.focus('end')
+        }
       },
       onUpdate: ({ editor }) => {
         if (openedNote) {
@@ -78,7 +94,7 @@ const TipTapEditor = () => {
     [openedNote?.id, session, syncing, lastSync]
   )
 
-  return editor && openedNote ? (
+  return editor && !opened ? (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <Menu editor={editor} />
       <EditorContent editor={editor} />
