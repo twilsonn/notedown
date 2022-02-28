@@ -81,7 +81,6 @@ const openNoteAction: CaseReducer<
   PayloadAction<string | boolean>
 > = (state, action) => {
   if (typeof action.payload === 'boolean') {
-    console.log('test')
     return {
       ...state,
       openedNote: undefined
