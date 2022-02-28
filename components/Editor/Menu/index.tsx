@@ -46,9 +46,10 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
     <div className="w-full sticky top-0 left-0 px-4 md:px-12 pt-4 z-10 flex space-x-2">
       <div
         onClick={() => {
-          dispatch(toggleNavBar(!open))
           if (!isLg) {
             dispatch(openNote(false))
+          } else {
+            dispatch(toggleNavBar(!open))
           }
         }}
         className="rounded-lg p-4 flex justify-center items-center mb-8 cursor-pointer bg-gray-200 dark:bg-stone-900 bg-opacity-[99%] transition-colors"
