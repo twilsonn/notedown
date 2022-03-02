@@ -7,7 +7,7 @@ type PersistedRootStateV3 = RootState
 /*
  * This is the current version and should match the latest version above (V3).
  */
-export const persistVersion = 1
+export const persistVersion = 2
 
 const persistMigrations = {
   [persistVersion]: async (
@@ -17,7 +17,11 @@ const persistMigrations = {
       ...state,
       notes: {
         past: [],
-        present: { ...initialState },
+        present: {
+          ...initialState,
+          notes: [...state.notes.present.notes],
+          openedNote: state.notes.present.openedNote
+        },
         future: [],
         _persist: {
           version: persistVersion,
