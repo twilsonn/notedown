@@ -94,7 +94,7 @@ const TipTapEditor = () => {
     [openedNote?.id, session, syncing, lastSync]
   )
 
-  return editor && !opened ? (
+  return editor && (!opened || openedNote) ? (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <Menu editor={editor} />
       <EditorContent editor={editor} />
