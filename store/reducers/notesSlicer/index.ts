@@ -5,7 +5,7 @@ import {
   PayloadAction
 } from '@reduxjs/toolkit'
 import { v4 as uuid } from 'uuid'
-import { AppState } from '../..'
+import { RootState } from '../..'
 
 import initialState, { NotesState, Note } from './types'
 
@@ -76,10 +76,16 @@ const updateNoteAction: CaseReducer<NotesState, PayloadAction<Note>> = (
     : state
 }
 
-const openNoteAction: CaseReducer<NotesState, PayloadAction<string>> = (
-  state,
-  action
-) => {
+const openNoteAction: CaseReducer<
+  NotesState,
+  PayloadAction<string | boolean>
+> = (state, action) => {
+  if (typeof action.payload === 'boolean') {
+    return {
+      ...state,
+      openedNote: undefined
+    }
+  }
   return {
     ...state,
     openedNote: {
@@ -143,7 +149,7 @@ const updateNotesAction: CaseReducer<
 export const syncNotes = createAsyncThunk<
   { notes: Note[]; lastSync: number; lastUpdate?: number },
   boolean,
-  { state: AppState }
+  { state: RootState }
 >('notes/syncNotes', async (overwrite, api) => {
   const state = api.getState()
 

@@ -33,7 +33,7 @@ const AuthButton: React.FC<
 
 const AuthModal: React.FC = () => {
   return (
-    <div className="flex flex-col bg-white dark:bg-stone-900 shadow-2xl ring-1 ring-gray-200 dark:ring-stone-800 p-8 max-w-lg m-auto rounded-2xl">
+    <div className="flex flex-col max-w-xs md:max-w-md  bg-gray-100 dark:bg-stone-900 shadow-2xl ring-1 ring-gray-200 dark:ring-stone-800 p-8 lg:max-w-lg m-auto rounded-2xl">
       <div className="text-center mb-4">
         <span className="w-full flex justify-center">
           <Logo className="h-16 w-16" />
@@ -46,7 +46,7 @@ const AuthModal: React.FC = () => {
           onClick={() => signIn('github')}
           app="Github"
           logo={
-            <GitHub className="w-8 h-8 fill-gray-600 dark:fill-stone-300" />
+            <GitHub className="w-6 h-6 md:w-8 md:h-8 fill-gray-600 dark:fill-stone-300" />
           }
         />
 
@@ -54,14 +54,14 @@ const AuthModal: React.FC = () => {
           onClick={() => signIn('apple')}
           app="Apple"
           logo={
-            <AppleLogo className="w-8 h-8 fill-gray-600 dark:fill-stone-300" />
+            <AppleLogo className="w-6 h-6 md:w-8 md:h-8 fill-gray-600 dark:fill-stone-300" />
           }
         />
 
         <AuthButton
           onClick={() => signIn('google')}
           app="Google"
-          logo={<GoogleLogo className="w-8 h-8 " />}
+          logo={<GoogleLogo className="w-6 h-6 md:w-8 md:h-8" />}
         />
       </div>
     </div>

@@ -42,29 +42,32 @@ const Notes: React.FC = () => {
         </div>
       </div>
 
-      <PerfectScrollbar>
-        {lastSync === null && syncing ? (
-          <ul className="space-y-4 px-4 overflow-y-auto pb-4 pt-1.5">
-            <NotesLoader />
-            <NotesLoader />
-            <NotesLoader />
-            <NotesLoader />
-            <NotesLoader />
-          </ul>
-        ) : (
-          <ul className="space-y-4 px-4 overflow-y-auto pb-4 pt-1.5">
-            {notes.map((note) => (
-              <li key={note.id}>
-                <NoteCard
-                  onClick={() => dispatch(openNote(note.id))}
-                  note={note}
-                  open={openedNote && note.id === openedNote.id ? true : false}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
-      </PerfectScrollbar>
+      {/* <PerfectScrollbar> */}
+      {lastSync === null && syncing ? (
+        <ul
+          className="space-y-4 px-4 overflow-y-auto pb-4 pt-1.5"
+          style={{ WebkitOverflowScrolling: 'touch' }}
+        >
+          <NotesLoader />
+          <NotesLoader />
+          <NotesLoader />
+          <NotesLoader />
+          <NotesLoader />
+        </ul>
+      ) : (
+        <ul className="note-list">
+          {notes.map((note) => (
+            <li key={note.id}>
+              <NoteCard
+                onClick={() => dispatch(openNote(note.id))}
+                note={note}
+                open={openedNote && note.id === openedNote.id ? true : false}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+      {/* </PerfectScrollbar> */}
     </>
   )
 }

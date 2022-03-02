@@ -32,7 +32,7 @@
 }
 
 .szh-menu__item--hover {
-  @apply bg-gray-100 dark:bg-stone-800;
+  @apply bg-gray-300 dark:bg-stone-800;
 }
 
 .szh-menu__item--focusable {
@@ -70,7 +70,7 @@
 }
 
 .szh-menu {
-  @apply select-none py-1 border rounded-md shadow-md bg-white border-gray-200 dark:bg-stone-900 dark:border-stone-800;
+  @apply select-none py-1 border rounded-md shadow-md bg-gray-100 border-gray-300 dark:bg-stone-900 dark:border-stone-800;
 }
 
 .szh-menu__item {

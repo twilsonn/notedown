@@ -16,7 +16,11 @@ import storage from './sync_storage'
 
 import notesReducer from './reducers/notesSlicer'
 import { NotesStateInterface } from './reducers/notesSlicer/types'
+
+import appReducer from './reducers/appReducer'
+
 import { persistMigrate, persistVersion } from './migrations'
+import { AppStateInterface } from './reducers/appReducer/types'
 
 const makeStore = () => {
   const persistConfig = {
@@ -32,11 +36,20 @@ const makeStore = () => {
       key: 'notes',
       storage
     },
-    undoable(notesReducer.reducer)
+    undoable(notesReducer.reducer, { limit: 10 })
+  )
+
+  const persistedAppReducer = persistReducer(
+    {
+      key: 'app',
+      storage
+    },
+    appReducer.reducer
   )
 
   const combinedReducer = combineReducers({
-    notes: persistedNoteReducer
+    notes: persistedNoteReducer,
+    app: persistedAppReducer
   })
 
   const persistedReducer = persistReducer(persistConfig, combinedReducer)
@@ -44,13 +57,14 @@ const makeStore = () => {
   const store: EnhancedStore<
     EmptyObject & {
       notes: StateWithHistory<NotesStateInterface> & PersistPartial
+      app: AppStateInterface & PersistPartial
     } & PersistPartial,
     AnyAction,
     any
   > & { __persistor?: Persistor } = configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().prepend(thunkMiddleware)
+      getDefaultMiddleware({ immutableCheck: false }).prepend(thunkMiddleware)
   })
 
   store.__persistor = persistStore(store)
@@ -59,18 +73,18 @@ const makeStore = () => {
 }
 
 export type AppStore = ReturnType<typeof makeStore>
-export type AppState = ReturnType<AppStore['getState']>
+export type RootState = ReturnType<AppStore['getState']>
 export type AppDispatch = AppStore['dispatch']
 
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
-  AppState,
+  RootState,
   unknown,
   Action
 >
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 
-export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 export const wrapper = createWrapper<AppStore>(makeStore)

@@ -46,7 +46,8 @@ const extensions: Extensions = [
   CodeBlockLowlight.configure({
     lowlight,
     HTMLAttributes: {
-      class: 'base16/github'
+      class: 'base16/github',
+      spellcheck: 'false'
     }
   }),
 

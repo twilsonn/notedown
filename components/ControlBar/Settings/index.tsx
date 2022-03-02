@@ -55,7 +55,7 @@ const Settings: React.FC = () => {
               className={`origin-bottom-left absolute left-0 bottom-0 mb-8 w-56 rounded-md shadow-lg ring-1 divide-y  focus:outline-none ${
                 isDark.value
                   ? 'divide-stone-800 bg-stone-900 ring-stone-800'
-                  : 'divide-gray-100 bg-white ring-gray-200'
+                  : 'divide-gray-100 bg-gray-100 ring-gray-300'
               }`}
             >
               {session?.user && (
@@ -74,7 +74,7 @@ const Settings: React.FC = () => {
                     <div
                       className={`${
                         active
-                          ? 'bg-gray-100 text-gray-900 dark:bg-stone-700 dark:text-stone-200'
+                          ? 'bg-gray-300 text-gray-900 dark:bg-stone-700 dark:text-stone-200'
                           : 'text-gray-700 dark:text-stone-300'
                       } flex items-center justify-between px-4 py-2 text-sm cursor-pointer`}
                       onClick={isDark.toggle}
@@ -96,7 +96,7 @@ const Settings: React.FC = () => {
                       rel="noreferrer"
                       className={`${
                         active
-                          ? 'bg-gray-100 text-gray-900 dark:bg-stone-700 dark:text-stone-200'
+                          ? 'bg-gray-300 text-gray-900 dark:bg-stone-700 dark:text-stone-200'
                           : 'text-gray-700 dark:text-stone-300'
                       } block px-4 py-2 text-sm`}
                     >
@@ -114,7 +114,7 @@ const Settings: React.FC = () => {
                         onClick={() => signOut()}
                         className={`${
                           active
-                            ? 'bg-gray-100 text-gray-900 dark:bg-stone-700 dark:text-stone-200'
+                            ? 'bg-gray-300 text-gray-900 dark:bg-stone-700 dark:text-stone-200'
                             : 'text-gray-700 dark:text-stone-300'
                         } block w-full text-left px-4 py-2 text-sm`}
                       >
@@ -130,7 +130,7 @@ const Settings: React.FC = () => {
                         onClick={showModal}
                         className={`${
                           active
-                            ? 'bg-gray-100 text-gray-900 dark:bg-stone-700 dark:text-stone-200'
+                            ? 'bg-gray-300 text-gray-900 dark:bg-stone-700 dark:text-stone-200'
                             : 'text-gray-700 dark:text-stone-300'
                         } block w-full text-left px-4 py-2 text-sm`}
                       >

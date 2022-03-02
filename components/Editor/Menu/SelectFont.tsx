@@ -1,12 +1,13 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 
-const fonts = ['Brush Script MT', 'Courier New', 'Inter', 'Times New Roman']
+const fonts = ['Inter', 'Comic Sans MS', 'Courier New', 'Times New Roman']
 
-const SelectFont: React.FC<{ changeFont: (family: string) => void }> = ({
-  changeFont
-}) => {
+const SelectFont: React.FC<{
+  changeFont: (family: string) => void
+  currentFont: string
+}> = ({ changeFont, currentFont }) => {
   const [selected, setSelected] = useState(fonts[0])
 
   const onSelectChange = (f: string) => {
@@ -14,13 +15,17 @@ const SelectFont: React.FC<{ changeFont: (family: string) => void }> = ({
     changeFont(f)
   }
 
+  useEffect(() => {
+    setSelected(currentFont || 'Inter')
+  }, [currentFont])
+
   return (
     <Listbox value={selected} onChange={onSelectChange}>
       {({ open }) => (
         <>
           <div className="relative">
-            <Listbox.Button className="menu_select">
-              <span className="block truncate">{selected}</span>
+            <Listbox.Button className="menu_select hidden sm:block">
+              <span className="truncate text-xs md:text-sm">{selected}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon
                   className="h-5 w-5 text-gray-400"
@@ -37,7 +42,7 @@ const SelectFont: React.FC<{ changeFont: (family: string) => void }> = ({
               leaveTo="opacity-0"
             >
               <Listbox.Options
-                className="absolute z-10 mt-1 w-full max-h-60 shadow-md rounded-md py-1 overflow-auto focus:outline-none sm:text-sm
+                className="absolute z-10 mt-1 w-full max-h-60 shadow-md rounded-md py-1 overflow-auto focus:outline-none text-xs
               bg-white dark:bg-stone-900 ring-1 ring-black ring-opacity-5 "
               >
                 {fonts.map((font) => (
