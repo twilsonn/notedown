@@ -127,7 +127,7 @@ function App() {
                   }
                 }
               }}
-              className="fixed lg:flex flex-col h-full overflow-hidden pb-8 lg:w-1/3 xl:w-1/4 2xl:w-1/5 bg-gray-100 dark:bg-stone-900 transition-colors z-50"
+              className="sidebar fixed lg:flex flex-col overflow-hidden pb-8 lg:w-1/3 xl:w-1/4 2xl:w-1/5 bg-gray-100 dark:bg-stone-900 transition-colors z-50"
             >
               <Notes />
             </motion.aside>
@@ -142,7 +142,7 @@ function App() {
               WebkitOverflowScrolling: 'touch',
               overflowY: 'auto'
             }}
-            className="flex flex-col w-full min-h-full m-0 lg:w-2/3 lg:ml-[33.333333%] xl:w-3/4 xl:ml-[25%] 2xl:w-4/5 2xl:ml-[20%] bg-white dark:bg-stone-800 transition-colors"
+            className="content flex flex-col w-full m-0 lg:w-2/3 lg:ml-[33.333333%] xl:w-3/4 xl:ml-[25%] 2xl:w-4/5 2xl:ml-[20%] bg-white dark:bg-stone-800 transition-colors"
           >
             {lastSync === null && syncing ? null : <LazyEditor />}
           </motion.div>
