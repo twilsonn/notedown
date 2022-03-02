@@ -5,8 +5,16 @@
 @import 'ContextMenu.css';
 
 html,
+body,
+#_next,
+.sidebar,
+.content {
+  height: calc(100 * var(--vh));
+}
+
+html,
 body {
-  @apply bg-white transition-colors h-full;
+  @apply bg-white transition-colors;
 }
 
 html.dark,
