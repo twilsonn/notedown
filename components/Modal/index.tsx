@@ -24,7 +24,7 @@ const Modal: React.FC<
       <motion.div
         initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
         animate={{ backgroundColor: 'rgba(0,0,0,0.3)' }}
-        className="flex absolute top-0 left-0 z-10 justify-center items-center w-full h-full bg-black bg-opacity-20"
+        className="flex absolute top-0 left-0 z-50 justify-center items-center w-full h-full bg-black bg-opacity-20"
       >
         <motion.div
           ref={modalContent}
