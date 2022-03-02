@@ -17,7 +17,6 @@ import '../styles/globals.css'
 
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import 'tippy.js/dist/tippy.css'
-
 class MyApp extends App<{ session: Session }> {
   render() {
     const { Component, pageProps, session } = this.props
@@ -50,6 +49,7 @@ const withHooksHOC = (Component: any) => {
       <>
         <Script src="/noflash.js" strategy="beforeInteractive" />
         <Component {...props} />
+        <Script src="/100vh.js" strategy="beforeInteractive" />
       </>
     )
   }
