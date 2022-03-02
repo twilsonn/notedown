@@ -16,7 +16,6 @@ const setNavOpenedAction: CaseReducer<AppState, PayloadAction<boolean>> = (
   state,
   action
 ) => {
-  console.log('payload:', action.payload)
   return {
     ...state,
     opened: action.payload
