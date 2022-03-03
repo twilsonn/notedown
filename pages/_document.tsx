@@ -27,6 +27,8 @@ class MyDocument extends Document {
           <meta name="msapplication-TileColor" content="#2d89ef" />
           <meta name="theme-color" content="#ffffff" />
 
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+
           <script
             dangerouslySetInnerHTML={{
               __html: `</script><link rel='preload' href='https://rsms.me/inter/inter.css' as='style' onload="this.onload=null;this.rel='stylesheet'"/><script>`
