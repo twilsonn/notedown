@@ -14,9 +14,7 @@ import useDarkMode from 'use-dark-mode'
 
 import '../styles/tailwind.css'
 import '../styles/globals.css'
-
-import 'react-perfect-scrollbar/dist/css/styles.css'
-import 'tippy.js/dist/tippy.css'
+import Head from 'next/head'
 class MyApp extends App<{ session: Session }> {
   render() {
     const { Component, pageProps, session } = this.props
@@ -47,6 +45,10 @@ const withHooksHOC = (Component: any) => {
 
     return (
       <>
+        <Head>
+          <title>Notedown</title>
+        </Head>
+
         <Script src="/noflash.js" strategy="beforeInteractive" />
         <Component {...props} />
         <Script src="/100vh.js" strategy="beforeInteractive" />
