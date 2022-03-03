@@ -39,3 +39,7 @@ body.dark {
   border-blue-400 ring-blue-400 
   dark:border-blue-600 dark:ring-blue-600;
 }
+
+.button_darker {
+  @apply button bg-gray-200 dark:bg-stone-900 bg-opacity-[99%] transition-colors;
+}
