@@ -1,5 +1,4 @@
 import React from 'react'
-import { useSession } from 'next-auth/react'
 import LastSaved from '../Editor/LastSaved'
 import Settings from './Settings'
 

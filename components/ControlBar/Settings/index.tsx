@@ -9,7 +9,7 @@ import {
   MoonIcon,
   SunIcon
 } from '@heroicons/react/solid'
-import { useSession, signOut, signIn } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react'
 import useDarkMode from 'use-dark-mode'
 import AuthModal from '../../AuthModal'
 
@@ -33,7 +33,10 @@ const Settings: React.FC = () => {
       {({ open }) => (
         <>
           <div>
-            <Menu.Button className="flex items-center">
+            <Menu.Button
+              className="flex items-center"
+              aria-label="open settings"
+            >
               {open ? (
                 <CogIconSolid className="w-5 h-5 text-gray-700 dark:text-stone-300" />
               ) : (

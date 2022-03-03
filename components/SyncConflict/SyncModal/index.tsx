@@ -4,7 +4,7 @@ import {
   UploadIcon,
   XIcon
 } from '@heroicons/react/solid'
-import React, { Component } from 'react'
+import React from 'react'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { syncNotes, updateNotes } from '../../../store/reducers/notesSlicer'
 

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useDebouncedCallback } from 'use-debounce'
 
 import { useEditor, EditorContent } from '@tiptap/react'
 import extensions from './extensions'
@@ -12,10 +11,10 @@ import {
 } from '../../store/reducers/notesSlicer'
 import { JSONContent } from '@tiptap/core'
 import Menu from './Menu'
-import { motion } from 'framer-motion'
+import { domAnimation, LazyMotion, m } from 'framer-motion'
 
 import { useSession } from 'next-auth/react'
-import { useMediaQuery } from 'beautiful-react-hooks'
+import { useMediaQuery, useDebouncedCallback } from 'beautiful-react-hooks'
 
 const TipTapEditor = () => {
   const { openedNote, syncing, lastSync } = useAppSelector(
@@ -29,39 +28,51 @@ const TipTapEditor = () => {
 
   const { data: session } = useSession()
 
-  const updateNoteDebounced = useDebouncedCallback((e: JSONContent) => {
-    if (e.content && openedNote) {
-      const title = () => {
-        let content = e.content
-        if (content && content[0]) {
-          content = content[0].content
+  const updateNoteDebounced = useDebouncedCallback(
+    (e: JSONContent) => {
+      if (e.content && openedNote) {
+        const title = () => {
+          let content = e.content
           if (content && content[0]) {
-            return content[0].text
+            content = content[0].content
+            if (content && content[0]) {
+              return content[0].text
+            }
           }
+          return null
         }
-        return null
+
+        dispatch(
+          updateNote({
+            ...openedNote.note,
+            content: e,
+            title: title() || '',
+            updatedAt: new Date(Date.now()).getTime()
+          })
+        )
       }
+    },
+    [dispatch, updateNote, openedNote],
+    700
+  )
 
-      dispatch(
-        updateNote({
-          ...openedNote.note,
-          content: e,
-          title: title() || '',
-          updatedAt: new Date(Date.now()).getTime()
-        })
-      )
-    }
-  }, 700)
+  const toggleSyncDebounced = useDebouncedCallback(
+    () => {
+      if (openedNote?.note.saved) {
+        dispatch(toggleNoteSaved())
+      }
+    },
+    [dispatch, toggleNoteSaved, openedNote?.note.saved],
+    10
+  )
 
-  const toggleSyncDebounced = useDebouncedCallback(() => {
-    if (openedNote?.note.saved) {
-      dispatch(toggleNoteSaved())
-    }
-  }, 10)
-
-  const syncNotesDebounced = useDebouncedCallback(() => {
-    dispatch<any>(syncNotes(false))
-  }, 5000)
+  const syncNotesDebounced = useDebouncedCallback(
+    () => {
+      dispatch<any>(syncNotes(false))
+    },
+    [dispatch, syncNotes],
+    5000
+  )
 
   const editor = useEditor(
     {
@@ -95,10 +106,12 @@ const TipTapEditor = () => {
   )
 
   return editor && (!opened || openedNote) ? (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <Menu editor={editor} />
-      <EditorContent editor={editor} />
-    </motion.div>
+    <LazyMotion features={domAnimation}>
+      <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <Menu editor={editor} />
+        <EditorContent editor={editor} />
+      </m.div>
+    </LazyMotion>
   ) : null
 }
 

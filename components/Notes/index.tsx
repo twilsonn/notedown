@@ -1,5 +1,4 @@
 import React from 'react'
-import PerfectScrollbar from 'react-perfect-scrollbar'
 
 import { useAppDispatch, useAppSelector } from '../../store'
 import { newNote, openNote } from '../../store/reducers/notesSlicer'

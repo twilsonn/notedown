@@ -26,6 +26,7 @@ const MenuButton: React.FC<
     <button
       className={`menu_button ${active ? 'active' : ''}`}
       onClick={props.onClick}
+      {...props}
     >
       {children}
     </button>
@@ -44,7 +45,10 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
 
   return (
     <div className="w-full sticky top-0 left-0 px-4 md:px-12 pt-4 z-10 flex space-x-2">
-      <div
+      <button
+        type="button"
+        name="toggle menu"
+        aria-label="toggle menu"
         onClick={() => {
           if (!isLg) {
             dispatch(openNote(false))
@@ -52,14 +56,15 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
             dispatch(toggleNavBar(!open))
           }
         }}
-        className="rounded-lg p-4 flex justify-center items-center mb-8 cursor-pointer bg-gray-200 dark:bg-stone-900 bg-opacity-[99%] transition-colors"
+        className="button_darker rounded-lg p-4 flex justify-center items-center mb-8 "
       >
         {open ? (
           <ArrowLeftIcon className="w-6 h-6 m-1 text-gray-700 dark:text-stone-300" />
         ) : (
           <MenuIcon className="w-6 h-6 m-1 text-gray-700 dark:text-stone-300" />
         )}
-      </div>
+      </button>
+
       <div className="rounded-lg p-4 pl-2 sm:pl-4 flex justify-center sm:justify-start space-x-2 mb-8 bg-gray-200 dark:bg-stone-900 bg-opacity-[99%] transition-colors">
         <SelectFont
           changeFont={changeFont}
@@ -69,6 +74,8 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
         <MenuButton
           onClick={() => editor.chain().focus().toggleBold().run()}
           active={editor.isActive('bold')}
+          aria-label="toggle bold"
+          name="toggle bold"
         >
           <svg
             className="w-4 h-4"
@@ -90,6 +97,8 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
         <MenuButton
           onClick={() => editor.chain().focus().toggleUnderline().run()}
           active={editor.isActive('underline')}
+          aria-label="toggle underline"
+          name="toggle underline"
         >
           <svg
             className="w-4 h-4"
@@ -111,6 +120,8 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
         <MenuButton
           onClick={() => editor.chain().focus().toggleItalic().run()}
           active={editor.isActive('italic')}
+          aria-label="toggle italic"
+          name="toggle italic"
         >
           <svg
             className="w-4 h-4"
@@ -150,6 +161,8 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
         <MenuButton
           onClick={() => editor.chain().focus().setTextAlign('left').run()}
           active={editor.isActive({ textAlign: 'left' })}
+          aria-label="align text left"
+          name="align text left"
         >
           <svg
             className="w-4 h-4"
@@ -170,6 +183,8 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
         <MenuButton
           onClick={() => editor.chain().focus().setTextAlign('center').run()}
           active={editor.isActive({ textAlign: 'center' })}
+          aria-label="align text center"
+          name="align text center"
         >
           <svg
             className="w-4 h-4"
@@ -190,6 +205,8 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
         <MenuButton
           onClick={() => editor.chain().focus().setTextAlign('right').run()}
           active={editor.isActive({ textAlign: 'right' })}
+          aria-label="align text right"
+          name="align text right"
         >
           <svg
             className="w-4 h-4"
