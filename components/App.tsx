@@ -5,18 +5,26 @@ import { useSession } from 'next-auth/react'
 import { useAppDispatch, useAppSelector } from '../store'
 import { syncNotes } from '../store/reducers/notesSlicer'
 
-import { LayoutGroup, motion, MotionConfig, Variants } from 'framer-motion'
+import {
+  domAnimation,
+  LayoutGroup,
+  LazyMotion,
+  m,
+  MotionConfig,
+  Variants
+} from 'framer-motion'
 import { useMediaQuery } from 'beautiful-react-hooks'
 
 import ContextMenuWrapper from './ContextMenuWrapper'
 import ControlBar from './ControlBar'
 import Notes from './Notes'
-import SyncConflict from './SyncConflict'
 import { setNavOpened, toggleNavBar } from '../store/reducers/appReducer'
 
 const LazyEditor = dynamic(() => import('./Editor'), {
   ssr: false
 })
+
+const LazyConflict = dynamic(() => import('./SyncConflict'), { ssr: false })
 
 function App() {
   const dispatch = useAppDispatch()
@@ -109,48 +117,48 @@ function App() {
 
   return (
     <div className="flex overflow-hidden">
-      {/* <LazyMotion features={domAnimation}> */}
       <MotionConfig transition={{ duration: 0.2 }}>
-        <LayoutGroup>
-          <ContextMenuWrapper>
-            <motion.aside
+        <LazyMotion features={domAnimation}>
+          <LayoutGroup>
+            <ContextMenuWrapper>
+              <m.aside
+                layout
+                initial={false}
+                animate={open ? 'open' : 'closed'}
+                variants={sidebarVariants}
+                onAnimationComplete={() => {
+                  if (!isLg) {
+                    if (open) {
+                      dispatch(setNavOpened(true))
+                    } else {
+                      dispatch(setNavOpened(false))
+                    }
+                  }
+                }}
+                className="sidebar fixed lg:flex flex-col overflow-hidden pb-8 lg:w-1/3 xl:w-1/4 2xl:w-1/5 bg-gray-100 dark:bg-stone-900 transition-colors z-50"
+              >
+                <Notes />
+              </m.aside>
+            </ContextMenuWrapper>
+
+            <m.div
               layout
               initial={false}
               animate={open ? 'open' : 'closed'}
-              variants={sidebarVariants}
-              onAnimationComplete={() => {
-                if (!isLg) {
-                  if (open) {
-                    dispatch(setNavOpened(true))
-                  } else {
-                    dispatch(setNavOpened(false))
-                  }
-                }
+              variants={editorVariants}
+              style={{
+                WebkitOverflowScrolling: 'touch',
+                overflowY: 'auto'
               }}
-              className="sidebar fixed lg:flex flex-col overflow-hidden pb-8 lg:w-1/3 xl:w-1/4 2xl:w-1/5 bg-gray-100 dark:bg-stone-900 transition-colors z-50"
+              className="content flex flex-col w-full m-0 lg:w-2/3 lg:ml-[33.333333%] xl:w-3/4 xl:ml-[25%] 2xl:w-4/5 2xl:ml-[20%] bg-white dark:bg-stone-800 transition-colors"
             >
-              <Notes />
-            </motion.aside>
-          </ContextMenuWrapper>
-
-          <motion.div
-            layout
-            initial={false}
-            animate={open ? 'open' : 'closed'}
-            variants={editorVariants}
-            style={{
-              WebkitOverflowScrolling: 'touch',
-              overflowY: 'auto'
-            }}
-            className="content flex flex-col w-full m-0 lg:w-2/3 lg:ml-[33.333333%] xl:w-3/4 xl:ml-[25%] 2xl:w-4/5 2xl:ml-[20%] bg-white dark:bg-stone-800 transition-colors"
-          >
-            {lastSync === null && syncing ? null : <LazyEditor />}
-          </motion.div>
-        </LayoutGroup>
+              {lastSync === null && syncing ? null : <LazyEditor />}
+            </m.div>
+          </LayoutGroup>
+        </LazyMotion>
       </MotionConfig>
-      {/* </LazyMotion> */}
 
-      <SyncConflict />
+      <LazyConflict />
       <ControlBar />
     </div>
   )
