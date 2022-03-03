@@ -26,6 +26,7 @@ const MenuButton: React.FC<
     <button
       className={`menu_button ${active ? 'active' : ''}`}
       onClick={props.onClick}
+      {...props}
     >
       {children}
     </button>
@@ -47,6 +48,7 @@ const Menu: React.FC<{ editor: Editor }> = ({ editor }) => {
       <button
         type="button"
         name="toggle menu"
+        aria-label="toggle menu"
         onClick={() => {
           if (!isLg) {
             dispatch(openNote(false))
