@@ -4,8 +4,7 @@ import {
   ExclamationCircleIcon,
   RefreshIcon
 } from '@heroicons/react/solid'
-import { motion } from 'framer-motion'
-import Tippy from '@tippyjs/react'
+import { domAnimation, LazyMotion, m } from 'framer-motion'
 
 import { useAppSelector } from '../../store'
 import TimeAgo from '../TimeAgo'
@@ -42,18 +41,10 @@ const LastSaved: React.FC = () => {
           ) : null}
 
           <div className="pl-2">
-            <Tippy
-              content={
-                synced
-                  ? 'synced'
-                  : openedNote?.note.saved
-                  ? 'saved'
-                  : 'not saved'
-              }
-            >
-              <div>
-                {syncing ? (
-                  <motion.div
+            <div>
+              {syncing ? (
+                <LazyMotion features={domAnimation}>
+                  <m.div
                     animate={{ rotate: '-360deg' }}
                     transition={{
                       repeat: Infinity,
@@ -63,16 +54,16 @@ const LastSaved: React.FC = () => {
                     }}
                   >
                     <RefreshIcon className="w-4 h-4 text-blue-400" />
-                  </motion.div>
-                ) : openedNote?.note.saved && synced ? (
-                  <CheckCircleIcon className="w-4 h-4 text-blue-400" />
-                ) : openedNote?.note.saved ? (
-                  <CheckCircleIcon className="w-4 h-4 text-emerald-400" />
-                ) : (
-                  <ExclamationCircleIcon className="w-4 h-4 text-amber-400" />
-                )}
-              </div>
-            </Tippy>
+                  </m.div>
+                </LazyMotion>
+              ) : openedNote?.note.saved && synced ? (
+                <CheckCircleIcon className="w-4 h-4 text-blue-400" />
+              ) : openedNote?.note.saved ? (
+                <CheckCircleIcon className="w-4 h-4 text-emerald-400" />
+              ) : (
+                <ExclamationCircleIcon className="w-4 h-4 text-amber-400" />
+              )}
+            </div>
           </div>
         </>
       ) : (
