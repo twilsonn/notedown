@@ -90,9 +90,9 @@ I wanted to make a simple notepad app.
 - [x] Save to cloud
 - [ ] Share note snapshot
 - [x] Dark mode
-- [ ] Moblie Compatibility
-- [ ] Accessibility
-- [ ] PWA perfect score 😯
+- [x] Moblie Compatibility
+- [x] Accessibility
+- [x] PWA perfect score 😯
 - [x] OAuth login
 
 <p align="right">(<a href="#top">back to top</a>)</p>
