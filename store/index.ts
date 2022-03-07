@@ -25,39 +25,22 @@ import { AppStateInterface } from './reducers/appReducer/types'
 const makeStore = () => {
   const persistConfig = {
     key: 'nextjs',
-    whitelist: ['counter'],
     storage,
     version: persistVersion,
     migrate: persistMigrate
   }
 
-  const persistedNoteReducer = persistReducer(
-    {
-      key: 'notes',
-      storage
-    },
-    undoable(notesReducer.reducer, { limit: 10 })
-  )
-
-  const persistedAppReducer = persistReducer(
-    {
-      key: 'app',
-      storage
-    },
-    appReducer.reducer
-  )
-
   const combinedReducer = combineReducers({
-    notes: persistedNoteReducer,
-    app: persistedAppReducer
+    notes: undoable(notesReducer.reducer, { limit: 10 }),
+    app: appReducer.reducer
   })
 
   const persistedReducer = persistReducer(persistConfig, combinedReducer)
 
   const store: EnhancedStore<
     EmptyObject & {
-      notes: StateWithHistory<NotesStateInterface> & PersistPartial
-      app: AppStateInterface & PersistPartial
+      notes: StateWithHistory<NotesStateInterface>
+      app: AppStateInterface
     } & PersistPartial,
     AnyAction,
     any
