@@ -29,8 +29,8 @@ const TipTapEditor = () => {
   const { data: session } = useSession()
 
   const updateNoteDebounced = useDebouncedCallback(
-    (e: JSONContent) => {
-      if (e.content && openedNote) {
+    (e: JSONContent, note: typeof openedNote) => {
+      if (e.content && note !== undefined) {
         const title = () => {
           let content = e.content
           if (content && content[0]) {
@@ -44,7 +44,7 @@ const TipTapEditor = () => {
 
         dispatch(
           updateNote({
-            ...openedNote.note,
+            ...note.note,
             content: e,
             title: title() || '',
             updatedAt: new Date(Date.now()).getTime()
@@ -52,7 +52,7 @@ const TipTapEditor = () => {
         )
       }
     },
-    [dispatch, updateNote, openedNote],
+    [dispatch, updateNote],
     700
   )
 
@@ -89,7 +89,7 @@ const TipTapEditor = () => {
           if (openedNote.note.saved) {
             toggleSyncDebounced()
           }
-          updateNoteDebounced(editor.getJSON())
+          updateNoteDebounced(editor.getJSON(), openedNote)
 
           if (session?.user) {
             syncNotesDebounced()
